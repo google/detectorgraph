@@ -17,7 +17,8 @@
 
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
 
-#include "topicregistry-lite.hpp"
+#include "topicregistry-lite2.hpp"
+// #include "topicregistry-lite.hpp"
 
 #else
 

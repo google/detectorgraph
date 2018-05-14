@@ -15,6 +15,9 @@
 #ifndef DETECTORGRAPH_INCLUDE_TOPICREGISTRY_STL_HPP_
 #define DETECTORGRAPH_INCLUDE_TOPICREGISTRY_STL_HPP_
 
+#include "topic.hpp"
+#include "topicstate.hpp"
+
 #include <map>
 #include <typeinfo>
 
@@ -36,7 +39,12 @@ class TopicRegistry
      * registry's index when on C++11. */
     std::map<const char*, BaseTopic*> registry;
 public:
-    template<class TTopicState> Topic<TTopicState>* Resolve()
+
+    /**
+     * @brief _Internal_ - Retrieves a Topic pointer for a given TopicState.
+     */
+    template<class TTopicState>
+    Topic<TTopicState>* Resolve()
     {
 #if __cplusplus >= 201103L
         static_assert(std::is_base_of<TopicState, TTopicState>::value,
@@ -50,7 +58,11 @@ public:
         return NULL;
     }
 
-    template<class TTopicState> void Register(Topic<TTopicState>* obj)
+    /**
+     * @brief _Internal_ - Registers a Topic pointer for a given TopicState.
+     */
+    template<class TTopicState>
+    void Register(Topic<TTopicState>* obj)
     {
 #if __cplusplus >= 201103L
         static_assert(std::is_base_of<TopicState, TTopicState>::value,
