@@ -13,7 +13,10 @@
 # limitations under the License.
 
 CPPSTD=-std=c++11
-FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
+
+LIBRARY_OPTIONS= # -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE
+
+FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare $(LIBRARY_OPTIONS)
 
 # The core library will work fine without C++11 but some examples rely on it
 # CPPSTD=-stdlib=libstdc++
