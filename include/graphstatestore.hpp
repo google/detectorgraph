@@ -15,9 +15,8 @@
 #ifndef DETECTORGRAPH_INCLUDE_GRAPHSTATESTORE_HPP_
 #define DETECTORGRAPH_INCLUDE_GRAPHSTATESTORE_HPP_
 
-#include <iostream>
-#include <map>
-#include <stdint.h>
+#include <list>
+#include <queue>
 
 #include "sharedptr.hpp"
 #include "topicstate.hpp"

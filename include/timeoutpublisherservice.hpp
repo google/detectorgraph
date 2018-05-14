@@ -18,6 +18,8 @@
 #include "graph.hpp"
 #include "topicstate.hpp"
 
+#include <map>
+
 namespace DetectorGraph
 {
 
