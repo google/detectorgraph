@@ -15,51 +15,14 @@
 #ifndef DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
 #define DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
 
-#include <map>
-#include <typeinfo>
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
 
-namespace DetectorGraph
-{
-/**
- * @brief _Internal_ - A Registry of available Topics
- *
- * Graphs use a TopicRegistry to register and resolve (i.e. retrieve) Topics
- * using a Type-aware API.
- * This uses RTTI to retrieve an 'index' for each class.
- *
- * Right now using 'name' because it's convenient for debugging..
- * But could use other stuff too.
- */
-class TopicRegistry
-{
-    /* TODO(DGRAPH-18): Use std::type_index (from <typeindex>) as the
-     * registry's index when on C++11. */
-    std::map<const char*, BaseTopic*> registry;
-public:
-    template<class TTopicState> Topic<TTopicState>* Resolve()
-    {
-#if __cplusplus >= 201103L
-        static_assert(std::is_base_of<TopicState, TTopicState>::value,
-            "Trying to Resolve non-Topic type.");
+#include "topicregistry-lite.hpp"
+
+#else
+
+#include "topicregistry-stl.hpp"
+
 #endif
-        const char* typeKey = typeid(TTopicState).name();
-        if (registry.count(typeKey) != 0)
-        {
-            return static_cast<Topic<TTopicState>*>(registry[typeKey]);
-        }
-        return NULL;
-    }
-
-    template<class TTopicState> void Register(Topic<TTopicState>* obj)
-    {
-#if __cplusplus >= 201103L
-        static_assert(std::is_base_of<TopicState, TTopicState>::value,
-            "Trying to Register non-Topic type.");
-#endif
-        registry[typeid(TTopicState).name()] = obj;
-    }
-};
-
-} // namespace DetectorGraph
 
 #endif // DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
