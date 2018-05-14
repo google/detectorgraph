@@ -14,9 +14,13 @@
 
 CPPSTD=-std=c++11
 
-LIBRARY_OPTIONS= # -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE
+LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE
+VANILLA_CONFIG=
 
-FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare $(LIBRARY_OPTIONS)
+# To use the lite version of the library in the examples swap the config below
+CONFIG=$(VANILLA_CONFIG)  # $(LITE_CONFIG)
+
+FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
 
 # The core library will work fine without C++11 but some examples rely on it
 # CPPSTD=-stdlib=libstdc++
@@ -51,12 +55,18 @@ NLUNITTEST_SRCS=$(NLUNITTEST)/nltest.c
 docs:
 	doxygen ./doxygen/Doxyfile
 
-unit-test/test_all:
-	g++ $(CPPSTD) $(FLAGS) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_all && ./test_all
+unit-test/test_all: unit-test/test_vanilla unit-test/test_lite
+	@echo Ran unit tests for the Vanilla and Lite configs of the library
+
+unit-test/test_vanilla:
+	g++ $(CPPSTD) $(FLAGS) $(VANILLA_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_all && ./test_all
+
+unit-test/test_lite:
+	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_all && ./test_all
 
 examples/helloworld:
 	# Minimal Include & Sources dependencies
-	g++ $(CPPSTD) $(FLAGS) -g -I$(CORE_INCLUDE) -I$(PLATFORM) $(CORE_SRCS) $(PLATFORM_SRCS) examples/helloworld.cpp -o helloworld.out && ./helloworld.out
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) $(CORE_SRCS) $(PLATFORM_SRCS) examples/helloworld.cpp -o helloworld.out && ./helloworld.out
 
 examples/robotlocalization:
 	# Note that this example depends on the Eigen library. For more info see
@@ -66,17 +76,17 @@ examples/robotlocalization:
 	# Additionally, some versions of Eigen3 throw a bunch of warnings when
 	# compiling so you may need to turn off -Werror in FLAGS at the top of this
 	# file.
-	g++ $(CPPSTD) $(FLAGS) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) examples/robotlocalization.cpp -o robotlocalization.out && ./robotlocalization.out
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) examples/robotlocalization.cpp -o robotlocalization.out && ./robotlocalization.out
 
 examples/%:
 	# General Purpose Example building rule.
-	g++ $(CPPSTD) $(FLAGS) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $@.cpp -o $(@:examples/%=%.out) && ./$(@:examples/%=%.out)
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $@.cpp -o $(@:examples/%=%.out) && ./$(@:examples/%=%.out)
 
 examples/all: $(basename $(wildcard examples/*.cpp))
 	@echo Built and Ran all Examples
 
 unit-test/test_coverage: cleancoverage
-	g++ $(CPPSTD) $(FLAGS) --coverage -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_coverage && ./test_coverage
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) --coverage -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_coverage && ./test_coverage
 	mkdir -p coverage/
 	lcov --capture --directory . --no-external \
          -q --output-file coverage/coverage.info
