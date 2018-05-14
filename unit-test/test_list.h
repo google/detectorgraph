@@ -23,6 +23,7 @@
 #include "test_futurepublisher.h"
 #include "test_graph.h"
 #include "test_graphanalyzer.h"
+#include "test_graphinputqueue.h"
 #include "test_graphstatestore.h"
 #include "test_graphtestutils.h"
 #include "test_lag.h"
@@ -42,6 +43,7 @@ typedef int (*test_fp)(void);
     futurepublisher_testsuite, \
     graph_testsuite, \
     graphanalyzer_testsuite, \
+    graphinputqueue_testsuite, \
     graphstatestore_testsuite, \
     graphtestutils_testsuite, \
     lag_testsuite, \

@@ -16,7 +16,6 @@
 #define DETECTORGRAPH_INCLUDE_GRAPH_HPP_
 
 #include <list>
-#include <queue>
 #include <typeinfo>
 #include <limits>
 #include <stdint.h>
@@ -29,6 +28,7 @@
 #include "topic.hpp"
 #include "topicstate.hpp"
 #include "topicregistry.hpp"
+#include "graphinputqueue.hpp"
 
 #include "errortype.hpp"
 
@@ -160,9 +160,9 @@ public:
      * it's the only API to do so.
      *
      */
-    template<class TTopicState> void PushData(const TTopicState& dataP)
+    template<class TTopicState> void PushData(const TTopicState& aTopicState)
     {
-        mInputQueue.push(new GraphInputDispatcher<TTopicState>(*ResolveTopic<TTopicState>(), dataP));
+        mGraphInputQueue.Enqueue(*ResolveTopic<TTopicState>(), aTopicState);
     }
 
     /**
@@ -232,9 +232,9 @@ private:
 
 private:
     TopicRegistry mTopicRegistry;
+    GraphInputQueue mGraphInputQueue;
     bool mNeedsSorting;
     std::list< Vertex* > mVertices;
-    std::queue< GraphInputDispatcherInterface* > mInputQueue;
     std::list<ptr::shared_ptr<const TopicState> > mOutputList;
 };
 

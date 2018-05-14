@@ -27,14 +27,6 @@ Graph::Graph() : mNeedsSorting(false)
 
 Graph::~Graph()
 {
-    // Dispose on values enqueued on mInputQueue
-    while (!mInputQueue.empty())
-    {
-        GraphInputDispatcherInterface* nextInput = mInputQueue.front();
-        mInputQueue.pop();
-        delete nextInput;
-    }
-
     // Detectors remove themselves from the graph when deleted
     // so we need a robust deletion process (instead of for (begin,!=end,++))
     // that is ok with removing items behind the iterator.
@@ -184,13 +176,7 @@ ErrorType Graph::EvaluateGraph()
 
     ClearTraverseContexts();
 
-    if (mInputQueue.size() > 0)
-    {
-        GraphInputDispatcherInterface* nextInput = mInputQueue.front();
-        mInputQueue.pop();
-        nextInput->Dispatch();
-        delete nextInput;
-    }
+    mGraphInputQueue.DequeueAndDispatch();
 
     r = TraverseVertices();
     if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
@@ -228,7 +214,7 @@ bool Graph::EvaluateIfHasDataPending()
 
 bool Graph::HasDataPending()
 {
-    return (mInputQueue.size() > 0);
+    return !mGraphInputQueue.IsEmpty();
 }
 
 ErrorType Graph::ClearTraverseContexts()

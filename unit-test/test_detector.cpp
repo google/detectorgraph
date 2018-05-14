@@ -197,12 +197,14 @@ static void Test_SingleEvaluate(nlTestSuite *inSuite, void *inContext)
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mEvalCount == 1);
 
-    graph.PushData<PacketTypeA>(mockData);
-    graph.PushData<PacketTypeA>(mockData);
+    // TODO(DGRAPH-4): This test used to push multiple PacketTypeAs and
+    // evaluate later.
 
+    graph.PushData<PacketTypeA>(mockData);
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mEvalCount == 2);
 
+    graph.PushData<PacketTypeA>(mockData);
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mEvalCount == 3);
 }

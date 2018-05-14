@@ -43,6 +43,7 @@ static int teardown_graphtestutils(void *inContext)
 namespace
 {
     struct TopicTypeA : public TopicState { TopicTypeA(int aV = 0) : mV(aV) {}; int mV; };
+    struct TopicTypeB : public TopicState { TopicTypeB(int aV = 0) : mV(aV) {}; int mV; };
 }
 
 static void Test_Flush(nlTestSuite *inSuite, void *inContext)
@@ -51,34 +52,41 @@ static void Test_Flush(nlTestSuite *inSuite, void *inContext)
 
     Topic<TopicTypeA>* outA = graph.ResolveTopic<TopicTypeA>();
     NL_TEST_ASSERT(inSuite, outA->GetCurrentValues().size() == 0);
+    Topic<TopicTypeB>* outB = graph.ResolveTopic<TopicTypeB>();
+    NL_TEST_ASSERT(inSuite, outB->GetCurrentValues().size() == 0);
 
     // Push two TS to the inputQueue
     graph.PushData<TopicTypeA>(TopicTypeA());
-    graph.PushData<TopicTypeA>(TopicTypeA());
+    graph.PushData<TopicTypeB>(TopicTypeB());
 
     // Evaluate first
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, outA->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, outB->GetCurrentValues().size() == 0);
 
     // Evaluate second
     graph.EvaluateGraph();
-    NL_TEST_ASSERT(inSuite, outA->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, outA->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, outB->GetCurrentValues().size() == 1);
 
     // nothing left to Evaluate
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, outA->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, outB->GetCurrentValues().size() == 0);
 
     // Push two TS to the inputQueue
     graph.PushData<TopicTypeA>(TopicTypeA());
-    graph.PushData<TopicTypeA>(TopicTypeA());
+    graph.PushData<TopicTypeB>(TopicTypeB());
 
     // Flush Everything
     GraphTestUtils::Flush(graph);
-    NL_TEST_ASSERT(inSuite, outA->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, outA->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, outB->GetCurrentValues().size() == 1);
 
     // Nothing left to Evaluate
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, outA->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, outB->GetCurrentValues().size() == 0);
 }
 
 static void Test_FlushAndPush(nlTestSuite *inSuite, void *inContext)

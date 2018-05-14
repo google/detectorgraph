@@ -546,12 +546,16 @@ static void Test_EvaluateIfHasDataPending(nlTestSuite *inSuite, void *inContext)
     TestDetector detector(&graph);
 
     graph.PushData<PacketTypeA>(PacketTypeA(11));
-    graph.PushData<PacketTypeA>(PacketTypeA(22));
 
     bool evaluated;
 
     evaluated = graph.EvaluateIfHasDataPending();
     NL_TEST_ASSERT(inSuite, evaluated == true);
+
+    // TODO(DGRAPH-4): This test used to push multiple PacketTypeAs and
+    // evaluate them sequentially later.
+
+    graph.PushData<PacketTypeA>(PacketTypeA(22));
 
     evaluated = graph.EvaluateIfHasDataPending();
     NL_TEST_ASSERT(inSuite, evaluated == true);
