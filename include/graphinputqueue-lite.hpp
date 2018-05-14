@@ -153,8 +153,6 @@ private:
     }
 };
 
-#endif
-
 } // namespace DetectorGraph
 
 #endif // DETECTORGRAPH_INCLUDE_GRAPHINPUTQUEUE_LITE_HPP_
