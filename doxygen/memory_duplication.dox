@@ -1,0 +1,157 @@
+namespace DetectorGraph
+{
+
+/**
+@page memory_duplication Memory Duplication Discussion
+
+\tableofcontents
+
+\section memory-intro Introduction
+
+> The real problem is that programmers have spent far too much time worrying
+> about efficiency in the wrong places and at the wrong times; premature
+> optimization is the root of all evil (or at least most of it) in programming.
+> -- _Donald Knuth_
+
+The main design goal for the DetectorGraph library is to guarantee decoupling
+of different logic & data units from each other. That is achieved by separating
+logic units into different detectors and only allowing data transfer through
+topics. Additionally, the framework provides a guarantee that any new data is
+evaluated following the graph's topological sort.
+
+To preserve those guarantees, all logic dependencies of a Detector should be
+carried by Topics. One could code a detector that accesses other resources
+than Topics but that grossly violates the intended coding pattern.
+
+Those constraints force Detectors to often keep copies of the latest TopicState
+in a Topic they depend on. This is normally not a problem - and is desirable -
+since it makes code very readable by limitting the number of edge cases one
+needs to consider when writing/reading code.
+
+In situations where the data in a TopicState becomes too large to be copied
+around, smarter TopicStates can be made to preserve the coding pattern while at
+the same time being memory-efficient. For more on that see @ref memory-smartptr.
+
+For an in-depth discussion of where/when/why data is copied and the rationale
+behind it see @ref data-passing.
+
+\section memory-smartptr Memory Efficient TopicStates
+
+When a TopicState is published (into the graph of between detectors) it is
+copied by value. That calls the copy-constructor (or the assignment operator
+in the lite version of the framework). This lets the writer of any TopicState
+control really what is copied and how.
+
+For example, consider an application that uses a large buffer:
+
+@code
+struct RawImage {
+    uint8_t data[4096*4096];
+};
+@endcode
+
+Wrapping that object with a smart pointer (`shared_ptr`) would already save us
+from copying the entire buffer around while still keeping track of when to
+dispose of it.
+
+@code
+
+#include "shared_ptr.hpp" // In DetectorGraph's include folder
+
+// Simple TopicState that wraps a RawImage with a shared_ptr.
+struct CameraNewFrame : public TopicState {
+    ptr::shared_ptr<RawImage> image;
+};
+
+// At the original creator of the buffer:
+// (either inside or outside the Graph)
+{
+    CameraNewFrame newFrame;
+    // Create managed storage
+    newFrame.image = ptr::shared_ptr<RawImage>(new RawImage());
+
+    // Fill it in some way
+    memset(newFrame.image->data, 42, sizeof(newFrame.image->data));
+
+    // If from within a Detector:
+    Publish(newFrame);
+
+    // Or, if from outside the graph:
+    graph.PushData<CameraNewFrame>(newFrame);
+}
+@endcode
+
+For a full example of a memory efficient TopicState see this @link portuguesetranslator.cpp example. @endlink
+
+\section data-passing Data-Passing Discussion
+
+As a general rule, DetectorGraph passes `const` references where possible
+and by-value copies whenever necessary.
+
+Given the nature of the framework, two patterns of data passing are evident:
+- Pass and Forget (used on @ref GraphInputDispatcher::GraphInputDispatcher
+when calling @ref Graph::PushData and @ref Topic::Publish) where data
+will 'wait' on a queue or topic for some time after the caller has moved forward.
+- Pass for Inspection (used on @ref SubscriberInterface::Evaluate on a
+detector)
+- Cross-type Aggregation for Inspection (used on
+@ref Graph::GetOutputList)
+
+On "pass and forget" scenarios, copies are internally used to ensure valid data
+is delivered in the future. This gives the user freedom to control how copies
+are made through the implementation of a custom Copy Constructor. That way it's
+up to the implementation of each TopicState to decide how copies are made with
+the simplest/safest option being the default.
+
+On "Pass for Inspection" scenarios `const` references are used. The
+consumer (e.g. detector) shall inspect the value and may or may not create
+its own cached copy.
+
+On "Cross-type Aggregation" scenarios `TopicState*` are necessary due to the
+polymorphic nature of `TopicState` so a constant list of `const TopicState*`
+is returned.
+
+\subsection memory-rationale Data-Passing Rationale
+
+As mentioned above, data is copied in the cases where not copying would
+mean leaving the responsability of data lifecycle management to the producer of
+such data instead of the framework. That seemed counter intuitive from the
+perspective of a Publisher that normally prefers a "fire and forget" logic.
+By pushing this decision to the framework we reduce the overall complexity of
+the application itself.
+
+\subsection memory-complexity Overview of memory complexity
+
+An _external_ TopicState that travels through the framework is copied
+twice:
+- into the graph input queue - the data packet is not in the graph yet and can
+continue to wait in the input queue until enough evaluations of the graph
+dequeue it. Beind held by @ref GraphInputDispatcher::GraphInputDispatcher.
+- into its designated topic. Via @ref Topic::Publish.
+
+Note that this two copies do not coexist and that the copy from the
+input queue into a topic takes advantage of the same program flow used for
+in-graph publishing and so simplifying a lot the overall design.
+
+An _internal_ TopicState that is generated in a detector is copied
+once:
+- into its designated topic.
+
+In addition to that, TopicStates are copied each time a Detector keeps their
+own local copy of the TopicState.
+
+\subsection memory-policy When is this a problem?
+
+Given that the framework does copy data:
+ - When a TopicState is something really large; an image, sound clip, etc.
+
+ - If optimizing for memory, any packets larger than a _ptr_ is an optimization
+ opportunity.
+
+In those cases, a "smart TopicState" can abstract away the memory management
+for an object that is not copied around at all. See section
+\ref memory-smartptr for examples on how to do that.
+
+*/
+
+}

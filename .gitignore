@@ -1,0 +1,9 @@
+docs/*
+*.dot
+*.out
+test_all
+*.gcda
+*.gcno
+test_coverage
+coverage/*
+tmptest/*

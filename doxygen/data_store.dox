@@ -1,0 +1,86 @@
+namespace DetectorGraph
+{
+
+/**
+@page data_store Atomic/Consistent Detector Data Store
+
+\tableofcontents
+
+\section data-store-intro Introduction
+DetectorGraph removes from the detectors the responsability (and freedom) to
+store and serve its state alongside with performing computation. We belive
+that's a design advantage but that clearly leaves opens a gap of functionality
+when compared to our current DetectorGraph. That gap needs to be addressed.
+The following are our current uses of such functionality:
+-# a _DetectorA_ uses the sate of a _DetectorB_ without actually subscribing
+to _DetectorB_
+-# a _DetectorA_ Publishes outgoing data consumed by _Consumer1_
+(e.g. AppThread) which in turn inspects a (locked) graph for the states of
+_DetectorA_, _DetectorB_, .. _DetectorX_ to form a complete opinion.
+-# a _DetectorA_ wants to save/resume it's state (desired)
+
+The design constraints for this solution are:
+-# Retrieving this state should be 'atomic' in relation to graph evaluations;
+this means that all values returned should be product of the same evaluation
+pass.
+-# The retrieved state should be "the most up-to-date" possible.
+
+This section lists a few approaches to close that gap.
+
+\section data-store-cacheall The naive solution
+
+The most simple solution to this would be to compose the needed state on the
+_Consumer_ side by subscribing to all events that compose it and inpecting it
+when needed. This solution has a number of inefficiencies and one major flaw:
+
+The consumer would demand awareness of the boundaries between evaluation
+passes and only use the state at the end of it. Say _Consumer_ needs to know
+_StateB_ when it receives an update to _StateA_, caching would only work if
+_StateB_ updates are produced before _StateA_ updates - so it's dependent on
+the order events are emitted. To solve this you'd need a _AllEventsEmitted_
+event... you get it: it gets ugly before you can say quick.
+
+\section data-store-topic-introspection Topic Introspection
+
+Another suggested solution is to allow a consumer to safely introspection
+topics in between evaluations of the graph. This appears to be the smallest
+effort solution given the role that topics play on the graph. This approach
+has a few advantages and disadvantages:
+
+Advantages:
+- The latest state is returned by design
+- No extra possible points of failure or latency between what the graph
+sees and what the _Consumer_ would see.
+- No concepts added, logical extension of previous design.
+
+Disadvantages:
+- Introducing locking/multi-threading mechanisms into topics and/or graph
+adds application complexity to the basic detector graph.
+- Locking the graph means the application can interfere with the performance
+of the graph as a computation framework.
+- Topic is a sensitive class when it comes to code size due to its templated
+nature.
+- Many of topics have very local/detector-specific nature (timeouts,
+internals) and exposing access to it can be seen as an anti-pattern that will
+mix public & private workings of the graph.
+
+We believe the disadvantages outweighs the advantages when it comes to code
+quality and excellence even though this approach might seem as the smallest
+effort one.
+
+\section data-store-service Detector Data Store Service
+
+Following ROS's inspiration, its concept of _Services_ lands itself nicely to
+the idea of an entity that provides a complete snapshot of the graph's state
+through a atomic method call. If implemented correctly, a
+_DetectorStateStoreService_ could ensure state atomicity/consistency as a
+single-stop shop for all needed states. This solution extends the loose
+coupling across detectors to consumers (e.g. app).
+
+\section data-store-conclusion Conclusion
+
+See GraphStateStore
+
+*/
+
+}

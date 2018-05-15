@@ -1,0 +1,50 @@
+/**
+@page custom_examples Examples
+
+Below are a number of examples showcasing different aspects & usage patterns of the framework (these are in the `./examples/` folder).
+
+\section basic Basic
+    - [Hello World](@ref helloworld.cpp): @copybrief helloworld.cpp
+    - [Trivial Vending Machine](@ref trivialvendingmachine.cpp): @copybrief trivialvendingmachine.cpp
+
+\section feedback-loops Feedback Loops
+    - [Counter With Reset](@ref counterwithreset.cpp): @copybrief counterwithreset.cpp
+    - [Robot Localization](@ref robotlocalization.cpp): @copybrief robotlocalization.cpp
+    - [Fancy Vending Machine](@ref fancyvendingmachine.cpp): @copybrief fancyvendingmachine.cpp
+
+\section timers Timeouts & Timers
+    - [Beat Machine](@ref beatmachine.cpp): @copybrief beatmachine.cpp
+
+\section large-topicstates Dealing with Large TopicStates
+    - [Portuguese Translator](@ref portuguesetranslator.cpp): @copybrief portuguesetranslator.cpp
+
+*/
+
+// The list of pages below is used to help the search utility finding appropriate content.
+
+/**
+@page loops Loops
+  Loops are implemented using either DetectorGraph::Lag or DetectorGraph::FuturePublisher
+  For examples, see @ref feedback-loops
+*/
+
+/**
+@page fb-loops Feedback Loops
+@copydoc loops
+*/
+
+/**
+@page cycles Cycles
+@copydoc loops
+*/
+
+/**
+@page named-topicstates Named TopicStates
+Named TopicStates are TopicStates that override DetectorGraph::TopicState::GetId.
+For an examples, see [this example](@ref trivialvendingmachine.cpp)
+*/
+
+/**
+@page public-topicstates Public TopicStates
+@copydoc named-topicstates
+*/

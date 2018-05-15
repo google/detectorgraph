@@ -1,0 +1,178 @@
+namespace DetectorGraph
+{
+
+/**
+@page template_bloat Templates
+
+\tableofcontents
+
+\section template-intro Introduction
+
+The framework relies extensibly on the use of _C++ Templates_ and that raises
+the concern that it might result in
+[Code Bloat](https://en.wikipedia.org/wiki/Code_bloat). _C++ Templates_ result
+in _Code Bloat_ when a large block of code that would have been otherwise
+compiled into a single section of re-used machine code is duplicated per
+specialization of the template.
+
+\section template-numbers Numbers!
+
+This section provides a concrete rationale as an attempt to address those
+concerns.
+
+DetectorGraph have the following templated classes:
+- [Topic <T>](@ref Topic)
+- [Publisher <T>](@ref Publisher)
+- [SubscriberInterface <T>](@ref SubscriberInterface)
+- [FuturePublisher <T>](@ref FuturePublisher)
+- [TimeoutPublisher <T>](@ref TimeoutPublisher)
+- [SubscriptionDispatcher <T>](@ref SubscriptionDispatcher)
+- [GraphInputDispatcher <T>](@ref GraphInputDispatcher)
+
+and the following templated methods:
+- [Detector::Subscribe <T>](@ref Detector::Subscribe)
+- [Detector::SetupPublishing <T>](@ref Detector::SetupPublishing)
+- [Detector::SetupFuturePublishing <T>](@ref Detector::SetupFuturePublishing)
+- [Detector::SetupTimeoutPublishing <T>](@ref Detector::SetupTimeoutPublishing)
+- [Graph::PushData <T>](@ref Graph::PushData)
+
+Each one of those constructs will be generated *once* for each type of
+TopicState. Below is an excerpt of the output of _nm_ for a simple example:
+
+@code
+:~/$ nm -S --size-sort exminimal | grep -v St | grep AccelData
+00000000004053d2 0000000000000006 W _ZThn56_N11BarDetector8EvaluateERKN6DetectorGraph9AccelDataE
+000000000040a01c 000000000000000f W _ZN6DetectorGraph5TopicINS_9AccelDataEE13GetVertexTypeEv
+000000000040c0d0 0000000000000010 V _ZTIN6DetectorGraph19SubscriberInterfaceINS_9AccelDataEEE
+000000000040c410 0000000000000010 V _ZTIN6DetectorGraph9PublisherINS_9AccelDataEEE
+0000000000409f3a 0000000000000012 W _ZN6DetectorGraph22SubscriptionDispatcherINS_9AccelDataEE14GetTopicVertexEv
+000000000040c260 0000000000000014 V _ZTSN6DetectorGraph9AccelDataE
+0000000000405248 0000000000000015 W _ZN6DetectorGraph19SubscriberInterfaceINS_9AccelDataEEC1Ev
+0000000000405248 0000000000000015 W _ZN6DetectorGraph19SubscriberInterfaceINS_9AccelDataEEC2Ev
+0000000000405656 0000000000000015 W _ZN6DetectorGraph9PublisherINS_9AccelDataEEC1Ev
+0000000000405656 0000000000000015 W _ZN6DetectorGraph9PublisherINS_9AccelDataEEC2Ev
+000000000040bea0 0000000000000018 V _ZTIN6DetectorGraph22SubscriptionDispatcherINS_9AccelDataEEE
+000000000040bee0 0000000000000018 V _ZTIN6DetectorGraph5TopicINS_9AccelDataEEE
+000000000040c280 0000000000000018 V _ZTIN6DetectorGraph9AccelDataE
+# ...
+0000000000408a60 000000000000004e W _ZN6DetectorGraph9AccelDataC2ERKS0_
+0000000000405b86 0000000000000050 W _ZN6DetectorGraph5TopicINS_9AccelDataEE7PublishERKS1_
+00000000004056e6 0000000000000050 W _ZN6DetectorGraph8Detector15SetupPublishingINS_9AccelDataEEEvPNS_9PublisherIT_EE
+0000000000406184 0000000000000056 W _ZN6DetectorGraph12TopicRegistry7ResolveINS_5TopicINS_9AccelDataEEEEEPT_v
+00000000004061f4 000000000000005f W _ZN6DetectorGraph5TopicINS_9AccelDataEEC1Ev
+00000000004061f4 000000000000005f W _ZN6DetectorGraph5TopicINS_9AccelDataEEC2Ev
+0000000000405774 000000000000007a W _ZN6DetectorGraph8Detector9SubscribeINS_9AccelDataEEEvPNS_19SubscriberInterfaceIT_EE
+0000000000405af4 0000000000000092 W _ZN6DetectorGraph13Graph12ResolveTopicINS_9AccelDataEEEPNS_5TopicIT_EEv
+000000000040a592 00000000000000a4 W _ZN6DetectorGraph5TopicINS_9AccelDataEE22DispatchIntoSubscriberEPNS_19SubscriberInterfaceIS1_EE
+000000000040a02c 00000000000000b4 W _ZNK6DetectorGraph5TopicINS_9AccelDataEE21GetCurrentTopicStatesEv
+@endcode
+As predicted, the compiler generates versions of many internal functions of the
+framework for each `TopicState` child. But how much code really is that?
+@code
+:~/$ nm -S exminimal | grep AccelData | gawk 'BEGIN {bytesPT=0} { bytesPT += strtonum("0x"$2) } END {print bytesPT}'
+5372
+@endcode
+This shows that in total (and this includes the implementation of `AccelData`
+and of the `Evaluate` in that example) the code generated is around 5k.
+
+But what's the split? One clue is to split what comes from STL and what comes
+from DetectorGraph:
+@code
+:~/$ nm -S exminimal | grep -v St | grep AccelData | gawk 'BEGIN {bytesPT=0} { bytesPT += strtonum("0x"$2) } END {print bytesPT}'
+2783
+:~/$ nm -S exminimal | grep St | grep AccelData | gawk 'BEGIN {bytesPT=0} { bytesPT += strtonum("0x"$2) } END {print bytesPT}'
+2589
+@endcode
+So basically, adding a new type to DetectorGraph adds around the same amount of code
+than specializing a few STL templates (queue, list and a few iterators).
+
+Another interesting thing to look at is the size of the optmized code generated
+by Poky:
+@code
+:~/$ make samples/minimal_crosscompile
+/opt/poky/1.6.2/sysroots/i686-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-g++ -std=c++11 -O3 -g -I./include/ src/detectorgraph.cpp src/detector.cpp samples/minimal.cpp -o exminimal_crosscompile
+:~/$ nm -S exminimal_crosscompile | grep AccelData | gawk 'BEGIN {bytesPT=0} { bytesPT += strtonum("0x"$2) } END {print bytesPT}'
+1289
+@endcode
+
+So finally we can conclude that adding a new version of @ref Topic and fully
+using it (Subscribe,Publish, etc) will add ~1.5k to the final
+compiler-optimized code. And this is without any code-size-optimizing changes
+to DetectorGraph.
+
+For example, the biggest contributor to the code bloat is
+@ref Topic::GetCurrentTopicStates() :
+@code
+000000000040a02c 00000000000000b4 W _ZNK6DetectorGraph5TopicINS_9AccelDataEE21GetCurrentTopicStatesEv
+@endcode
+
+Generated from:
+@code
+    virtual std::list<const TopicState*> GetCurrentTopicStates() const
+    {
+        std::list<const TopicState*> tCurrentTopicStates;
+
+        for(typename std::list<T>::const_iterator valueIt = mCurrentValues.begin();
+                valueIt != mCurrentValues.end();
+                ++valueIt)
+        {
+            tCurrentTopicStates.push_back(&(*valueIt));
+        }
+
+        return tCurrentTopicStates;
+    }
+@endcode
+
+This could be easily moved out of @ref Topic since it's a convenience method
+(TODO(DGRAPH-20): If you ever feel geek-bored come fix this :D).
+
+To give a bit of perspective here are a few numbers for the library part
+of both our graph libraries:
+
+Current:
+@code
+:~/$ size libnldetector.so
+   text    data     bss     dec     hex filename
+ 115840    4360     200  120400   1d650 libnldetector.so
+@endcode
+
+DetectorGraph:
+@code
+ :~/$ size libnldetectorgraph.so
+   text    data     bss     dec     hex filename
+  17153    1208       8   18369    47c1 libnldetectorgraph.so
+@endcode
+
+But that's cheating a bit since it keeps out all templates out. Here's a
+functional example that offers the same set of functionalities:
+@code
+:~/$ size exminimal
+   text    data     bss     dec     hex filename
+  80076     808     576   81460   13e34 exminimal
+@endcode
+
+\section less-templates Other Optimization Opportunities
+
+The below internal classes could potentially be non-template classes:
+
+- [SubscriptionDispatcher<T>](@ref SubscriptionDispatcher)
+- [GraphInputDispatcher<T>](@ref GraphInputDispatcher)
+
+Without changing any public API's. One way to achieve that could be to use
+`::bind` to link it to the desired `PushData<T>` or `SubscriberInterface<T>::Evaluate`.
+
+\section finally Conclusion
+
+Finally, after looking at all this here's our rationale:
+- No complex, large or conditional logic is in the templated classes or
+methods.
+- Most of the templated code would otherwise be written by hand anyway and so
+it doesn't change much from our current graph.
+- Would code size ever become a real issue, many optimization opportunities are
+readily available since all templated types already have a common base class
+@ref TopicState and could be applied at very little size cost.
+
+
+*/
+
+}

@@ -1,0 +1,50 @@
+namespace DetectorGraph
+{
+
+/**
+@page core_introduction Source Code Introduction
+
+\b DetectorGraph: Formal C++ applications with logic/data separation, automatic dependency injection and data passing.
+
+The Framework's main parts are:
+
+ - Graph : an entity that contains a set of detectors and topics.
+ - Detector : a logic unit that performs computation from a topic to another.
+ - Topic :  a data transport system with publish / subscribe semantics.
+
+\section subsystems Subsystems
+
+Name                 | Classes
+----                 | -------
+Core                 | Graph, Detector, Topic, TopicState, SubscriberInterface, Publisher
+Platform             | TimeoutPublisherService, dgassert.hpp, dglogging.hpp
+Extra Publishers     | FuturePublisher, TimeoutPublisher
+State store          | StateSnapshot GraphStateStore
+Utils                | Lag GraphAnalyzer
+
+\section testing Testing
+
+The following classes are meant to aid in testing code written using the framework.
+
+- GraphTestUtils
+- TestSplitterDetector
+- TestTimeoutPublisherService
+
+\section internals Internals
+
+Internals:
+- Vertex
+- TopicRegistry
+- SubscriptionDispatcher
+- GraphInputDispatcher
+
+\section extras Extras
+
+Discussion docs:
+ - @ref memory_duplication; on how much memory is duplicated by passing TopicStates and how to get around it if needed.
+ - @ref template_bloat; on the extent of template bloat affects in the library.
+ - @ref data_store; on how to represent \& preserve the entire state of the graph.
+
+*/
+
+}
