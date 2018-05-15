@@ -28,6 +28,7 @@
 #include "test_graphtestutils.h"
 #include "test_lag.h"
 #include "test_nodenameutils.h"
+#include "test_subscriptiondispatcherscontainer.h"
 #include "test_testsplitterdetector.h"
 #include "test_testtimeoutpublisherservice.h"
 #include "test_timeoutpublisher.h"
@@ -49,6 +50,7 @@ typedef int (*test_fp)(void);
     graphtestutils_testsuite, \
     lag_testsuite, \
     nodenameutils_testsuite, \
+    subscriptiondispatcherscontainer_testsuite, \
     testsplitterdetector_testsuite, \
     testtimeoutpublisherservice_testsuite, \
     timeoutpublisher_testsuite, \

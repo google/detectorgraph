@@ -25,14 +25,10 @@ Detector::Detector(Graph* graph) : mGraph(graph)
 Detector::~Detector()
 {
     // Remove self as out edge on topics
-    for (std::list<SubscriptionDispatcherInterface*>::iterator it = mInDispatchers.begin(); it != mInDispatchers.end(); ++it)
+    for (unsigned idx = 0; idx != mDispatchersContainer.GetSize(); ++idx)
     {
-        (*it)->GetTopicVertex()->RemoveEdge(this);
-
-        // Remove subscription dispatcher
-        delete *it;
+        mDispatchersContainer.GetDispatchers()[idx]->GetTopicVertex()->RemoveEdge(this);
     }
-    mInDispatchers.clear();
     mOutEdges.clear();
     mGraph->RemoveVertex(this);
 }
@@ -42,10 +38,9 @@ void Detector::ProcessVertex()
     if (Vertex::GetState() == kVertexProcessing)
     {
         this->BeginEvaluation();
-        // cout << "ProcessVertex " << GetName() << endl;
-        for (std::list<SubscriptionDispatcherInterface*>::iterator it = mInDispatchers.begin(); it != mInDispatchers.end(); ++it)
+        for (unsigned idx = 0; idx != mDispatchersContainer.GetSize(); ++idx)
         {
-            (*it)->Dispatch();
+            mDispatchersContainer.GetDispatchers()[idx]->Dispatch();
         }
         this->CompleteEvaluation();
 

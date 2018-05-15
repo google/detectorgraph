@@ -18,7 +18,8 @@ LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE
 VANILLA_CONFIG=
 
 # To use the lite version of the library in the examples swap the config below
-CONFIG=$(VANILLA_CONFIG)  # $(LITE_CONFIG)
+CONFIG=$(VANILLA_CONFIG)
+# CONFIG=$(LITE_CONFIG)
 
 FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
 
@@ -51,6 +52,9 @@ TEST_UTIL_SRCS=$(TEST_UTIL)/testtimeoutpublisherservice.cpp \
 NLUNITTEST=./third_party/nltest/repo/src/
 NLUNITTEST_SRCS=$(NLUNITTEST)/nltest.c
 
+TESTS=./unit-test
+TESTS_SRCS=$(wildcard $(TESTS)/*.cpp)
+
 .PHONY: docs
 docs:
 	doxygen ./doxygen/Doxyfile
@@ -59,10 +63,10 @@ unit-test/test_all: unit-test/test_vanilla unit-test/test_lite
 	@echo Ran unit tests for the Vanilla and Lite configs of the library
 
 unit-test/test_vanilla:
-	g++ $(CPPSTD) $(FLAGS) $(VANILLA_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_all && ./test_all
+	g++ $(CPPSTD) $(FLAGS) $(VANILLA_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(TESTS_SRCS) -o test_all && ./test_all
 
 unit-test/test_lite:
-	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_all && ./test_all
+	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(TESTS_SRCS) -o test_all && ./test_all
 
 examples/helloworld:
 	# Minimal Include & Sources dependencies
@@ -86,7 +90,7 @@ examples/all: $(basename $(wildcard examples/*.cpp))
 	@echo Built and Ran all Examples
 
 unit-test/test_coverage: cleancoverage
-	g++ $(CPPSTD) $(FLAGS) $(CONFIG) --coverage -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_coverage && ./test_coverage
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) --coverage -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(TESTS_SRCS) -o test_coverage && ./test_coverage
 	mkdir -p coverage/
 	lcov --capture --directory . --no-external \
          -q --output-file coverage/coverage.info
