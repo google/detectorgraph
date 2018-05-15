@@ -63,10 +63,10 @@ unit-test/test_all: unit-test/test_vanilla unit-test/test_lite
 	@echo Ran unit tests for the Vanilla and Lite configs of the library
 
 unit-test/test_vanilla:
-	g++ $(CPPSTD) $(FLAGS) $(VANILLA_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(TESTS_SRCS) -o test_all && ./test_all
+	g++ $(CPPSTD) $(FLAGS) $(VANILLA_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(TESTS_SRCS) -o test_vanilla.out && ./test_vanilla.out
 
 unit-test/test_lite:
-	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(TESTS_SRCS) -o test_all && ./test_all
+	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(TESTS_SRCS) -o test_lite.out && ./test_lite.out
 
 examples/helloworld:
 	# Minimal Include & Sources dependencies
