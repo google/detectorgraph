@@ -22,7 +22,11 @@
 namespace DetectorGraph
 {
 /**
- * @brief _Internal_ - Manages a number of SubscriptionDispatchers
+ * @brief _Internal_ - Manages any number of SubscriptionDispatchers.
+ *
+ * This class is responsible for creating and owning SubscriptionDispatcher
+ * for a particular detector. A detector that subscribes to two Topics will
+ * have two SubscriptionDispatchers.
  */
 class SubscriptionDispatchersContainer
 {
@@ -46,9 +50,9 @@ public:
 
     ~SubscriptionDispatchersContainer()
     {
-        for (unsigned i = 0; i != mInDispatchers.size(); ++i)
+        for (unsigned i = 0; i != mInDispatchers.GetSize(); ++i)
         {
-            delete mInDispatchers[i];
+            delete GetDispatchers()[i];
         }
     }
 private:
