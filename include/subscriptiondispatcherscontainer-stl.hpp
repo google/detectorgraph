@@ -50,7 +50,7 @@ public:
 
     ~SubscriptionDispatchersContainer()
     {
-        for (unsigned i = 0; i != mInDispatchers.GetSize(); ++i)
+        for (unsigned i = 0; i != GetSize(); ++i)
         {
             delete GetDispatchers()[i];
         }
