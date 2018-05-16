@@ -14,7 +14,7 @@
 
 CPPSTD=-std=c++11
 
-LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE
+LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions  # -fno-rtti
 VANILLA_CONFIG=
 
 # To use the lite version of the library in the examples swap the config below

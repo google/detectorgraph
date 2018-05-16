@@ -21,29 +21,20 @@ namespace DetectorGraphConfig
 enum DetectorGraphConfigEnum
 {
 
-    // This enum contains the hardcoded config/sizing parameters for a particular
-    // graph. This header must be provided by the application. Ideally you'd want
-    // this numbers as small as possible. If the numbers are too small an init-time
-    // assert will fail pointing you to bump the one that is too small.
-    // This numbers DO NOT change for a running graph, so if it starts it's good
-    // forever.
+    // This enum contains the hard-coded config/sizing parameters for a
+    // particular graph. This header must be provided by the application. In a
+    // constrained environment you'd want these constants to be as small as
+    // possible. If the constants are too small an initialization-time assert
+    // will fail pointing you to bump the one that is too small.
+    // These sizes DO NOT change for a running graph, so if the graph is
+    // initialized correctly then it's good forever.
     //
-    // One can tie this numbers to kNumberOfTopicStateIds & NumberOfDetectors
-    // for ideal sizing:
-    // kMaxNumberOfVertices = TopicStateId::kNumberOfTopicStateIds + NumberOfDetectors,
-    //
-    // For the below sizes, using kNumberOfTopicStateIds is the conservative
-    // option as it is a theoretical upper bound for those sizes.
-    // kMaxNumberOfOutEdges = TopicStateId::kNumberOfTopicStateIds,
-    // kMaxNumberOfInEdges = TopicStateId::kNumberOfTopicStateIds,
-    // kMaxNumberOfTopics = TopicStateId::kNumberOfTopicStateIds,
-    //
-    // For the purposes of this example we can also hardcode them to sensible
+    // For the purposes of this example we can also hard-code them to sensible
     // numbers:
-    kMaxNumberOfVertices = 22,
-    kMaxNumberOfOutEdges = 20,
+
+    // kMaxNumberOfVertices = 22, // not used yet
+    // kMaxNumberOfOutEdges = 20, // not used yet
     kMaxNumberOfInEdges = 20,
-    kMaxNumberOfTopics = 20,
 };
 
 }
