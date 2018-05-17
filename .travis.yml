@@ -9,7 +9,6 @@ script:
   - make examples/helloworld
   - make examples/counterwithreset
   - make examples/trivialvendingmachine
-  - make examples/portuguesetranslator
   - make examples/fancyvendingmachine
   - make examples/beatmachine
 
