@@ -20,6 +20,100 @@
 namespace DetectorGraph
 {
 
+bool Graph::EvaluateIfHasDataPending()
+{
+    if (HasDataPending())
+    {
+        ErrorType r = ErrorType_Success;
+        r = EvaluateGraph();
+        if (r != ErrorType_Success) // LCOV_EXCL_START
+        {
+            DG_LOG("Evaluation failed with %d.", (int)r);
+            DG_ASSERT(false);
+        } // LCOV_EXCL_STOP
+        return true;
+    }
+
+    return false;
+}
+
+bool Graph::HasDataPending()
+{
+    return !mGraphInputQueue.IsEmpty();
+}
+
+TopicRegistry& Graph::GetTopicRegistry()
+{
+    return mTopicRegistry;
+}
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+Graph::Graph()
+{
+    DG_LOG("Graph Initialized");
+}
+
+Graph::~Graph()
+{
+}
+
+ErrorType Graph::EvaluateGraph()
+{
+    ErrorType r = ErrorType_Success;
+
+    ClearTraverseContexts();
+
+    mGraphInputQueue.DequeueAndDispatch();
+
+    r = TraverseVertices();
+    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
+    {
+        DG_LOG("Graph::TraverseVertices() failed");
+        return r;
+    } // LCOV_EXCL_STOP
+
+    return r;
+}
+
+void Graph::AddVertex(Vertex* aVertex)
+{
+    mVertices.push_back(aVertex);
+}
+
+void Graph::RemoveVertex(Vertex* aVertex)
+{
+    // TODO(cscotti): Assert? Destructor? Linear remove?
+    DG_LOG("dummy RemoveVertex called for %p.", (void*)aVertex);
+}
+
+ErrorType Graph::ClearTraverseContexts()
+{
+    ErrorType r = ErrorType_Success;
+
+    for (unsigned vertexIdx = 0; vertexIdx < mVertices.size(); ++vertexIdx)
+    {
+        mVertices[vertexIdx]->SetState(Vertex::kVertexClear);
+    }
+
+    return r;
+}
+
+ErrorType Graph::TraverseVertices()
+{
+    ErrorType r = ErrorType_Success;
+
+    for (unsigned vertexIdx = 0; vertexIdx < mVertices.size(); ++vertexIdx)
+    {
+        mVertices[vertexIdx]->ProcessVertex();
+    }
+
+    return r;
+}
+
+// LITE_END
+#else
+// VANILLA_BEGIN
 Graph::Graph() : mNeedsSorting(false)
 {
     DG_LOG("Graph Initialized");
@@ -48,6 +142,41 @@ Graph::~Graph()
         vertexIt++;
         delete tmp;
     }
+}
+
+ErrorType Graph::EvaluateGraph()
+{
+    ErrorType r = ErrorType_Success;
+
+    if (mNeedsSorting)
+    {
+        r = TopoSortGraph();
+        if (r != ErrorType_Success)
+        {
+            DG_LOG("Graph::TopoSortGraph() failed");
+            return r;
+        }
+    }
+
+    ClearTraverseContexts();
+
+    mGraphInputQueue.DequeueAndDispatch();
+
+    r = TraverseVertices();
+    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
+    {
+        DG_LOG("Graph::TraverseVertices() failed");
+        return r;
+    } // LCOV_EXCL_STOP
+
+    r = ComposeOutputList();
+    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
+    {
+        DG_LOG("Graph::ComposeOutputList() failed");
+        return r;
+    } // LCOV_EXCL_STOP
+
+    return r;
 }
 
 void Graph::AddVertex(Vertex* aVertex)
@@ -160,63 +289,6 @@ ErrorType Graph::DFS_visit(Vertex* v, std::list<Vertex*>& sorted)
     return r;
 }
 
-ErrorType Graph::EvaluateGraph()
-{
-    ErrorType r = ErrorType_Success;
-
-    if (mNeedsSorting)
-    {
-        r = TopoSortGraph();
-        if (r != ErrorType_Success)
-        {
-            DG_LOG("Graph::TopoSortGraph() failed");
-            return r;
-        }
-    }
-
-    ClearTraverseContexts();
-
-    mGraphInputQueue.DequeueAndDispatch();
-
-    r = TraverseVertices();
-    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
-    {
-        DG_LOG("Graph::TraverseVertices() failed");
-        return r;
-    } // LCOV_EXCL_STOP
-
-    r = ComposeOutputList();
-    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
-    {
-        DG_LOG("Graph::ComposeOutputList() failed");
-        return r;
-    } // LCOV_EXCL_STOP
-
-    return r;
-}
-
-bool Graph::EvaluateIfHasDataPending()
-{
-    if (HasDataPending())
-    {
-        ErrorType r = ErrorType_Success;
-        r = EvaluateGraph();
-        if (r != ErrorType_Success) // LCOV_EXCL_START
-        {
-            DG_LOG("Evaluation failed with %d.", (int)r);
-            DG_ASSERT(false);
-        } // LCOV_EXCL_STOP
-        return true;
-    }
-
-    return false;
-}
-
-bool Graph::HasDataPending()
-{
-    return !mGraphInputQueue.IsEmpty();
-}
-
 ErrorType Graph::ClearTraverseContexts()
 {
     ErrorType r = ErrorType_Success;
@@ -271,9 +343,7 @@ const std::list< ptr::shared_ptr<const TopicState> >& Graph::GetOutputList() con
     return mOutputList;
 }
 
-TopicRegistry& Graph::GetTopicRegistry()
-{
-    return mTopicRegistry;
-}
+// VANILLA_END
+#endif
 
 }

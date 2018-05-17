@@ -32,6 +32,9 @@
 
 namespace DetectorGraph
 {
+
+class Graph;
+
 /**
  * @brief Provide interface for a topic
  */
@@ -86,6 +89,11 @@ public:
         (void)static_cast<TopicState*>((T*)0);
 #endif
     }
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    Topic(Graph* registry);
+#endif
+
     /**
      * @brief Append data to its list
      */

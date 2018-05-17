@@ -17,45 +17,42 @@
 #ifndef __TEST_LIST_H__
 #define __TEST_LIST_H__
 
+#include "common_test_list.h"
+
 /* (1) INCLUDE YOUR TEST HERE */
 #include "test_detector.h"
 #include "test_foodetector.h"
 #include "test_futurepublisher.h"
 #include "test_graph.h"
 #include "test_graphanalyzer.h"
-#include "test_graphinputqueue.h"
 #include "test_graphstatestore.h"
 #include "test_graphtestutils.h"
 #include "test_lag.h"
 #include "test_nodenameutils.h"
-#include "test_subscriptiondispatcherscontainer.h"
 #include "test_testsplitterdetector.h"
 #include "test_testtimeoutpublisherservice.h"
 #include "test_timeoutpublisher.h"
 #include "test_topic.h"
-#include "test_topicregistry.h"
 #include "test_topicstate.h"
 
 typedef int (*test_fp)(void);
 
 /* (2) ADD THE FUNCTION TO CALL INTO YOUR TEST HERE */
 #define UNIT_TEST_LIST {\
+    COMMON_TEST_LIST \
     detector_testsuite, \
     foodetector_testsuite, \
     futurepublisher_testsuite, \
     graph_testsuite, \
     graphanalyzer_testsuite, \
-    graphinputqueue_testsuite, \
     graphstatestore_testsuite, \
     graphtestutils_testsuite, \
     lag_testsuite, \
     nodenameutils_testsuite, \
-    subscriptiondispatcherscontainer_testsuite, \
     testsplitterdetector_testsuite, \
     testtimeoutpublisherservice_testsuite, \
     timeoutpublisher_testsuite, \
     topic_testsuite, \
-    topicregistry_testsuite, \
     topicstate_testsuite, \
 }
 

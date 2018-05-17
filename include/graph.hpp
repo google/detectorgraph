@@ -15,12 +15,7 @@
 #ifndef DETECTORGRAPH_INCLUDE_GRAPH_HPP_
 #define DETECTORGRAPH_INCLUDE_GRAPH_HPP_
 
-#include <list>
-#include <typeinfo>
-#include <limits>
-#include <stdint.h>
 
-#include "sharedptr.hpp"
 #include "subscriberinterface.hpp"
 #include "vertex.hpp"
 #include "subscriptiondispatcher.hpp"
@@ -31,6 +26,21 @@
 #include "graphinputqueue.hpp"
 
 #include "errortype.hpp"
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+#include "detectorgraphliteconfig.hpp"
+#include "sequencecontainer-lite.hpp"
+// LITE_END
+#else
+// VANILLA_BEGIN
+#include "sharedptr.hpp"
+#include <list>
+#include <typeinfo>
+#include <limits>
+#include <stdint.h>
+// VANILLA_END
+#endif
 
 namespace DetectorGraph
 {
@@ -143,12 +153,22 @@ public:
     {
         Topic<TTopicState>* tObj = mTopicRegistry.Resolve<TTopicState>();
 
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        // LITE_BEGIN
+        // Trying to resolve unregistered topic.
+        DG_ASSERT(tObj != NULL);
+        // LITE_BEGIN
+#else
+        // VANILLA_BEGIN
+        // Creates Topics on demand.
         if (tObj == NULL)
         {
             tObj = new Topic<TTopicState>();
             mTopicRegistry.Register<TTopicState>(tObj);
             AddVertex(tObj);
         }
+        // VANILLA_END
+#endif
 
         return tObj;
     } // LCOV_EXCL_LINE
@@ -190,26 +210,16 @@ public:
      */
     bool EvaluateIfHasDataPending();
 
-    /**
-     * @brief Returns the list of topicstates published in the last Evaluation.
-     *
-     * It returns a list of references (valid only in between evaluations) to
-     * the topicstates that changed during the last call to \ref EvaluateGraph()
-     */
-    const std::list<ptr::shared_ptr<const TopicState> >& GetOutputList() const;
-
-    /**
-     * @brief Determine the right order to process the vertices by topologial sort
-     */
-    ErrorType TopoSortGraph();
-
     void AddVertex(Vertex* aVertex);
     void RemoveVertex(Vertex* aVertex);
-    const std::list< Vertex* >& GetVertices() const;
     TopicRegistry& GetTopicRegistry();
 
-private:
+    size_t GetVerticesSize() const
+    {
+        return mVertices.size();
+    }
 
+private:
     /**
      * @ brief Clears @ref VertexSearchState to kVertexClear on all vertices
      */
@@ -220,23 +230,75 @@ private:
      */
     ErrorType TraverseVertices();
 
+private:
+    TopicRegistry mTopicRegistry;
+    GraphInputQueue mGraphInputQueue;
+
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // LITE_BEGIN
+public:
+    /**
+     * @brief Checks that the vertices are topologically sorted.
+     */
+    bool IsGraphSorted();
+
+private:
+    SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfVertices> mVertices;
+    // LITE_END
+#else
+    // VANILLA_BEGIN
+
+public:
+    const std::list< Vertex* >& GetVertices() const;
+
+    /**
+     * @brief Returns the list of topicstates published in the last Evaluation.
+     *
+     * It returns a list of references (valid only in between evaluations) to
+     * the topicstates that changed during the last call to \ref EvaluateGraph()
+     */
+    const std::list<ptr::shared_ptr<const TopicState> >& GetOutputList() const;
+
+    /**
+     * @brief Determine the right order to process the vertices by topological sort
+     */
+    ErrorType TopoSortGraph();
+
+private:
     /**
      * @brief Pop data out of topics to the output list after evaluation
      */
     ErrorType ComposeOutputList();
 
     /**
-     * @brief Recursive method used on Depth-First-Search used on toposorting
+     * @brief Recursive method used on Depth-First-Search used on topo-sorting
      */
     ErrorType DFS_visit(Vertex* v, std::list<Vertex*>& sorted);
 
 private:
-    TopicRegistry mTopicRegistry;
-    GraphInputQueue mGraphInputQueue;
     bool mNeedsSorting;
     std::list< Vertex* > mVertices;
     std::list<ptr::shared_ptr<const TopicState> > mOutputList;
+    // VANILLA_END
+#endif
 };
+
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+// TODO(DGRAPH-22): This is only needed on Lite and I'm not too sure about it yet.
+template<class T>
+Topic<T>::Topic(Graph* aGraph)
+{
+// Pre-C++11 type checking.
+#if __cplusplus < 201103L
+        (void)static_cast<TopicState*>((T*)0);
+#endif
+    aGraph->GetTopicRegistry().Register<T>(this);
+}
+// LITE_END
+#endif
 
 }
 
