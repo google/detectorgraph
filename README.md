@@ -113,6 +113,10 @@ The library is shipped with a bare-bones makefile that can be used to build & ru
         ~/detectorgraph$ make examples/helloworld
 
         # Build/Run unit tests
+        ~/detectorgraph$ make unit-test/test_lite
+        ~/detectorgraph$ make unit-test/test_full
+
+        # Or simply:
         ~/detectorgraph$ make unit-test/test_all
 
         # Build Docs. Results in /docs

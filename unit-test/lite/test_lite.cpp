@@ -128,9 +128,8 @@ static void Test_ConstructionDestruction(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, graph.GetVerticesSize() == 3);
     NL_TEST_ASSERT(inSuite, graph.GetTopicRegistry().Resolve<PacketTypeA>() != NULL);
 
-    // TODO(cscotti): Disabled this to make some progress.
-    // NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetOutEdges()[0] == graph.GetTopicRegistry().Resolve<PacketTypeB>());
-    // NL_TEST_ASSERT(inSuite, graph.GetTopicRegistry().Resolve<PacketTypeB>()->GetOutEdgesSize() == 0);
+    NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetOutEdges()[0] == graph.GetTopicRegistry().Resolve<PacketTypeB>());
+    NL_TEST_ASSERT(inSuite, graph.GetTopicRegistry().Resolve<PacketTypeB>()->GetOutEdges().size() == 0);
 }
 
 static void Test_DetectorInOutConnections(nlTestSuite *inSuite, void *inContext)
