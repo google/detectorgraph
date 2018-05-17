@@ -4,6 +4,10 @@ compiler:
   - clang
   - gcc
 
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y graphviz doxygen
+
 script:
   - make unit-test/test_all
   - make examples/helloworld
@@ -11,4 +15,5 @@ script:
   - make examples/trivialvendingmachine
   - make examples/fancyvendingmachine
   - make examples/beatmachine
+  - make docs
 
