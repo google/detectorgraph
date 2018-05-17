@@ -1,0 +1,8 @@
+<map id="DetectorGraph::Lag&lt; T &gt;" name="DetectorGraph::Lag&lt; T &gt;">
+<area shape="rect" id="node2" href="$classDetectorGraph_1_1Detector.html" title="A unit of logic in a DetectorGraph. " alt="" coords="5,661,191,868"/>
+<area shape="rect" id="node3" href="$classDetectorGraph_1_1Vertex.html" title="Define behaviors of a vertex in a graph. " alt="" coords="18,300,179,600"/>
+<area shape="rect" id="node4" href="$classDetectorGraph_1_1SubscriberInterface.html" title="A Pure interface that declares the Subscriber behavior. " alt="" coords="215,721,395,808"/>
+<area shape="rect" id="node5" href="$classDetectorGraph_1_1FuturePublisher.html" title="{DetectorGraph::FuturePublisher\l\&lt; Lagged\&lt; T \&gt; \&gt;\n||+ FuturePublisher()\l+ SetGraph()\l+ PublishOnFutureEvaluation()\l}" alt="" coords="418,708,629,821"/>
+<area shape="rect" id="node6" href="$classDetectorGraph_1_1Graph.html" title="Implements a graph of Topics &amp; Detectors with Input/Output APIs. " alt="" coords="432,5,634,239"/>
+<area shape="rect" id="node7" href="$classDetectorGraph_1_1FuturePublisher.html" title="Publish data to the graph for future evaluation. " alt="" coords="555,400,796,500"/>
+</map>
