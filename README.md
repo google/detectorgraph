@@ -11,6 +11,7 @@ It forces an intuitive (albeit unusual) programming paradigm that results in hig
 This is not an officially supported Google product.
 
 Note that the cross-reference links in this page are only rendered in the Doxygen version of the documentation (see [Building](#building)).
+You can also navigate the web version of the documentation hosted at https://google.github.io/detectorgraph/.
 
 ## Getting Started
 
@@ -100,18 +101,16 @@ A more powerful & flexible option is to implement your own container to hold the
 ### Tests, Docs and Examples
 
 The library is shipped with a bare-bones makefile that can be used to build & run all of the examples, unit tests, documentation and coverage report.
+ - Dependencies:
+    - Gcc and/or clang with c++11
+    - gcov & lcov (optional - for building test_coverage)
+    - doxygen (optional - for building docs)
+    - Eigen3 (optional - for building examples/robotlocalization)
 
-    * Dependencies:
+ - Building:
 
-        * Gcc and/or clang with c++11
-        * gcov & lcov (optional)
-        * doxygen (optional)
-        * c++filt (optional)
-
-    * Building
-
-        ```
-        # At the root directory
+        # Hello World
+        ~/detectorgraph$ make examples/helloworld
 
         # Build/Run unit tests
         ~/detectorgraph$ make unit-test/test_all
@@ -121,7 +120,6 @@ The library is shipped with a bare-bones makefile that can be used to build & ru
 
         # Build/Run Coverage test. Results in /coverage
         ~/detectorgraph$ make unit-test/test_coverage
-        ```
 
 ### For your project
 
@@ -145,4 +143,4 @@ The DetectorGraph library had a little naming problem growing up. From birth it 
 
 ## In-depth Docs & API Reference
 
-For in depth documentation of the library, [start here](@ref core_introduction) - these are provided by the [auto-generated docs](#building).
+For in depth documentation of the library, [start here](@ref core_introduction) - these are provided by the [auto-generated docs](https://google.github.io/detectorgraph/).
