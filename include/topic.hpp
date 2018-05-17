@@ -103,6 +103,13 @@ class Topic : public BaseTopic
 #endif
 
 public:
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    typedef SequenceContainer<T, DetectorGraphConfig::kMaxNumberOfTopicStates> ValuesContainer;
+#else
+    typedef std::vector<T> ValuesContainer;
+#endif
+
     Topic()
     {
         // Pre-C++11 type checking.
@@ -185,6 +192,11 @@ public:
         return mCurrentValues.back();
     }
 
+    const ValuesContainer& GetCurrentValues() const
+    {
+        return mCurrentValues;
+    }
+
     virtual TopicStateIdType GetId() const
     {
         return TopicState::GetId<T>();
@@ -193,20 +205,8 @@ public:
     virtual ~Topic()
     {}
 
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-// LITE_BEGIN
-    const SequenceContainer<T, DetectorGraphConfig::kMaxNumberOfTopicStates>& GetCurrentValues() const
-    {
-        return mCurrentValues;
-    }
-// LITE_END
-#else
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
 // FULL_BEGIN
-    const std::vector<T>& GetCurrentValues() const
-    {
-        return mCurrentValues;
-    }
-
     virtual std::list<ptr::shared_ptr<const TopicState> > GetCurrentTopicStates() const
     {
         std::list<ptr::shared_ptr<const TopicState> > tCurrentTopicStates;
@@ -227,15 +227,7 @@ private:
     /*
      * @brief List of current data in topic. @sa Topic.
      */
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    // LITE_BEGIN
-    SequenceContainer<T, DetectorGraphConfig::kMaxNumberOfTopicStates> mCurrentValues;
-    // LITE_END
-#else
-    // FULL_BEGIN
-    std::vector<T> mCurrentValues;
-    // FULL_END
-#endif
+    ValuesContainer mCurrentValues;
 };
 
 } // namespace DetectorGraph

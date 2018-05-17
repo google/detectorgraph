@@ -126,6 +126,13 @@ public:
 class Graph
 {
 public:
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    typedef SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfVertices> VertexPtrContainer;
+#else
+    typedef std::list<Vertex*> VertexPtrContainer;
+#endif
+
     /**
      * @brief Constructor
      *
@@ -214,9 +221,9 @@ public:
     void RemoveVertex(Vertex* aVertex);
     TopicRegistry& GetTopicRegistry();
 
-    size_t GetVerticesSize() const
+    const VertexPtrContainer& GetVertices() const
     {
-        return mVertices.size();
+        return mVertices;
     }
 
 private:
@@ -233,6 +240,7 @@ private:
 private:
     TopicRegistry mTopicRegistry;
     GraphInputQueue mGraphInputQueue;
+    VertexPtrContainer mVertices;
 
 
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
@@ -242,16 +250,11 @@ public:
      * @brief Checks that the vertices are topologically sorted.
      */
     bool IsGraphSorted();
-
-private:
-    SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfVertices> mVertices;
     // LITE_END
 #else
     // FULL_BEGIN
 
 public:
-    const std::list< Vertex* >& GetVertices() const;
-
     /**
      * @brief Returns the list of topicstates published in the last Evaluation.
      *
@@ -274,11 +277,10 @@ private:
     /**
      * @brief Recursive method used on Depth-First-Search used on topo-sorting
      */
-    ErrorType DFS_visit(Vertex* v, std::list<Vertex*>& sorted);
+    ErrorType DFS_visit(Vertex* v, VertexPtrContainer& sorted);
 
 private:
     bool mNeedsSorting;
-    std::list< Vertex* > mVertices;
     std::list<ptr::shared_ptr<const TopicState> > mOutputList;
     // FULL_END
 #endif

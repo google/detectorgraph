@@ -191,11 +191,6 @@ void Graph::RemoveVertex(Vertex* aVertex)
     mNeedsSorting = true;
 }
 
-const std::list< Vertex* >& Graph::GetVertices() const
-{
-    return mVertices;
-}
-
 ErrorType Graph::TopoSortGraph()
 {
     ErrorType r = ErrorType_Success;

@@ -112,7 +112,7 @@ static void Test_ConstructionDestruction(nlTestSuite *inSuite, void *inContext)
 
     // Arrange empty graph.
     Graph graph;
-    NL_TEST_ASSERT(inSuite, graph.GetVerticesSize() == 0);
+    NL_TEST_ASSERT(inSuite, graph.GetVertices().size() == 0);
 
     // Instantiate Graph Elements
     Topic<PacketTypeA> topicPacketA(&graph);
@@ -125,7 +125,7 @@ static void Test_ConstructionDestruction(nlTestSuite *inSuite, void *inContext)
     graph.AddVertex(&topicPacketB);
 
     // Assert
-    NL_TEST_ASSERT(inSuite, graph.GetVerticesSize() == 3);
+    NL_TEST_ASSERT(inSuite, graph.GetVertices().size() == 3);
     NL_TEST_ASSERT(inSuite, graph.GetTopicRegistry().Resolve<PacketTypeA>() != NULL);
 
     NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetOutEdges()[0] == graph.GetTopicRegistry().Resolve<PacketTypeB>());

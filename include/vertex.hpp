@@ -35,6 +35,12 @@ namespace DetectorGraph
 class Vertex
 {
 public:
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    typedef SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfOutEdges> VertexPtrContainer;
+#else
+    typedef std::list<Vertex*> VertexPtrContainer;
+#endif
+
     Vertex() : mState(kVertexClear) {}
     virtual ~Vertex() {}
     virtual void ProcessVertex() = 0;
@@ -70,64 +76,49 @@ public:
         mState = aNewState;
     }
 
-protected:
-    VertexSearchState mState;
-
-
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    // LITE_BEGIN
-public:
     void InsertEdge(Vertex* aVertex)
     {
         mOutEdges.push_back(aVertex);
-    }
-    SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfOutEdges>& GetOutEdges()
-    {
-        return mOutEdges;
-    }
-    void MarkFutureEdge(Vertex* aVertex)
-    {
-    }
-protected:
-    SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfOutEdges> mOutEdges;
-    // LITE_END
-#else
-    // FULL_BEGIN
-public:
-    void InsertEdge(Vertex* aVertex)
-    {
-        mOutEdges.push_back(aVertex);
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
         aVertex->mInEdges.push_back(this);
+#endif
     }
 
     void RemoveEdge(Vertex* aVertex)
     {
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
         mOutEdges.remove(aVertex);
         aVertex->mInEdges.remove(this);
+#endif
     }
 
-    std::list<Vertex*>& GetOutEdges()
+    VertexPtrContainer& GetOutEdges()
     {
         return mOutEdges;
     }
 
-    std::list<Vertex*>& GetInEdges()
+    void MarkFutureEdge(Vertex* aVertex)
+    {
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        mFutureOutEdges.push_back(aVertex);
+        aVertex->mFutureInEdges.push_back(this);
+#endif
+    }
+
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // FULL_BEGIN
+public:
+    VertexPtrContainer& GetInEdges()
     {
         return mInEdges;
     }
 
-    void MarkFutureEdge(Vertex* aVertex)
-    {
-        mFutureOutEdges.push_back(aVertex);
-        aVertex->mFutureInEdges.push_back(this);
-    }
-
-    std::list<Vertex*>& GetFutureOutEdges()
+    VertexPtrContainer& GetFutureOutEdges()
     {
         return mFutureOutEdges;
     }
 
-    std::list<Vertex*>& GetFutureInEdges()
+    VertexPtrContainer& GetFutureInEdges()
     {
         return mFutureInEdges;
     }
@@ -139,13 +130,17 @@ public:
         return typeid(*this).name();
     }
     // LCOV_EXCL_STOP
+    // FULL_END
+#endif
 
 protected:
-    std::list<Vertex*> mInEdges;
-    std::list<Vertex*> mOutEdges;
-    std::list<Vertex*> mFutureInEdges;
-    std::list<Vertex*> mFutureOutEdges;
-    // FULL_END
+    VertexSearchState mState;
+    VertexPtrContainer mOutEdges;
+
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    VertexPtrContainer mInEdges;
+    VertexPtrContainer mFutureOutEdges;
+    VertexPtrContainer mFutureInEdges;
 #endif
 };
 
