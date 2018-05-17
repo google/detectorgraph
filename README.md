@@ -1,5 +1,7 @@
 # DetectorGraph: Formal C++ applications with logic/data separation, automatic dependency injection and data passing.
 
+[![Build Status](https://travis-ci.org/google/detectorgraph.svg?branch=master)](https://travis-ci.org/google/detectorgraph)
+
 DetectorGraph is a framework for writing programs in a formal graph topology.
 This can be used to write applications with multiple interdependent algorithms, applications' data models, general business logic or all of that combined.
 The framework uses a formal distinction between data (Topics) and transformations/logic (Detectors).
