@@ -33,13 +33,13 @@
 #include "sequencecontainer-lite.hpp"
 // LITE_END
 #else
-// VANILLA_BEGIN
+// FULL_BEGIN
 #include "sharedptr.hpp"
 #include <list>
 #include <typeinfo>
 #include <limits>
 #include <stdint.h>
-// VANILLA_END
+// FULL_END
 #endif
 
 namespace DetectorGraph
@@ -159,7 +159,7 @@ public:
         DG_ASSERT(tObj != NULL);
         // LITE_BEGIN
 #else
-        // VANILLA_BEGIN
+        // FULL_BEGIN
         // Creates Topics on demand.
         if (tObj == NULL)
         {
@@ -167,7 +167,7 @@ public:
             mTopicRegistry.Register<TTopicState>(tObj);
             AddVertex(tObj);
         }
-        // VANILLA_END
+        // FULL_END
 #endif
 
         return tObj;
@@ -247,7 +247,7 @@ private:
     SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfVertices> mVertices;
     // LITE_END
 #else
-    // VANILLA_BEGIN
+    // FULL_BEGIN
 
 public:
     const std::list< Vertex* >& GetVertices() const;
@@ -280,7 +280,7 @@ private:
     bool mNeedsSorting;
     std::list< Vertex* > mVertices;
     std::list<ptr::shared_ptr<const TopicState> > mOutputList;
-    // VANILLA_END
+    // FULL_END
 #endif
 };
 

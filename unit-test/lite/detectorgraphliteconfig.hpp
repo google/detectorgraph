@@ -32,9 +32,10 @@ enum DetectorGraphConfigEnum
     // For the purposes of this example we can also hard-code them to sensible
     // numbers:
 
-    kMaxNumberOfVertices = 22, // not used yet
-    // kMaxNumberOfOutEdges = 20, // not used yet
+    kMaxNumberOfVertices = 22,
+    kMaxNumberOfOutEdges = 20,
     kMaxNumberOfInEdges = 20,
+    kMaxNumberOfTopicStates = 2,
 };
 
 }

@@ -14,7 +14,7 @@
 
 CPPSTD=-std=c++11
 
-LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions  # -fno-rtti
+LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions -fno-rtti
 FULL_CONFIG=
 
 # To use the lite version of the library in the examples swap the config below
@@ -30,9 +30,13 @@ FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
 CORE_INCLUDE=./include
 CORE_SRCS=src/graph.cpp \
      src/detector.cpp \
-     src/graphstatestore.cpp \
-     src/statesnapshot.cpp \
-     src/timeoutpublisherservice.cpp
+     src/timeoutpublisherservice.cpp \
+
+
+FULL_SRCS=$(CORE_SRCS) \
+	src/statesnapshot.cpp \
+	src/graphstatestore.cpp \
+
 
 # Platform-specific headers and implementations
 PLATFORM=./platform_standalone
@@ -67,14 +71,14 @@ unit-test/test_all: unit-test/test_full unit-test/test_lite
 	@echo Ran unit tests for the Vanilla and Lite configs of the library
 
 unit-test/test_full:
-	g++ $(CPPSTD) $(FLAGS) $(FULL_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(FULL_TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(FULL_TESTS_SRCS) -o test_full.out && ./test_full.out
+	g++ $(CPPSTD) $(FLAGS) $(FULL_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(FULL_TESTS) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(FULL_TESTS_SRCS) -o test_full.out && ./test_full.out
 
 unit-test/test_lite:
 	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(LITE_TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(LITE_TESTS_SRCS) -o test_lite.out && ./test_lite.out
 
 examples/helloworld:
 	# Minimal Include & Sources dependencies
-	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) $(CORE_SRCS) $(PLATFORM_SRCS) examples/helloworld.cpp -o helloworld.out && ./helloworld.out
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) $(FULL_SRCS) $(PLATFORM_SRCS) examples/helloworld.cpp -o helloworld.out && ./helloworld.out
 
 examples/robotlocalization:
 	# Note that this example depends on the Eigen library. For more info see
@@ -84,17 +88,17 @@ examples/robotlocalization:
 	# Additionally, some versions of Eigen3 throw a bunch of warnings when
 	# compiling so you may need to turn off -Werror in FLAGS at the top of this
 	# file.
-	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) examples/robotlocalization.cpp -o robotlocalization.out && ./robotlocalization.out
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) examples/robotlocalization.cpp -o robotlocalization.out && ./robotlocalization.out
 
 examples/%:
 	# General Purpose Example building rule.
-	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $@.cpp -o $(@:examples/%=%.out) && ./$(@:examples/%=%.out)
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $@.cpp -o $(@:examples/%=%.out) && ./$(@:examples/%=%.out)
 
 examples/all: $(basename $(wildcard examples/*.cpp))
 	@echo Built and Ran all Examples
 
 unit-test/test_coverage: cleancoverage
-	g++ $(CPPSTD) $(FLAGS) $(CONFIG) --coverage -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(FULL_TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(FULL_TESTS_SRCS) -o test_coverage && ./test_coverage
+	g++ $(CPPSTD) $(FLAGS) $(CONFIG) --coverage -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(FULL_TESTS) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(FULL_TESTS_SRCS) -o test_coverage && ./test_coverage
 	mkdir -p coverage/
 	lcov --capture --directory . --no-external \
          -q --output-file coverage/coverage.info

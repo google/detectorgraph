@@ -17,6 +17,12 @@
 
 #include "dgassert.hpp"
 
+#include <new>
+
+#if __cplusplus >= 201103L
+#include <type_traits>
+#endif
+
 namespace DetectorGraph
 {
 
@@ -27,8 +33,10 @@ namespace DetectorGraph
 template <typename T, unsigned N>
 class SequenceContainer
 {
+#if __cplusplus >= 201103L
     static_assert(sizeof(T) % sizeof(uint32_t) == 0, "T must be uint32_t aligned");
     static_assert(std::is_copy_constructible<T>::value, "Generic SequenceContainer copy-constructs T");
+#endif
 public:
     SequenceContainer() : mNumElements()
     {
@@ -49,6 +57,11 @@ public:
         return reinterpret_cast<T(&)[N]>(mStorage);
     }
 
+    const T (& Items() const)[N]
+    {
+        return reinterpret_cast<const T(&)[N]>(mStorage);
+    }
+
     T& operator [](unsigned idx) {
         DG_ASSERT(idx < N);
         return Items()[idx];
@@ -62,6 +75,20 @@ public:
     const size_t size() const
     {
         return mNumElements;
+    }
+
+    void clear()
+    {
+        for (unsigned idx = 0; idx < mNumElements; ++idx)
+        {
+            Items()[idx].~T();
+        }
+        mNumElements = 0;
+    }
+
+    const T& back() const
+    {
+        return Items()[mNumElements-1];
     }
 private:
     uint8_t mStorage[N * sizeof(T)];

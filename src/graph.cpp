@@ -113,7 +113,7 @@ ErrorType Graph::TraverseVertices()
 
 // LITE_END
 #else
-// VANILLA_BEGIN
+// FULL_BEGIN
 Graph::Graph() : mNeedsSorting(false)
 {
     DG_LOG("Graph Initialized");
@@ -343,7 +343,7 @@ const std::list< ptr::shared_ptr<const TopicState> >& Graph::GetOutputList() con
     return mOutputList;
 }
 
-// VANILLA_END
+// FULL_END
 #endif
 
 }

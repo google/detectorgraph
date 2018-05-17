@@ -19,6 +19,7 @@
 #include "topicstate.hpp"
 
 #include <map>
+#include <list>
 
 namespace DetectorGraph
 {

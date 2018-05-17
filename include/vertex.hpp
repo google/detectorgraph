@@ -15,8 +15,17 @@
 #ifndef DETECTORGRAPH_INCLUDE_VERTEX_HPP_
 #define DETECTORGRAPH_INCLUDE_VERTEX_HPP_
 
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+#include "detectorgraphliteconfig.hpp"
+#include "sequencecontainer-lite.hpp"
+// LITE_END
+#else
+// FULL_BEGIN
 #include <list>
 #include <typeinfo>
+// FULL_END
+#endif
 
 namespace DetectorGraph
 {
@@ -51,14 +60,40 @@ public:
 
     virtual VertexType GetVertexType() const = 0;
 
-    // This uses RTTI only for clarity purposes. And could potentially be removed.
-    // LCOV_EXCL_START
-    const char * GetName() const
+    VertexSearchState GetState() const
     {
-        return typeid(*this).name();
+        return mState;
     }
-    // LCOV_EXCL_STOP
 
+    void SetState(VertexSearchState aNewState)
+    {
+        mState = aNewState;
+    }
+
+protected:
+    VertexSearchState mState;
+
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // LITE_BEGIN
+public:
+    void InsertEdge(Vertex* aVertex)
+    {
+        mOutEdges.push_back(aVertex);
+    }
+    SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfOutEdges>& GetOutEdges()
+    {
+        return mOutEdges;
+    }
+    void MarkFutureEdge(Vertex* aVertex)
+    {
+    }
+protected:
+    SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfOutEdges> mOutEdges;
+    // LITE_END
+#else
+    // FULL_BEGIN
+public:
     void InsertEdge(Vertex* aVertex)
     {
         mOutEdges.push_back(aVertex);
@@ -97,22 +132,21 @@ public:
         return mFutureInEdges;
     }
 
-    VertexSearchState GetState() const
+    // This uses RTTI only for clarity purposes. And could potentially be removed.
+    // LCOV_EXCL_START
+    const char * GetName() const
     {
-        return mState;
+        return typeid(*this).name();
     }
-
-    void SetState(VertexSearchState aNewState)
-    {
-        mState = aNewState;
-    }
+    // LCOV_EXCL_STOP
 
 protected:
-    VertexSearchState mState;
     std::list<Vertex*> mInEdges;
     std::list<Vertex*> mOutEdges;
     std::list<Vertex*> mFutureInEdges;
     std::list<Vertex*> mFutureOutEdges;
+    // FULL_END
+#endif
 };
 
 } // namespace DetectorGraph

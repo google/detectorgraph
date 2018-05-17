@@ -73,6 +73,7 @@ static void Test_CreateAndDispatch(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, container.GetDispatchers()[0]->GetTopicVertex() == static_cast<Vertex*>(&topic));
 
     topic.Publish(TestTopicStateA(42));
+    topic.ProcessVertex();
     container.GetDispatchers()[0]->Dispatch();
 
     NL_TEST_ASSERT(inSuite, subscriber.testA.v == 42);

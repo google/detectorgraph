@@ -26,12 +26,12 @@ Detector::Detector(Graph* graph) : mGraph(graph)
 
 Detector::~Detector()
 {
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     // Remove self as out edge on topics
     for (unsigned idx = 0; idx != mDispatchersContainer.GetSize(); ++idx)
     {
         mDispatchersContainer.GetDispatchers()[idx]->GetTopicVertex()->RemoveEdge(this);
     }
-#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     mOutEdges.clear();
     mGraph->RemoveVertex(this);
 #endif

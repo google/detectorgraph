@@ -16,6 +16,7 @@
 #define DETECTORGRAPH_INCLUDE_STATESNAPSHOT_HPP_
 
 #include <map>
+#include <list>
 #include <stdint.h>
 
 #include "sharedptr.hpp"
