@@ -166,7 +166,54 @@ ErrorType Graph::EvaluateGraph()
     return r;
 }
 
-#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+bool Graph::IsGraphSorted()
+{
+    ClearTraverseContexts();
+    int processingNodes = 0;
+    for (VertexPtrContainer::iterator vertexIt = mVertices.begin();
+        vertexIt != mVertices.end();
+        ++vertexIt)
+    {
+        Vertex* v = *vertexIt;
+        if (v->GetState() == Vertex::kVertexDone)
+        {
+            return false;
+        }
+        else if (v->GetState() == Vertex::kVertexClear)
+        {
+            processingNodes++;
+            v->SetState(Vertex::kVertexProcessing);
+        }
+        for (VertexPtrContainer::iterator outEdgeIt = v->GetOutEdges().begin();
+            outEdgeIt != v->GetOutEdges().end();
+            ++outEdgeIt)
+        {
+            Vertex* outVertex = *outEdgeIt;
+            if (outVertex->GetState() == Vertex::kVertexDone)
+            {
+                return false;
+            }
+            else if (outVertex->GetState() == Vertex::kVertexClear)
+            {
+                processingNodes++;
+                outVertex->SetState(Vertex::kVertexProcessing);
+            }
+        }
+
+        v->SetState(Vertex::kVertexDone);
+        processingNodes--;
+    }
+
+    if (processingNodes != 0)
+    {
+        DG_LOG("---------%d Out of Bounds edge --------", processingNodes);
+        return false;
+    }
+
+    return true;
+}
+#else
 // FULL_BEGIN
 
 ErrorType Graph::TopoSortGraph()
