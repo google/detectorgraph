@@ -119,6 +119,9 @@ code_size_benchmark/%:
 	&& size $(@:code_size_benchmark/%/main=%.out) \
 	&& objdump -h $(@:code_size_benchmark/%/main=%.out)
 
+code_size_benchmark/all: $(basename $(wildcard code_size_benchmark/*/main.cpp))
+	@echo Built and Ran all Benchmarks
+
 all: unit-test/test_all docs examples/all unit-test/test_coverage
 
 cleandocs:
