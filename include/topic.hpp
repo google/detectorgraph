@@ -149,10 +149,18 @@ public:
     {
         if (Vertex::GetState() == kVertexDone)
         {
-            for (unsigned valueIdx = 0; valueIdx < mCurrentValues.size(); ++valueIdx)
+            // TODO(DGRAPH-35): Both implementations below work fine. Sometimes
+            // the iterator generates smaller code, sometimes not. Sort this out.
+            for (typename ValuesContainer::const_iterator valueIt = mCurrentValues.begin();
+                valueIt != mCurrentValues.end();
+                ++valueIt)
             {
-                aSubscriber->Evaluate(mCurrentValues[valueIdx]);
+                aSubscriber->Evaluate(*valueIt);
             }
+            // for (unsigned valueIdx = 0; valueIdx < mCurrentValues.size(); ++valueIdx)
+            // {
+            //     aSubscriber->Evaluate(mCurrentValues[valueIdx]);
+            // }
         }
     }
 

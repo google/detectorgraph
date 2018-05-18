@@ -85,6 +85,12 @@ public:
 
     void clear()
     {
+        // TODO(DGRAPH-35): Both implementations below work fine. Sometimes the
+        // iterator generates smaller code, sometimes not. Sort this out.
+        // for (iterator it = begin(); it != end(); ++it)
+        // {
+        //     it->~T();
+        // }
         for (unsigned idx = 0; idx < mNumElements; ++idx)
         {
             Items()[idx].~T();
