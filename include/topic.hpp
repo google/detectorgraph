@@ -59,23 +59,12 @@ public:
 protected:
     void MarkChildrenState(VertexSearchState aNewState)
     {
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        // LITE_BEGIN
-        for (unsigned vIdx = 0; vIdx < GetOutEdges().size(); ++vIdx)
-        {
-            GetOutEdges()[vIdx]->SetState(aNewState);
-        }
-        // LITE_END
-#else
-        // FULL_BEGIN
-        for (std::list<Vertex*>::iterator vIt = GetOutEdges().begin();
+        for (VertexPtrContainer::iterator vIt = GetOutEdges().begin();
             vIt != GetOutEdges().end();
             ++vIt)
         {
             (*vIt)->SetState(aNewState);
         }
-        // FULL_END
-#endif
     }
 };
 /**
