@@ -14,7 +14,7 @@
 
 CPPSTD=-std=c++11
 
-LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions -fno-rtti
+LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions -fno-rtti -Os
 FULL_CONFIG=
 
 # To use the lite version of the library in the examples swap the config below
@@ -30,10 +30,10 @@ FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
 CORE_INCLUDE=./include
 CORE_SRCS=src/graph.cpp \
      src/detector.cpp \
-     src/timeoutpublisherservice.cpp \
 
 
 FULL_SRCS=$(CORE_SRCS) \
+    src/timeoutpublisherservice.cpp \
 	src/statesnapshot.cpp \
 	src/graphstatestore.cpp \
 
@@ -110,6 +110,16 @@ unit-test/test_coverage: cleancoverage
          --extract coverage/coverage.info "*/test-util/*" \
          -q --output-file coverage/coverage.info
 	genhtml coverage/coverage.info --output-directory coverage/.
+
+avocado/%:
+	$(info percent=$@)
+	@echo Done
+
+code_size_benchmark/%:
+	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(dir $@) $(CORE_SRCS) $(PLATFORM_SRCS) $@.cpp -o $(@:code_size_benchmark/%/main=%.out) \
+	&& ./$(@:code_size_benchmark/%/main=%.out) \
+	&& size $(@:code_size_benchmark/%/main=%.out) \
+	&& objdump -h $(@:code_size_benchmark/%/main=%.out)
 
 all: unit-test/test_all docs examples/all unit-test/test_coverage
 
