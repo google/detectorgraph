@@ -13,11 +13,12 @@
 // limitations under the License.
 
 #include "detectorgraphliteconfig.hpp"
-#include <cassert>
 #include "graph.hpp"
 #include "detector.hpp"
+#include "dglogging.hpp"
+#include "dgassert.hpp"
+#include "processorcontainer.hpp"
 
-using namespace std;
 using namespace DetectorGraph;
 
 // #define SIZE_BENCHMARK_DT
@@ -205,13 +206,12 @@ public:
 };
 #endif
 
-class ConcentratorGraph
+class ConcentratorGraph : public ProcessorContainer
 {
 public:
     ConcentratorGraph()
-    : mGraph()
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    , mInputTopic(&mGraph)
+    : mInputTopic(&mGraph)
     , mInnerData0(&mGraph)
     , mInnerData1(&mGraph)
     , mInnerData2(&mGraph)
@@ -265,11 +265,14 @@ public:
         mGraph.AddVertex(&mConcentrator);
 #endif
         mGraph.AddVertex(&mOutputTopic);
-        assert(mGraph.IsGraphSorted());
+        DG_ASSERT(mGraph.IsGraphSorted());
 #endif
     }
 
-    Graph mGraph;
+    void ProcessOutput()
+    {
+    }
+
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     Topic<InputTopic> mInputTopic;
     Topic<InnerData0> mInnerData0;
@@ -299,32 +302,13 @@ public:
 #endif
 };
 
-#include "dglogging.hpp"
-
 int main()
 {
     // Same example as above but using purely stack allocations:
     ConcentratorGraph sdg;
 
-    sdg.mGraph.PushData<InputTopic>(InputTopic());
-    sdg.mGraph.EvaluateGraph();
-    DG_LOG("GetNewValue() = %d", sdg.mOutputTopic.GetNewValue().v);
-// #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-//     assert(sdg.mGraph.IsGraphSorted());
-//     assert(sdg.mOutputTopic.GetNewValue().v == 16);
-// #else
-//     // DG_LOG("V = %d", sdg.mGraph.ResolveTopic<OutputTopic>()->GetCurrentValues().back().v);
-//     DG_LOG("A Sorted order is:");
-//     for (Graph::VertexPtrContainer::const_iterator vIt = sdg.mGraph.GetVertices().begin();
-//         vIt != sdg.mGraph.GetVertices().end();
-//         ++vIt)
-//     {
-//         DG_LOG("%s", (*vIt)->GetName());
-//     }
-
-//     assert(sdg.mGraph.ResolveTopic<OutputTopic>()->GetCurrentValues().back().v == 16);
-// #endif
-    DG_LOG("Done");
+    sdg.ProcessData<InputTopic>(InputTopic());
+    DG_LOG("OutputTopic = %d", sdg.mOutputTopic.GetNewValue().v);
 
     return 0;
 }

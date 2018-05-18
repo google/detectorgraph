@@ -12,13 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-CPPSTD=-std=c++11
+# Configure the compiler.
+CPPSTD ?= -std=c++11
+# Other options: -std=c++0x -stdlib=libstdc++
 
-LITE_CONFIG=-DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions -fno-rtti -Os
-FULL_CONFIG=
+LITE_CONFIG ?= -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions -fno-rtti -Os
+FULL_CONFIG ?=
 
 # To use the lite version of the library in the examples swap the config below
-CONFIG=$(FULL_CONFIG)
+CONFIG ?= $(FULL_CONFIG)
 # CONFIG=$(LITE_CONFIG)
 
 FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
@@ -111,12 +113,8 @@ unit-test/test_coverage: cleancoverage
          -q --output-file coverage/coverage.info
 	genhtml coverage/coverage.info --output-directory coverage/.
 
-avocado/%:
-	$(info percent=$@)
-	@echo Done
-
 code_size_benchmark/%:
-	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(dir $@) $(CORE_SRCS) $(PLATFORM_SRCS) $@.cpp -o $(@:code_size_benchmark/%/main=%.out) \
+	g++ $(CPPSTD) $(FLAGS) -DNDEBUG $(LITE_CONFIG) -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(dir $@) $(CORE_SRCS) $(PLATFORM_SRCS) $@.cpp -o $(@:code_size_benchmark/%/main=%.out) \
 	&& ./$(@:code_size_benchmark/%/main=%.out) \
 	&& size $(@:code_size_benchmark/%/main=%.out) \
 	&& objdump -h $(@:code_size_benchmark/%/main=%.out)
