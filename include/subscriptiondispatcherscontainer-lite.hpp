@@ -19,6 +19,8 @@
 #include "dgassert.hpp"
 #include "detectorgraphliteconfig.hpp"
 
+#include <stdint.h>
+
 namespace DetectorGraph
 {
 

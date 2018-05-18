@@ -18,6 +18,7 @@
 #include "dgassert.hpp"
 
 #include <new>
+#include <stdint.h>
 
 #if __cplusplus >= 201103L
 #include <type_traits>
