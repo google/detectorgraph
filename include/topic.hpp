@@ -51,8 +51,8 @@ class BaseTopic : public Vertex
 public:
 #if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     virtual std::list< ptr::shared_ptr<const TopicState> > GetCurrentTopicStates() const = 0;
-#endif
     virtual TopicStateIdType GetId() const = 0;
+#endif
 
     virtual VertexType GetVertexType() const { return Vertex::kTopicVertex; }
 
@@ -186,16 +186,16 @@ public:
         return mCurrentValues;
     }
 
-    virtual TopicStateIdType GetId() const
-    {
-        return TopicState::GetId<T>();
-    }
-
     virtual ~Topic()
     {}
 
 #if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
 // FULL_BEGIN
+    virtual TopicStateIdType GetId() const
+    {
+        return TopicState::GetId<T>();
+    }
+
     virtual std::list<ptr::shared_ptr<const TopicState> > GetCurrentTopicStates() const
     {
         std::list<ptr::shared_ptr<const TopicState> > tCurrentTopicStates;

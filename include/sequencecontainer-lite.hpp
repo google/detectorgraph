@@ -53,6 +53,7 @@ public:
 
         uint8_t* storagePtr = &(mStorage[mNumElements * sizeof(T)]);
         T* newElement = new(storagePtr) T(v); // Copy constructor
+        (void)newElement; // Otherwise it's unused in release builds.
         DG_ASSERT((void*)newElement == (void*)&(Items()[mNumElements]));
         mNumElements++;
     }

@@ -31,7 +31,7 @@ CORE_INCLUDE=./include
 CORE_SRCS=src/graph.cpp \
      src/detector.cpp \
 
-
+# TODO(DGRAPH-10): TimeoutPublisherService on lite.
 FULL_SRCS=$(CORE_SRCS) \
     src/timeoutpublisherservice.cpp \
 	src/statesnapshot.cpp \

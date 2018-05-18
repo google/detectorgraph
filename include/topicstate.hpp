@@ -69,8 +69,6 @@ struct TopicState
     {
         return typeid(*this).name(); // LCOV_EXCL_LINE
     }
-// FULL_END
-#endif
 
     /**
      * @brief Default @ref GetId() return value.
@@ -104,6 +102,10 @@ struct TopicState
         static const TTopic dummy = TTopic();
         return dummy.GetId();
     } // LCOV_EXCL_LINE
+
+// FULL_END
+#endif
+
 };
 
 } // namespace DetectorGraph
