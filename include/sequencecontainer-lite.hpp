@@ -42,6 +42,11 @@ public:
     {
     }
 
+    ~SequenceContainer()
+    {
+        clear();
+    }
+
     void push_back(const T& v)
     {
         DG_ASSERT(mNumElements < N);
@@ -67,7 +72,7 @@ public:
         return Items()[idx];
     }
 
-    T operator [](unsigned idx) const {
+    const T& operator [](unsigned idx) const {
         DG_ASSERT(idx < N);
         return Items()[idx];
     }
@@ -90,6 +95,16 @@ public:
     {
         return Items()[mNumElements-1];
     }
+
+
+    typedef T * iterator;
+    typedef const T * const_iterator;
+    const_iterator begin() const { return &(Items()[0]); }
+    const_iterator end() const { return &(Items()[mNumElements]); }
+    iterator begin() { return &(Items()[0]); }
+    iterator end() { return &(Items()[mNumElements]); }
+    // Or if that makes anyone nervous:
+    // const_iterator end() const { return &(Items()[0]) + mNumElements; }
 private:
     uint8_t mStorage[N * sizeof(T)];
     unsigned mNumElements;

@@ -20,6 +20,60 @@
 namespace DetectorGraph
 {
 
+Graph::Graph()
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+ : mNeedsSorting(false)
+#endif
+{
+    DG_LOG("Graph Initialized");
+}
+
+Graph::~Graph()
+{
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // Detectors remove themselves from the graph when deleted
+    // so we need a robust deletion process (instead of for (begin,!=end,++))
+    // that is ok with removing items behind the iterator.
+    std::list<Vertex*>::iterator vertexIt = mVertices.begin();
+    while (vertexIt != mVertices.end())
+    {
+        Vertex* tmp = *vertexIt;
+        vertexIt++;
+        if (tmp->GetVertexType() == Vertex::kDetectorVertex)
+        {
+            delete tmp;
+        }
+    }
+
+    vertexIt = mVertices.begin();
+    while (vertexIt != mVertices.end())
+    {
+        Vertex* tmp = *vertexIt;
+        vertexIt++;
+        delete tmp;
+    }
+#endif
+}
+
+void Graph::AddVertex(Vertex* aVertex)
+{
+    mVertices.push_back(aVertex);
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    mNeedsSorting = true;
+#endif
+}
+
+void Graph::RemoveVertex(Vertex* aVertex)
+{
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // TODO(cscotti): Assert? Destructor? Linear remove?
+    DG_LOG("dummy RemoveVertex called for %p.", (void*)aVertex);
+#else
+    mVertices.remove(aVertex);
+    mNeedsSorting = true;
+#endif
+}
+
 bool Graph::EvaluateIfHasDataPending()
 {
     if (HasDataPending())
@@ -47,55 +101,15 @@ TopicRegistry& Graph::GetTopicRegistry()
     return mTopicRegistry;
 }
 
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-// LITE_BEGIN
-Graph::Graph()
-{
-    DG_LOG("Graph Initialized");
-}
-
-Graph::~Graph()
-{
-}
-
-ErrorType Graph::EvaluateGraph()
-{
-    ErrorType r = ErrorType_Success;
-
-    ClearTraverseContexts();
-
-    mGraphInputQueue.DequeueAndDispatch();
-
-    r = TraverseVertices();
-    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
-    {
-        DG_LOG("Graph::TraverseVertices() failed");
-        return r;
-    } // LCOV_EXCL_STOP
-
-    return r;
-}
-
-void Graph::AddVertex(Vertex* aVertex)
-{
-    mVertices.push_back(aVertex);
-}
-
-void Graph::RemoveVertex(Vertex* aVertex)
-{
-    // TODO(cscotti): Assert? Destructor? Linear remove?
-    DG_LOG("dummy RemoveVertex called for %p.", (void*)aVertex);
-}
-
 ErrorType Graph::ClearTraverseContexts()
 {
     ErrorType r = ErrorType_Success;
-
-    for (unsigned vertexIdx = 0; vertexIdx < mVertices.size(); ++vertexIdx)
+    for (VertexPtrContainer::iterator vertexIt = mVertices.begin();
+    vertexIt != mVertices.end();
+    ++vertexIt)
     {
-        mVertices[vertexIdx]->SetState(Vertex::kVertexClear);
+        (*vertexIt)->SetState(Vertex::kVertexClear);
     }
-
     return r;
 }
 
@@ -103,51 +117,21 @@ ErrorType Graph::TraverseVertices()
 {
     ErrorType r = ErrorType_Success;
 
-    for (unsigned vertexIdx = 0; vertexIdx < mVertices.size(); ++vertexIdx)
+    for (VertexPtrContainer::iterator it = mVertices.begin();
+        it != mVertices.end();
+        ++it)
     {
-        mVertices[vertexIdx]->ProcessVertex();
+        (*it)->ProcessVertex();
     }
 
     return r;
-}
-
-// LITE_END
-#else
-// FULL_BEGIN
-Graph::Graph() : mNeedsSorting(false)
-{
-    DG_LOG("Graph Initialized");
-}
-
-Graph::~Graph()
-{
-    // Detectors remove themselves from the graph when deleted
-    // so we need a robust deletion process (instead of for (begin,!=end,++))
-    // that is ok with removing items behind the iterator.
-    std::list<Vertex*>::iterator vertexIt = mVertices.begin();
-    while (vertexIt != mVertices.end())
-    {
-        Vertex* tmp = *vertexIt;
-        vertexIt++;
-        if (tmp->GetVertexType() == Vertex::kDetectorVertex)
-        {
-            delete tmp;
-        }
-    }
-
-    vertexIt = mVertices.begin();
-    while (vertexIt != mVertices.end())
-    {
-        Vertex* tmp = *vertexIt;
-        vertexIt++;
-        delete tmp;
-    }
 }
 
 ErrorType Graph::EvaluateGraph()
 {
     ErrorType r = ErrorType_Success;
 
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     if (mNeedsSorting)
     {
         r = TopoSortGraph();
@@ -157,6 +141,7 @@ ErrorType Graph::EvaluateGraph()
             return r;
         }
     }
+#endif
 
     ClearTraverseContexts();
 
@@ -169,27 +154,20 @@ ErrorType Graph::EvaluateGraph()
         return r;
     } // LCOV_EXCL_STOP
 
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     r = ComposeOutputList();
     if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
     {
         DG_LOG("Graph::ComposeOutputList() failed");
         return r;
     } // LCOV_EXCL_STOP
+#endif
 
     return r;
 }
 
-void Graph::AddVertex(Vertex* aVertex)
-{
-    mVertices.push_back(aVertex);
-    mNeedsSorting = true;
-}
-
-void Graph::RemoveVertex(Vertex* aVertex)
-{
-    mVertices.remove(aVertex);
-    mNeedsSorting = true;
-}
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// FULL_BEGIN
 
 ErrorType Graph::TopoSortGraph()
 {
@@ -280,32 +258,6 @@ ErrorType Graph::DFS_visit(Vertex* v, std::list<Vertex*>& sorted)
     // cout << "<--- Finished at " << v->GetName() << endl;
     v->SetState(Vertex::kVertexDone);
     sorted.push_front(v);
-
-    return r;
-}
-
-ErrorType Graph::ClearTraverseContexts()
-{
-    ErrorType r = ErrorType_Success;
-    for (std::list<Vertex*>::iterator vertexIt = mVertices.begin();
-    vertexIt != mVertices.end();
-    ++vertexIt)
-    {
-        (*vertexIt)->SetState(Vertex::kVertexClear);
-    }
-    return r;
-}
-
-ErrorType Graph::TraverseVertices()
-{
-    ErrorType r = ErrorType_Success;
-
-    for (std::list< Vertex* >::iterator it = mVertices.begin();
-        it != mVertices.end();
-        ++it)
-    {
-        (*it)->ProcessVertex();
-    }
 
     return r;
 }
