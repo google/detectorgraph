@@ -23,7 +23,6 @@
 #include "topicstate.hpp"
 
 #include <typeinfo>
-#include <iostream>
 #include <algorithm>
 
 #define SUITE_DECLARATION(name, test_ptr) { #name, test_ptr, setup_##name, teardown_##name }

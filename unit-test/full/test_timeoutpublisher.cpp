@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <typeinfo>
-#include <iostream>
+#include <map>
 
 #include "nltest.h"
 #include "errortype.hpp"

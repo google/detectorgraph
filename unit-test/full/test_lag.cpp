@@ -20,9 +20,6 @@
 #include "graph.hpp"
 #include "lag.hpp"
 
-#include <typeinfo>
-#include <iostream>
-
 #define SUITE_DECLARATION(name, test_ptr) { #name, test_ptr, setup_##name, teardown_##name }
 
 using namespace DetectorGraph;

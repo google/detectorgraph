@@ -20,14 +20,11 @@
 #include "vertex.hpp"
 #include "topic.hpp"
 
-#include <typeinfo>
-#include <iostream>
 #include <string.h>
 
 #define SUITE_DECLARATION(name, test_ptr) { #name, test_ptr, setup_##name, teardown_##name }
 
 using namespace DetectorGraph;
-using namespace std;
 
 static int setup_topic(void *inContext)
 {
