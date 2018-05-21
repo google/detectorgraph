@@ -39,6 +39,26 @@ TimeoutPublisherService::~TimeoutPublisherService()
 
 }
 
+void TimeoutPublisherService::ScheduleTimeoutDispatcher(
+    TopicStateDispatcherInterface* aDispatcher,
+    const TimeOffset aMillisecondsFromNow,
+    const TimeoutPublisherHandle aTimerHandle)
+{
+    CancelPublishOnTimeout(aTimerHandle);
+    mScheduledTopicStatesMap[aTimerHandle] = aDispatcher;
+    SetTimeout(aMillisecondsFromNow, aTimerHandle);
+    Start(aTimerHandle);
+}
+
+void TimeoutPublisherService::SchedulePeriodicPublishingDispatcher(
+    TopicStateDispatcherInterface* aDispatcher,
+    const TimeOffset aPeriodInMilliseconds)
+{
+    mMetronomePeriodMsec = gcd(aPeriodInMilliseconds, mMetronomePeriodMsec);
+    mScheduledPeriodicTopicStatesList.push_back(
+        PeriodicTopicStateDispatcher(aPeriodInMilliseconds, aDispatcher));
+}
+
 void TimeoutPublisherService::CancelPublishOnTimeout(const TimeoutPublisherHandle aId)
 {
     if (mScheduledTopicStatesMap.count(aId))

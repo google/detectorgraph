@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef __DETECTORGRAPH_UNIT_TEST_COMMON_TEST_LIST_H__
-#define __DETECTORGRAPH_UNIT_TEST_COMMON_TEST_LIST_H__
+#ifndef DETECTORGRAPH_UNIT_TEST_TIMEOUTPUBLISHERSERVICE_H_
+#define DETECTORGRAPH_UNIT_TEST_TIMEOUTPUBLISHERSERVICE_H_
 
-/* (1) INCLUDE YOUR TEST HERE */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include "test_graphinputqueue.h"
-#include "test_topicregistry.h"
-#include "test_subscriptiondispatcherscontainer.h"
-#include "test_timeoutpublisherservice.h"
+    int timeoutpublisherservice_testsuite(void);
 
-#define COMMON_TEST_LIST \
-    topicregistry_testsuite, \
-    graphinputqueue_testsuite, \
-    subscriptiondispatcherscontainer_testsuite, \
-    timeoutpublisherservice_testsuite, \
+#ifdef __cplusplus
+}
+#endif
 
-#endif // __DETECTORGRAPH_UNIT_TEST_COMMON_TEST_LIST_H__
+#endif // DETECTORGRAPH_UNIT_TEST_TIMEOUTPUBLISHERSERVICE_H_

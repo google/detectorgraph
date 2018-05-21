@@ -16,6 +16,7 @@
 CPPSTD ?= -std=c++11
 # Other options: -std=c++0x -stdlib=libstdc++
 
+# Sometimes it's worth trying -nostdinc++ to see what leaked.
 LITE_CONFIG ?= -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions -fno-rtti -Os
 FULL_CONFIG ?=
 
@@ -32,12 +33,14 @@ FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
 CORE_INCLUDE=./include
 CORE_SRCS=src/graph.cpp \
      src/detector.cpp \
+     src/timeoutpublisherservice.cpp \
+     $(NULL)
 
 # TODO(DGRAPH-10): TimeoutPublisherService on lite.
 FULL_SRCS=$(CORE_SRCS) \
-    src/timeoutpublisherservice.cpp \
 	src/statesnapshot.cpp \
 	src/graphstatestore.cpp \
+	$(NULL)
 
 
 # Platform-specific headers and implementations
@@ -47,12 +50,14 @@ PLATFORM_SRCS=$(PLATFORM)/dglogging.cpp
 # Graph Analysis and Tools
 UTIL=./util
 UTIL_SRCS=$(UTIL)/graphanalyzer.cpp \
-          $(UTIL)/nodenameutils.cpp
+          $(UTIL)/nodenameutils.cpp \
+          $(NULL)
 
 # Test Utilities
 TEST_UTIL=./test-util
 TEST_UTIL_SRCS=$(TEST_UTIL)/testtimeoutpublisherservice.cpp \
-               $(TEST_UTIL)/graphtestutils.cpp
+               $(TEST_UTIL)/graphtestutils.cpp \
+               $(NULL)
 
 # Unit Test Framework
 NLUNITTEST=./third_party/nltest/repo/src/
