@@ -15,9 +15,6 @@
 #ifndef DETECTORGRAPH_INCLUDE_DETECTOR_HPP_
 #define DETECTORGRAPH_INCLUDE_DETECTOR_HPP_
 
-#include <list>
-#include <iostream>
-
 #include "vertex.hpp"
 #include "subscriberinterface.hpp"
 #include "subscriptiondispatcher.hpp"
