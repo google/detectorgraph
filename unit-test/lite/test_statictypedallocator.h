@@ -14,24 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef __TEST_LIST_H__
-#define __TEST_LIST_H__
+#ifndef DETECTORGRAPH_UNIT_TEST_STATICTYPEDALLOCATOR_H_
+#define DETECTORGRAPH_UNIT_TEST_STATICTYPEDALLOCATOR_H_
 
-#include "common_test_list.h"
-
-/* (1) INCLUDE YOUR TEST HERE */
-#include "test_lite.h"
-#include "test_sequencecontainer.h"
-#include "test_statictypedallocator.h"
-
-typedef int (*test_fp)(void);
-
-/* (2) ADD THE FUNCTION TO CALL INTO YOUR TEST HERE */
-#define UNIT_TEST_LIST {\
-    COMMON_TEST_LIST \
-    lite_testsuite, \
-    sequencecontainer_testsuite, \
-    statictypedallocator_testsuite, \
-}
-
+#ifdef __cplusplus
+extern "C" {
 #endif
+
+    int statictypedallocator_testsuite(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // DETECTORGRAPH_UNIT_TEST_STATICTYPEDALLOCATOR_H_
