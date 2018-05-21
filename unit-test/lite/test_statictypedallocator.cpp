@@ -169,6 +169,25 @@ static void Test_MultipleInstances(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);
 }
 
+static void Test_Clear(nlTestSuite *inSuite, void *inContext)
+{
+    StaticTypedAllocator<SomeBase> allocator;
+
+    allocator.New(SomeChild<TopicStateA>(0));
+    allocator.New(SomeChild<TopicStateB>(0));
+
+    allocator.clear();
+    NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);
+    NL_TEST_ASSERT(inSuite, SomeChild<TopicStateB>::instanceCount == 0);
+
+    allocator.New(SomeChild<TopicStateA>(1));
+    allocator.New(SomeChild<TopicStateB>(1));
+
+    allocator.clear();
+    NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);
+    NL_TEST_ASSERT(inSuite, SomeChild<TopicStateB>::instanceCount == 0);
+}
+
 static const nlTest sTests[] = {
     NL_TEST_DEF("Test_StoreOneType", Test_StoreOneType),
     NL_TEST_DEF("Test_StoreMultiple", Test_StoreMultiple),
@@ -176,6 +195,7 @@ static const nlTest sTests[] = {
     NL_TEST_DEF("Test_DeleteMiddle", Test_DeleteMiddle),
     NL_TEST_DEF("Test_DeleteLast", Test_DeleteLast),
     NL_TEST_DEF("Test_MultipleInstances", Test_MultipleInstances),
+    NL_TEST_DEF("Test_Clear", Test_Clear),
     NL_TEST_SENTINEL()
 };
 
