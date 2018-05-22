@@ -35,7 +35,9 @@
 namespace DetectorGraph
 {
 
-typedef uint64_t TimeoutPublisherHandle;
+typedef int TimeoutPublisherHandle;
+enum { kInvalidTimeoutPublisherHandle = -1 };
+
 typedef uint64_t TimeOffset;
 
 /**
@@ -133,7 +135,8 @@ public:
      *
      * This must be implemented by subclasses. Different TimeoutPublishers will
      * call this to 'acquire' a timer. The handle is then used throughout the API
-     * to refer to any individual timer
+     * to refer to any individual timer.
+     * Note that this should never return kInvalidTimeoutPublisherHandle.
      */
     virtual TimeoutPublisherHandle GetUniqueTimerHandle() = 0;
 
