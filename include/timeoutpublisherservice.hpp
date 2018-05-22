@@ -51,10 +51,10 @@ class TimeoutPublisherService
      * @brief Internal DispatcherInterface for dispatching any scheduled
      TopicState to Graph::PushData<T>
      */
-    struct TopicStateDispatcherInterface
+    struct DispatcherInterface
     {
         virtual void Dispatch(Graph& aGraph) = 0;
-        virtual ~TopicStateDispatcherInterface() {}
+        virtual ~DispatcherInterface() {}
     };
 
     /**
@@ -62,10 +62,10 @@ class TimeoutPublisherService
      TopicState to Graph::PushData<T>
      */
     template<class T>
-    struct TopicStateDispatcher : public TopicStateDispatcherInterface
+    struct Dispatcher : public DispatcherInterface
     {
-        TopicStateDispatcher() : mData() {}
-        TopicStateDispatcher(const T& aData) : mData(aData) {}
+        Dispatcher() : mData() {}
+        Dispatcher(const T& aData) : mData(aData) {}
         virtual void Dispatch(Graph& aGraph)
         {
             aGraph.PushData<T>(mData);
@@ -79,28 +79,28 @@ class TimeoutPublisherService
      * This internal data structure holds a periodically-triggered dispatcher. It is also used to track
      * the time between triggers, so that different dispatchers can use the same synchronized metronome timer.
      */
-    struct PeriodicTopicStateDispatcher
+    struct PeriodicPublishingSeries
     {
         const TimeOffset mPublishingPeriodMsec;
         TimeOffset mMetronomeCounter;
-        TopicStateDispatcherInterface* mpTopicStateDispatcher;
+        DispatcherInterface* mpDispatcher;
 
-        PeriodicTopicStateDispatcher(const TimeOffset aPublishingPeriodMsec,
-            TopicStateDispatcherInterface* aTopicStateDispatcherInterface)
+        PeriodicPublishingSeries(const TimeOffset aPublishingPeriodMsec,
+            DispatcherInterface* aDispatcher)
         : mPublishingPeriodMsec(aPublishingPeriodMsec)
         , mMetronomeCounter(0)
-        , mpTopicStateDispatcher(aTopicStateDispatcherInterface) {}
+        , mpDispatcher(aDispatcher) {}
     };
 
-    typedef std::map<TimeoutPublisherHandle, TopicStateDispatcherInterface*> ScheduledDispatchersContainer;
-    typedef std::list<PeriodicTopicStateDispatcher> PeriodicDispatchersContainer;
+    typedef std::map<TimeoutPublisherHandle, DispatcherInterface*> TimeoutDispatchersContainer;
+    typedef std::list<PeriodicPublishingSeries> PeriodicPublishingSeriesContainer;
 
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     // typedef SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfVertices> VertexPtrContainer;
-    struct ScheduledCtxt {};
-    typedef StaticTypedAllocator<TopicStateDispatcherInterface, ScheduledCtxt> ScheduledDispatchersAllocator;
+    struct TimeoutCtxt {};
+    typedef StaticTypedAllocator<DispatcherInterface, TimeoutCtxt> TimeoutDispatchersAllocator;
     struct PeriodicCtxt {};
-    typedef StaticTypedAllocator<TopicStateDispatcherInterface, PeriodicCtxt> PeriodicDispatchersAllocator;
+    typedef StaticTypedAllocator<DispatcherInterface, PeriodicCtxt> PeriodicDispatchersAllocator;
 #else
     // typedef std::list<Vertex*> VertexPtrContainer;
 #endif
@@ -151,9 +151,9 @@ public:
     void SchedulePeriodicPublishing(const TimeOffset aPeriodInMilliseconds)
     {
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        SchedulePeriodicPublishingDispatcher(mPeriodicDispatchersAllocator.New(TopicStateDispatcher<T>()), aPeriodInMilliseconds);
+        SchedulePeriodicPublishingDispatcher(mPeriodicDispatchersAllocator.New(Dispatcher<T>()), aPeriodInMilliseconds);
 #else
-        SchedulePeriodicPublishingDispatcher(new TopicStateDispatcher<T>(), aPeriodInMilliseconds);
+        SchedulePeriodicPublishingDispatcher(new Dispatcher<T>(), aPeriodInMilliseconds);
 #endif
     }
 
@@ -174,9 +174,9 @@ public:
     void ScheduleTimeout(const T& aData, const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerHandle)
     {
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        ScheduleTimeoutDispatcher(mScheduledDispatchersAllocator.New(TopicStateDispatcher<T>(aData)), aMillisecondsFromNow, aTimerHandle);
+        ScheduleTimeoutDispatcher(mTimeoutDispatchersAllocator.New(Dispatcher<T>(aData)), aMillisecondsFromNow, aTimerHandle);
 #else
-        ScheduleTimeoutDispatcher(new TopicStateDispatcher<T>(aData), aMillisecondsFromNow, aTimerHandle);
+        ScheduleTimeoutDispatcher(new Dispatcher<T>(aData), aMillisecondsFromNow, aTimerHandle);
 #endif
     }
 
@@ -276,12 +276,12 @@ private:
     /**
      * @brief Internal type-agnostic method to schedule timeouts
      */
-    void ScheduleTimeoutDispatcher(TopicStateDispatcherInterface* aDispatcher, const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerHandle);
+    void ScheduleTimeoutDispatcher(DispatcherInterface* aDispatcher, const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerHandle);
 
     /**
      * @brief Internal type-agnostic method to schedule periodic timers
      */
-    void SchedulePeriodicPublishingDispatcher(TopicStateDispatcherInterface* aDispatcher, const TimeOffset aPeriodInMilliseconds);
+    void SchedulePeriodicPublishingDispatcher(DispatcherInterface* aDispatcher, const TimeOffset aPeriodInMilliseconds);
 
     /**
      * @brief Euclidean algorithm to compute great common divisor(GCD)
@@ -302,21 +302,21 @@ private:
     /**
      * @brief Map of pending TopicStates per Handle
      */
-    ScheduledDispatchersContainer mScheduledTopicStatesMap;
-
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    ScheduledDispatchersAllocator mScheduledDispatchersAllocator;
-    PeriodicDispatchersAllocator mPeriodicDispatchersAllocator;
-#endif
+    TimeoutDispatchersContainer mTimeoutDispatchers;
 
     /**
      * @brief List of scheduled periodic TopicStates dispatcher
      */
-    PeriodicDispatchersContainer mPeriodicTopicStatesList;
+    PeriodicPublishingSeriesContainer mPeriodicSeries;
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    TimeoutDispatchersAllocator mTimeoutDispatchersAllocator;
+    PeriodicDispatchersAllocator mPeriodicDispatchersAllocator;
+#endif
 
     // Convenience typedefs
-    typedef ScheduledDispatchersContainer::iterator MapIterator;
-    typedef PeriodicDispatchersContainer::iterator DispatcherIterator;
+    typedef TimeoutDispatchersContainer::iterator TimeoutDispatchersIterator;
+    typedef PeriodicPublishingSeriesContainer::iterator PeriodicSeriesIterator;
 };
 
 } // namespace DetectorGraph

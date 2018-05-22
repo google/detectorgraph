@@ -25,77 +25,77 @@ TimeoutPublisherService::~TimeoutPublisherService()
 {
 // The Lite version's allocator automatically deletes all objects using RAII
 #if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    for (MapIterator tZombieDataIt = mScheduledTopicStatesMap.begin();
-        tZombieDataIt != mScheduledTopicStatesMap.end();
+    for (TimeoutDispatchersIterator tZombieDataIt = mTimeoutDispatchers.begin();
+        tZombieDataIt != mTimeoutDispatchers.end();
         ++tZombieDataIt)
     {
         delete tZombieDataIt->second;
     }
 
-    for (DispatcherIterator tZombieDataIt = mPeriodicTopicStatesList.begin();
-        tZombieDataIt != mPeriodicTopicStatesList.end();
+    for (PeriodicSeriesIterator tZombieDataIt = mPeriodicSeries.begin();
+        tZombieDataIt != mPeriodicSeries.end();
         ++tZombieDataIt)
     {
-        delete tZombieDataIt->mpTopicStateDispatcher;
+        delete tZombieDataIt->mpDispatcher;
     }
 #endif
 }
 
 void TimeoutPublisherService::ScheduleTimeoutDispatcher(
-    TopicStateDispatcherInterface* aDispatcher,
+    DispatcherInterface* aDispatcher,
     const TimeOffset aMillisecondsFromNow,
     const TimeoutPublisherHandle aTimerHandle)
 {
     CancelPublishOnTimeout(aTimerHandle);
-    mScheduledTopicStatesMap[aTimerHandle] = aDispatcher;
+    mTimeoutDispatchers[aTimerHandle] = aDispatcher;
     SetTimeout(aMillisecondsFromNow, aTimerHandle);
     Start(aTimerHandle);
 }
 
 void TimeoutPublisherService::SchedulePeriodicPublishingDispatcher(
-    TopicStateDispatcherInterface* aDispatcher,
+    DispatcherInterface* aDispatcher,
     const TimeOffset aPeriodInMilliseconds)
 {
     mMetronomePeriodMsec = gcd(aPeriodInMilliseconds, mMetronomePeriodMsec);
-    mPeriodicTopicStatesList.push_back(
-        PeriodicTopicStateDispatcher(aPeriodInMilliseconds, aDispatcher));
+    mPeriodicSeries.push_back(
+        PeriodicPublishingSeries(aPeriodInMilliseconds, aDispatcher));
 }
 
 void TimeoutPublisherService::CancelPublishOnTimeout(const TimeoutPublisherHandle aId)
 {
-    if (mScheduledTopicStatesMap.count(aId))
+    if (mTimeoutDispatchers.count(aId))
     {
         Cancel(aId);
-        MapIterator it = mScheduledTopicStatesMap.find(aId);
-        TopicStateDispatcherInterface* tDispatcher = (*it).second;
+        TimeoutDispatchersIterator it = mTimeoutDispatchers.find(aId);
+        DispatcherInterface* tDispatcher = (*it).second;
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        mScheduledDispatchersAllocator.Delete(tDispatcher);
+        mTimeoutDispatchersAllocator.Delete(tDispatcher);
 #else
         delete tDispatcher;
 #endif
-        mScheduledTopicStatesMap.erase(it);
+        mTimeoutDispatchers.erase(it);
     }
 }
 
 void TimeoutPublisherService::TimeoutExpired(const TimeoutPublisherHandle aId)
 {
-    if (mScheduledTopicStatesMap.count(aId))
+    if (mTimeoutDispatchers.count(aId))
     {
-        MapIterator it = mScheduledTopicStatesMap.find(aId);
-        TopicStateDispatcherInterface* tDispatcher = (*it).second;
+        TimeoutDispatchersIterator it = mTimeoutDispatchers.find(aId);
+        DispatcherInterface* tDispatcher = (*it).second;
         tDispatcher->Dispatch(mrGraph);
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        mScheduledDispatchersAllocator.Delete(tDispatcher);
+        mTimeoutDispatchersAllocator.Delete(tDispatcher);
 #else
         delete tDispatcher;
 #endif
-        mScheduledTopicStatesMap.erase(it);
+        mTimeoutDispatchers.erase(it);
     }
 }
 
 bool TimeoutPublisherService::HasTimeoutExpired(const TimeoutPublisherHandle aId) const
 {
-    return (mScheduledTopicStatesMap.count(aId) == 0);
+    return (mTimeoutDispatchers.count(aId) == 0);
 }
 
 void TimeoutPublisherService::StartPeriodicPublishing()
@@ -108,14 +108,14 @@ void TimeoutPublisherService::StartPeriodicPublishing()
 
 void TimeoutPublisherService::MetronomeFired()
 {
-    for (DispatcherIterator it = mPeriodicTopicStatesList.begin();
-        it != mPeriodicTopicStatesList.end();
+    for (PeriodicSeriesIterator it = mPeriodicSeries.begin();
+        it != mPeriodicSeries.end();
         ++it)
     {
         it->mMetronomeCounter++;
         if (it->mMetronomeCounter >= (it->mPublishingPeriodMsec / mMetronomePeriodMsec))
         {
-            it->mpTopicStateDispatcher->Dispatch(mrGraph);
+            it->mpDispatcher->Dispatch(mrGraph);
             it->mMetronomeCounter = 0;
         }
     }
