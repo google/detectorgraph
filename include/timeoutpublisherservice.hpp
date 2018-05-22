@@ -18,6 +18,17 @@
 #include "graph.hpp"
 #include "topicstate.hpp"
 
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+#include "detectorgraphliteconfig.hpp"
+#include "statictypedallocator-lite.hpp"
+// LITE_END
+#else
+// FULL_BEGIN
+// TODO
+// FULL_END
+#endif
+
 #include <map>
 #include <list>
 
@@ -81,8 +92,18 @@ class TimeoutPublisherService
         , mpTopicStateDispatcher(aTopicStateDispatcherInterface) {}
     };
 
-    typedef std::map<TimeoutPublisherHandle, TopicStateDispatcherInterface*> TimeoutDispatchersContainer;
+    typedef std::map<TimeoutPublisherHandle, TopicStateDispatcherInterface*> ScheduledDispatchersContainer;
     typedef std::list<PeriodicTopicStateDispatcher> PeriodicDispatchersContainer;
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // typedef SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfVertices> VertexPtrContainer;
+    struct ScheduledCtxt {};
+    typedef StaticTypedAllocator<TopicStateDispatcherInterface, ScheduledCtxt> ScheduledDispatchersAllocator;
+    struct PeriodicCtxt {};
+    typedef StaticTypedAllocator<TopicStateDispatcherInterface, PeriodicCtxt> PeriodicDispatchersAllocator;
+#else
+    // typedef std::list<Vertex*> VertexPtrContainer;
+#endif
 
 public:
     /**
@@ -129,7 +150,11 @@ public:
     template<class T>
     void SchedulePeriodicPublishing(const TimeOffset aPeriodInMilliseconds)
     {
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        SchedulePeriodicPublishingDispatcher(mPeriodicDispatchersAllocator.New(TopicStateDispatcher<T>()), aPeriodInMilliseconds);
+#else
         SchedulePeriodicPublishingDispatcher(new TopicStateDispatcher<T>(), aPeriodInMilliseconds);
+#endif
     }
 
     /**
@@ -148,7 +173,11 @@ public:
     template<class T>
     void ScheduleTimeout(const T& aData, const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerHandle)
     {
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        ScheduleTimeoutDispatcher(mScheduledDispatchersAllocator.New(TopicStateDispatcher<T>(aData)), aMillisecondsFromNow, aTimerHandle);
+#else
         ScheduleTimeoutDispatcher(new TopicStateDispatcher<T>(aData), aMillisecondsFromNow, aTimerHandle);
+#endif
     }
 
     /**
@@ -273,15 +302,20 @@ private:
     /**
      * @brief Map of pending TopicStates per Handle
      */
-    TimeoutDispatchersContainer mScheduledTopicStatesMap;
+    ScheduledDispatchersContainer mScheduledTopicStatesMap;
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    ScheduledDispatchersAllocator mScheduledDispatchersAllocator;
+    PeriodicDispatchersAllocator mPeriodicDispatchersAllocator;
+#endif
 
     /**
      * @brief List of scheduled periodic TopicStates dispatcher
      */
-    PeriodicDispatchersContainer mScheduledPeriodicTopicStatesList;
+    PeriodicDispatchersContainer mPeriodicTopicStatesList;
 
     // Convenience typedefs
-    typedef TimeoutDispatchersContainer::iterator MapIterator;
+    typedef ScheduledDispatchersContainer::iterator MapIterator;
     typedef PeriodicDispatchersContainer::iterator DispatcherIterator;
 };
 

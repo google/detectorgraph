@@ -23,6 +23,8 @@ TimeoutPublisherService::TimeoutPublisherService(Graph& arGraph) : mrGraph(arGra
 
 TimeoutPublisherService::~TimeoutPublisherService()
 {
+// The Lite version's allocator automatically deletes all objects using RAII
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     for (MapIterator tZombieDataIt = mScheduledTopicStatesMap.begin();
         tZombieDataIt != mScheduledTopicStatesMap.end();
         ++tZombieDataIt)
@@ -30,13 +32,13 @@ TimeoutPublisherService::~TimeoutPublisherService()
         delete tZombieDataIt->second;
     }
 
-    for (DispatcherIterator tZombieDataIt = mScheduledPeriodicTopicStatesList.begin();
-        tZombieDataIt != mScheduledPeriodicTopicStatesList.end();
+    for (DispatcherIterator tZombieDataIt = mPeriodicTopicStatesList.begin();
+        tZombieDataIt != mPeriodicTopicStatesList.end();
         ++tZombieDataIt)
     {
         delete tZombieDataIt->mpTopicStateDispatcher;
     }
-
+#endif
 }
 
 void TimeoutPublisherService::ScheduleTimeoutDispatcher(
@@ -55,7 +57,7 @@ void TimeoutPublisherService::SchedulePeriodicPublishingDispatcher(
     const TimeOffset aPeriodInMilliseconds)
 {
     mMetronomePeriodMsec = gcd(aPeriodInMilliseconds, mMetronomePeriodMsec);
-    mScheduledPeriodicTopicStatesList.push_back(
+    mPeriodicTopicStatesList.push_back(
         PeriodicTopicStateDispatcher(aPeriodInMilliseconds, aDispatcher));
 }
 
@@ -66,7 +68,11 @@ void TimeoutPublisherService::CancelPublishOnTimeout(const TimeoutPublisherHandl
         Cancel(aId);
         MapIterator it = mScheduledTopicStatesMap.find(aId);
         TopicStateDispatcherInterface* tDispatcher = (*it).second;
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        mScheduledDispatchersAllocator.Delete(tDispatcher);
+#else
         delete tDispatcher;
+#endif
         mScheduledTopicStatesMap.erase(it);
     }
 }
@@ -78,7 +84,11 @@ void TimeoutPublisherService::TimeoutExpired(const TimeoutPublisherHandle aId)
         MapIterator it = mScheduledTopicStatesMap.find(aId);
         TopicStateDispatcherInterface* tDispatcher = (*it).second;
         tDispatcher->Dispatch(mrGraph);
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        mScheduledDispatchersAllocator.Delete(tDispatcher);
+#else
         delete tDispatcher;
+#endif
         mScheduledTopicStatesMap.erase(it);
     }
 }
@@ -98,8 +108,8 @@ void TimeoutPublisherService::StartPeriodicPublishing()
 
 void TimeoutPublisherService::MetronomeFired()
 {
-    for (DispatcherIterator it = mScheduledPeriodicTopicStatesList.begin();
-        it != mScheduledPeriodicTopicStatesList.end();
+    for (DispatcherIterator it = mPeriodicTopicStatesList.begin();
+        it != mPeriodicTopicStatesList.end();
         ++it)
     {
         it->mMetronomeCounter++;
