@@ -39,12 +39,6 @@ namespace {
             {
             }
 
-            TimeoutPublisherHandle GetUniqueTimerHandle()
-            {
-                static TimeoutPublisherHandle handle = TimeoutPublisherHandle();
-                return handle++;
-            }
-
             TimeOffset GetTime() const { return TimeOffset(); }
 
             TimeOffset GetMonotonicTime() const { return TimeOffset(); }

@@ -36,6 +36,8 @@ enum DetectorGraphConfigEnum
     kMaxNumberOfOutEdges = 20,
     kMaxNumberOfInEdges = 20,
     kMaxNumberOfTopicStates = 2,
+    kMaxNumberOfTimeouts = 10,
+    kMaxNumberOfPeriodicTimers = 4,
 };
 
 }

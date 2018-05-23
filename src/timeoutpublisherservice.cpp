@@ -17,7 +17,7 @@
 namespace DetectorGraph
 {
 
-TimeoutPublisherService::TimeoutPublisherService(Graph& arGraph) : mrGraph(arGraph), mMetronomePeriodMsec(0), mLastHandleId(0)
+TimeoutPublisherService::TimeoutPublisherService(Graph& arGraph) : mrGraph(arGraph), mMetronomePeriodMsec(0)
 {
 }
 
@@ -25,14 +25,14 @@ TimeoutPublisherService::~TimeoutPublisherService()
 {
 // The Lite version's allocator automatically deletes all objects using RAII
 #if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    for (TimeoutDispatchersIterator tZombieDataIt = mTimeoutDispatchers.begin();
+    for (TimeoutDispatchersContainer::iterator tZombieDataIt = mTimeoutDispatchers.begin();
         tZombieDataIt != mTimeoutDispatchers.end();
         ++tZombieDataIt)
     {
-        delete tZombieDataIt->second;
+        delete *tZombieDataIt;
     }
 
-    for (PeriodicSeriesIterator tZombieDataIt = mPeriodicSeries.begin();
+    for (PeriodicPublishingSeriesContainer::iterator tZombieDataIt = mPeriodicSeries.begin();
         tZombieDataIt != mPeriodicSeries.end();
         ++tZombieDataIt)
     {
@@ -43,23 +43,23 @@ TimeoutPublisherService::~TimeoutPublisherService()
 
 TimeoutPublisherHandle TimeoutPublisherService::GetUniqueTimerHandle()
 {
-    // Type sanity check;
-    DG_ASSERT(mLastHandleId != kInvalidTimeoutPublisherHandle);
-    return mLastHandleId++;
-    // TimeoutPublisherHandle newHandle = (TimeoutPublisherHandle)mTimeoutDispatchers.size();
-    // mTimeoutDispatchers.push_back(NULL);
-    // return newHandle;
+    TimeoutPublisherHandle newHandle = (TimeoutPublisherHandle)mTimeoutDispatchers.size();
+    mTimeoutDispatchers.push_back(NULL);
+    return newHandle;
 }
 
 void TimeoutPublisherService::ScheduleTimeoutDispatcher(
     DispatcherInterface* aDispatcher,
     const TimeOffset aMillisecondsFromNow,
-    const TimeoutPublisherHandle aTimerHandle)
+    const TimeoutPublisherHandle aHandle)
 {
-    CancelPublishOnTimeout(aTimerHandle);
-    mTimeoutDispatchers[aTimerHandle] = aDispatcher;
-    SetTimeout(aMillisecondsFromNow, aTimerHandle);
-    Start(aTimerHandle);
+    // Assert valid Handle
+    DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
+    CancelPublishOnTimeout(aHandle);
+    unsigned dispatcherIdx = (unsigned)aHandle;
+    mTimeoutDispatchers[dispatcherIdx] = aDispatcher;
+    SetTimeout(aMillisecondsFromNow, aHandle);
+    Start(aHandle);
 }
 
 void TimeoutPublisherService::SchedulePeriodicPublishingDispatcher(
@@ -71,41 +71,50 @@ void TimeoutPublisherService::SchedulePeriodicPublishingDispatcher(
         PeriodicPublishingSeries(aPeriodInMilliseconds, aDispatcher));
 }
 
-void TimeoutPublisherService::CancelPublishOnTimeout(const TimeoutPublisherHandle aId)
+void TimeoutPublisherService::CancelPublishOnTimeout(const TimeoutPublisherHandle aHandle)
 {
-    if (mTimeoutDispatchers.count(aId))
+    // Assert valid Handle
+    DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
+    unsigned dispatcherIdx = (unsigned)aHandle;
+    DispatcherInterface* tDispatcher = mTimeoutDispatchers[dispatcherIdx];
+
+    if (tDispatcher)
     {
-        Cancel(aId);
-        TimeoutDispatchersIterator it = mTimeoutDispatchers.find(aId);
-        DispatcherInterface* tDispatcher = (*it).second;
+        Cancel(aHandle);
+
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
         mTimeoutDispatchersAllocator.Delete(tDispatcher);
 #else
         delete tDispatcher;
 #endif
-        mTimeoutDispatchers.erase(it);
+        mTimeoutDispatchers[dispatcherIdx] = NULL;
     }
 }
 
-void TimeoutPublisherService::TimeoutExpired(const TimeoutPublisherHandle aId)
+void TimeoutPublisherService::TimeoutExpired(const TimeoutPublisherHandle aHandle)
 {
-    if (mTimeoutDispatchers.count(aId))
+    // Assert valid Handle
+    DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
+    unsigned dispatcherIdx = (unsigned)aHandle;
+    DispatcherInterface* tDispatcher = mTimeoutDispatchers[dispatcherIdx];
+    if (tDispatcher)
     {
-        TimeoutDispatchersIterator it = mTimeoutDispatchers.find(aId);
-        DispatcherInterface* tDispatcher = (*it).second;
         tDispatcher->Dispatch(mrGraph);
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
         mTimeoutDispatchersAllocator.Delete(tDispatcher);
 #else
         delete tDispatcher;
 #endif
-        mTimeoutDispatchers.erase(it);
+        mTimeoutDispatchers[dispatcherIdx] = NULL;
     }
 }
 
-bool TimeoutPublisherService::HasTimeoutExpired(const TimeoutPublisherHandle aId) const
+bool TimeoutPublisherService::HasTimeoutExpired(const TimeoutPublisherHandle aHandle) const
 {
-    return (mTimeoutDispatchers.count(aId) == 0);
+    // Assert valid Handle
+    DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
+    unsigned dispatcherIdx = (unsigned)aHandle;
+    return (mTimeoutDispatchers[dispatcherIdx] == NULL);
 }
 
 void TimeoutPublisherService::StartPeriodicPublishing()
@@ -118,7 +127,7 @@ void TimeoutPublisherService::StartPeriodicPublishing()
 
 void TimeoutPublisherService::MetronomeFired()
 {
-    for (PeriodicSeriesIterator it = mPeriodicSeries.begin();
+    for (PeriodicPublishingSeriesContainer::iterator it = mPeriodicSeries.begin();
         it != mPeriodicSeries.end();
         ++it)
     {

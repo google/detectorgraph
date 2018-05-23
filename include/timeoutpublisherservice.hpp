@@ -25,12 +25,10 @@
 // LITE_END
 #else
 // FULL_BEGIN
-// TODO
+#include <vector>
 // FULL_END
 #endif
 
-#include <map>
-#include <list>
 
 namespace DetectorGraph
 {
@@ -94,17 +92,19 @@ class TimeoutPublisherService
         , mpDispatcher(aDispatcher) {}
     };
 
-    typedef std::map<TimeoutPublisherHandle, DispatcherInterface*> TimeoutDispatchersContainer;
-    typedef std::list<PeriodicPublishingSeries> PeriodicPublishingSeriesContainer;
 
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    // typedef SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfVertices> VertexPtrContainer;
+    typedef SequenceContainer<DispatcherInterface*,
+        DetectorGraphConfig::kMaxNumberOfTimeouts> TimeoutDispatchersContainer;
+    typedef SequenceContainer<PeriodicPublishingSeries,
+        DetectorGraphConfig::kMaxNumberOfPeriodicTimers> PeriodicPublishingSeriesContainer;
     struct TimeoutCtxt {};
     typedef StaticTypedAllocator<DispatcherInterface, TimeoutCtxt> TimeoutDispatchersAllocator;
     struct PeriodicCtxt {};
     typedef StaticTypedAllocator<DispatcherInterface, PeriodicCtxt> PeriodicDispatchersAllocator;
 #else
-    // typedef std::list<Vertex*> VertexPtrContainer;
+    typedef std::vector<DispatcherInterface*> TimeoutDispatchersContainer;
+    typedef std::vector<PeriodicPublishingSeries> PeriodicPublishingSeriesContainer;
 #endif
 
 public:
@@ -306,9 +306,6 @@ private:
      */
     TimeoutDispatchersContainer mTimeoutDispatchers;
 
-    // TODO(cscotti): delete me
-    TimeoutPublisherHandle mLastHandleId;
-
     /**
      * @brief List of scheduled periodic TopicStates dispatcher
      */
@@ -318,10 +315,6 @@ private:
     TimeoutDispatchersAllocator mTimeoutDispatchersAllocator;
     PeriodicDispatchersAllocator mPeriodicDispatchersAllocator;
 #endif
-
-    // Convenience typedefs
-    typedef TimeoutDispatchersContainer::iterator TimeoutDispatchersIterator;
-    typedef PeriodicPublishingSeriesContainer::iterator PeriodicSeriesIterator;
 };
 
 } // namespace DetectorGraph
