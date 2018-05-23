@@ -16,6 +16,7 @@
 
 #include <new>
 #include <stdint.h>
+#include <utility>
 
 namespace DetectorGraph
 {
@@ -42,8 +43,8 @@ template<class T> struct SomeChild : public SomeBase { };
 
 StaticTypedAllocator<SomeBase, 0> allocator;
 
-SomeBase* objT1 = allocator.New(SomeChild<T1>());
-SomeBase* objT2 = allocator.New(SomeChild<T2>());
+SomeBase* objT1 = allocator.New<SomeChild<T1>>();
+SomeBase* objT2 = allocator.New<SomeChild<T2>>();
 allocator.Delete(objT1);
 allocator.Delete(objT2);
 
@@ -55,11 +56,11 @@ allocator.Delete(objT2);
 // Given
 
 StaticTypedAllocator<SomeBase, 0> allocatorA;
-SomeBase* objA = allocator.New(SomeChild<T1>());
-// SomeBase* objB = allocator.New(SomeChild<T1>()); // Will throw a 'busy' assert.
+SomeBase* objA = allocator.New<SomeChild<T1>>();
+// SomeBase* objB = allocator.New<SomeChild<T1>>(); // Will throw a 'busy' assert.
 
 StaticTypedAllocator<SomeBase, 1> allocatorB;
-SomeBase* objB = allocatorB.New(SomeChild<T1>()); // ok
+SomeBase* objB = allocatorB.New<SomeChild<T1>>(); // ok
 
  * @endcode
  *
@@ -93,6 +94,33 @@ public:
     {
     }
 
+    /* Below there are two versions of the New() method.
+     * The top one uses C++11 variadic template args and rvalue perfect
+     * forwarding. This is both more convenient and more efficient as it
+     * constructs the type only once vs constructing & copy constructing. */
+
+    /**
+     * @brief Constructs & Allocates new object of type TChild with arguments.
+     */
+    template <class TChild, typename... TChildArgs>
+    TBase* New(TChildArgs&&... constructor_args)
+    {
+        NodeHeader* node = GetNodeHeader<TChild>();
+
+        DG_ASSERT(!node->busy);
+        // NOTE: Cannot store more than one object at the same time.
+
+        TBase* newObjPtr =
+            new(node->storage) TChild(std::forward<TChildArgs>(constructor_args)...);
+
+        node->busy = true;
+        LinkNode(node);
+        return newObjPtr;
+    }
+
+    /**
+     * @brief Copy-Constructs & Allocates new object of type TChild.
+     */
     template<class TChild>
     TBase* New(const TChild& aOriginal)
     {

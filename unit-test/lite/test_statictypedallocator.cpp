@@ -61,7 +61,7 @@ static void Test_StoreOneType(nlTestSuite *inSuite, void *inContext)
     {
         StaticTypedAllocator<SomeBase> allocator;
 
-        SomeBase* basePtr = allocator.New(SomeChild<TopicStateA>(TopicStateA(42)));
+        SomeBase* basePtr = allocator.New<SomeChild<TopicStateA>>(TopicStateA(42));
         allocator.Delete(basePtr);
 
         SomeChild<TopicStateA>* childPtr = static_cast< SomeChild<TopicStateA>* >(basePtr);
@@ -75,8 +75,8 @@ static void Test_StoreMultiple(nlTestSuite *inSuite, void *inContext)
     {
         StaticTypedAllocator<SomeBase> allocator;
 
-        SomeBase* basePtrA = allocator.New(SomeChild<TopicStateA>(73));
-        SomeBase* basePtrB = allocator.New(SomeChild<TopicStateB>(83));
+        SomeBase* basePtrA = allocator.New<SomeChild<TopicStateA>>(73);
+        SomeBase* basePtrB = allocator.New<SomeChild<TopicStateB>>(83);
 
         NL_TEST_ASSERT(inSuite, basePtrA != basePtrB);
 
@@ -97,9 +97,9 @@ static void Test_Reuse(nlTestSuite *inSuite, void *inContext)
 
         SomeBase* basePtr;
 
-        basePtr = allocator.New(SomeChild<TopicStateA>(TopicStateA(666)));
+        basePtr = allocator.New<SomeChild<TopicStateA>>(TopicStateA(666));
         allocator.Delete(basePtr);
-        basePtr = allocator.New(SomeChild<TopicStateA>(TopicStateA(999)));
+        basePtr = allocator.New<SomeChild<TopicStateA>>(TopicStateA(999));
 
         SomeChild<TopicStateA>* childPtr = static_cast< SomeChild<TopicStateA>* >(basePtr);
         NL_TEST_ASSERT(inSuite, childPtr->data.a == 999);
@@ -112,12 +112,12 @@ static void Test_DeleteMiddle(nlTestSuite *inSuite, void *inContext)
     {
         StaticTypedAllocator<SomeBase> allocator;
 
-        allocator.New(SomeChild<TopicStateA>(0));
-        SomeBase* basePtrB = allocator.New(SomeChild<TopicStateB>(1000));
-        allocator.New(SomeChild<TopicStateC>(0));
+        allocator.New<SomeChild<TopicStateA>>(0);
+        SomeBase* basePtrB = allocator.New<SomeChild<TopicStateB>>(1000);
+        allocator.New<SomeChild<TopicStateC>>(0);
 
         allocator.Delete(basePtrB);
-        basePtrB = allocator.New(SomeChild<TopicStateB>(1001));
+        basePtrB = allocator.New<SomeChild<TopicStateB>>(1001);
         SomeChild<TopicStateB>* childPtr = static_cast< SomeChild<TopicStateB>* >(basePtrB);
 
         NL_TEST_ASSERT(inSuite, childPtr->data.b == 1001);
@@ -132,12 +132,12 @@ static void Test_DeleteLast(nlTestSuite *inSuite, void *inContext)
     {
         StaticTypedAllocator<SomeBase> allocator;
 
-        allocator.New(SomeChild<TopicStateA>(0));
-        allocator.New(SomeChild<TopicStateB>(0));
-        SomeBase* basePtrC = allocator.New(SomeChild<TopicStateC>(1000));
+        allocator.New<SomeChild<TopicStateA>>(0);
+        allocator.New<SomeChild<TopicStateB>>(0);
+        SomeBase* basePtrC = allocator.New<SomeChild<TopicStateC>>(1000);
 
         allocator.Delete(basePtrC);
-        basePtrC = allocator.New(SomeChild<TopicStateC>(1001));
+        basePtrC = allocator.New<SomeChild<TopicStateC>>(1001);
         SomeChild<TopicStateC>* childPtr = static_cast< SomeChild<TopicStateC>* >(basePtrC);
 
         NL_TEST_ASSERT(inSuite, childPtr->data.c == 1001);
@@ -155,9 +155,9 @@ static void Test_MultipleInstances(nlTestSuite *inSuite, void *inContext)
         struct Two {};
         StaticTypedAllocator<SomeBase, Two > allocatorTwo;
 
-        SomeBase* basePtrOne = allocatorOne.New(SomeChild<TopicStateA>(1));
+        SomeBase* basePtrOne = allocatorOne.New<SomeChild<TopicStateA>>(1);
 
-        SomeBase* basePtrTwo = allocatorTwo.New(SomeChild<TopicStateA>(2));
+        SomeBase* basePtrTwo = allocatorTwo.New<SomeChild<TopicStateA>>(2);
 
         SomeChild<TopicStateA>* childPtrOne = static_cast< SomeChild<TopicStateA>* >(basePtrOne);
         SomeChild<TopicStateA>* childPtrTwo = static_cast< SomeChild<TopicStateA>* >(basePtrTwo);
@@ -173,8 +173,8 @@ static void Test_Clear(nlTestSuite *inSuite, void *inContext)
 {
     StaticTypedAllocator<SomeBase> allocator;
 
-    allocator.New(SomeChild<TopicStateA>(0));
-    allocator.New(SomeChild<TopicStateB>(0));
+    allocator.New<SomeChild<TopicStateA>>(0);
+    allocator.New<SomeChild<TopicStateB>>(0);
 
     allocator.clear();
     NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);
@@ -188,6 +188,72 @@ static void Test_Clear(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, SomeChild<TopicStateB>::instanceCount == 0);
 }
 
+// Types with different requirements tested on Test_PerfectNew
+
+// Non-Copy-constructible, Non-default-constructible
+template<class T> struct SpoiledChild : public SomeBase
+{
+    static int instanceCount;
+    SpoiledChild(const T& d) : data(d) { instanceCount++; }
+    ~SpoiledChild() { instanceCount--; }
+    T data;
+private:
+    SpoiledChild(const SpoiledChild&) {}
+};
+
+template<>
+int SpoiledChild<TopicStateA>::instanceCount = 0;
+
+// Non-Copy-constructible, Default-constructible
+template<class T> struct ChillChild : public SomeBase
+{
+    static int instanceCount;
+    ChillChild() : data(42) { instanceCount++; }
+    ~ChillChild() { instanceCount--; }
+    T data;
+private:
+    ChillChild(const ChillChild& other) { }
+};
+
+template<>
+int ChillChild<TopicStateA>::instanceCount = 0;
+
+static void Test_PerfectNew(nlTestSuite *inSuite, void *inContext)
+{
+    {
+        StaticTypedAllocator<SomeBase> allocator;
+
+        SomeBase* basePtr = allocator.New<SomeChild<TopicStateA>>((TopicStateA(42)));
+        allocator.Delete(basePtr);
+
+        SomeChild<TopicStateA>* childPtr = static_cast< SomeChild<TopicStateA>* >(basePtr);
+        NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
+    }
+    NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);
+
+    {
+        StaticTypedAllocator<SomeBase> allocator;
+
+        SomeBase* basePtr = allocator.New<SpoiledChild<TopicStateA>>(TopicStateA(42));
+        allocator.Delete(basePtr);
+
+        SpoiledChild<TopicStateA>* childPtr = static_cast< SpoiledChild<TopicStateA>* >(basePtr);
+        NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
+    }
+    NL_TEST_ASSERT(inSuite, SpoiledChild<TopicStateA>::instanceCount == 0);
+
+    {
+        StaticTypedAllocator<SomeBase> allocator;
+
+        SomeBase* basePtr = allocator.New<ChillChild<TopicStateA>>();
+        allocator.Delete(basePtr);
+
+        ChillChild<TopicStateA>* childPtr = static_cast< ChillChild<TopicStateA>* >(basePtr);
+        NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
+    }
+    NL_TEST_ASSERT(inSuite, ChillChild<TopicStateA>::instanceCount == 0);
+}
+
 static const nlTest sTests[] = {
     NL_TEST_DEF("Test_StoreOneType", Test_StoreOneType),
     NL_TEST_DEF("Test_StoreMultiple", Test_StoreMultiple),
@@ -196,6 +262,7 @@ static const nlTest sTests[] = {
     NL_TEST_DEF("Test_DeleteLast", Test_DeleteLast),
     NL_TEST_DEF("Test_MultipleInstances", Test_MultipleInstances),
     NL_TEST_DEF("Test_Clear", Test_Clear),
+    NL_TEST_DEF("Test_PerfectNew", Test_PerfectNew),
     NL_TEST_SENTINEL()
 };
 

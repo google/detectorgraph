@@ -153,7 +153,7 @@ public:
     void SchedulePeriodicPublishing(const TimeOffset aPeriodInMilliseconds)
     {
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        SchedulePeriodicPublishingDispatcher(mPeriodicDispatchersAllocator.New(Dispatcher<T>()), aPeriodInMilliseconds);
+        SchedulePeriodicPublishingDispatcher(mPeriodicDispatchersAllocator.New<Dispatcher<T>>(), aPeriodInMilliseconds);
 #else
         SchedulePeriodicPublishingDispatcher(new Dispatcher<T>(), aPeriodInMilliseconds);
 #endif
@@ -176,7 +176,7 @@ public:
     void ScheduleTimeout(const T& aData, const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerHandle)
     {
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        ScheduleTimeoutDispatcher(mTimeoutDispatchersAllocator.New(Dispatcher<T>(aData)), aMillisecondsFromNow, aTimerHandle);
+        ScheduleTimeoutDispatcher(mTimeoutDispatchersAllocator.New<Dispatcher<T>>(aData), aMillisecondsFromNow, aTimerHandle);
 #else
         ScheduleTimeoutDispatcher(new Dispatcher<T>(aData), aMillisecondsFromNow, aTimerHandle);
 #endif
