@@ -81,11 +81,11 @@ class TimeoutPublisherService
      */
     struct PeriodicPublishingSeries
     {
-        const TimeOffset mPublishingPeriodMsec;
+        TimeOffset mPublishingPeriodMsec;
         TimeOffset mMetronomeCounter;
         DispatcherInterface* mpDispatcher;
 
-        PeriodicPublishingSeries(const TimeOffset aPublishingPeriodMsec,
+        PeriodicPublishingSeries(TimeOffset aPublishingPeriodMsec,
             DispatcherInterface* aDispatcher)
         : mPublishingPeriodMsec(aPublishingPeriodMsec)
         , mMetronomeCounter(0)
