@@ -31,6 +31,7 @@
 // LITE_BEGIN
 #include "detectorgraphliteconfig.hpp"
 #include "sequencecontainer-lite.hpp"
+#include "statictypedallocator-lite.hpp"
 // LITE_END
 #else
 // FULL_BEGIN
@@ -160,22 +161,18 @@ public:
     {
         Topic<TTopicState>* tObj = mTopicRegistry.Resolve<TTopicState>();
 
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        // LITE_BEGIN
-        // Trying to resolve unregistered topic.
-        DG_ASSERT(tObj != NULL);
-        // LITE_BEGIN
-#else
-        // FULL_BEGIN
         // Creates Topics on demand.
         if (tObj == NULL)
         {
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+            tObj = topicAllocator.NewSpec<Topic<TTopicState>>();
+#else
             tObj = new Topic<TTopicState>();
+#endif
             mTopicRegistry.Register<TTopicState>(tObj);
             AddVertex(tObj);
         }
         // FULL_END
-#endif
 
         return tObj;
     } // LCOV_EXCL_LINE
@@ -251,6 +248,11 @@ public:
      */
     bool IsGraphSorted();
     // LITE_END
+
+private:
+    struct GraphTopicAllocatorCtxt {};
+    StaticTypedAllocator<BaseTopic, GraphTopicAllocatorCtxt> topicAllocator;
+
 #else
     // FULL_BEGIN
 
@@ -285,22 +287,6 @@ private:
     // FULL_END
 #endif
 };
-
-
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-// LITE_BEGIN
-// TODO(DGRAPH-22): This is only needed on Lite and I'm not too sure about it yet.
-template<class T>
-Topic<T>::Topic(Graph* aGraph)
-{
-// Pre-C++11 type checking.
-#if __cplusplus < 201103L
-        (void)static_cast<TopicState*>((T*)0);
-#endif
-    aGraph->GetTopicRegistry().Register<T>(this);
-}
-// LITE_END
-#endif
 
 }
 

@@ -104,10 +104,6 @@ public:
 #endif
     }
 
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    Topic(Graph* registry);
-#endif
-
     /**
      * @brief Append data to its vector
      */

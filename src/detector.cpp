@@ -19,9 +19,7 @@ namespace DetectorGraph
 
 Detector::Detector(Graph* graph) : mGraph(graph)
 {
-#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     mGraph->AddVertex(this);
-#endif
 }
 
 Detector::~Detector()

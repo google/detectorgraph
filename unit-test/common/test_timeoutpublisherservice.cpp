@@ -90,11 +90,6 @@ static void Test_DispatchSingleTS(nlTestSuite *inSuite, void *inContext)
     Graph graph;
     _TimeoutPublisherService timeoutPublisherService(graph);
 
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    Topic<TopicStateA> topicInstance(&graph);
-    graph.AddVertex(&topicInstance);
-#endif
-
     Topic<TopicStateA>* topicAPtr = graph.ResolveTopic<TopicStateA>();
 
     TimeoutPublisherHandle handle = timeoutPublisherService.GetUniqueTimerHandle();
@@ -116,13 +111,6 @@ static void Test_DispatchMultiple(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
     _TimeoutPublisherService timeoutPublisherService(graph);
-
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    Topic<TopicStateA> topicAInstance(&graph);
-    Topic<TopicStateB> topicBInstance(&graph);
-    graph.AddVertex(&topicAInstance);
-    graph.AddVertex(&topicBInstance);
-#endif
 
     Topic<TopicStateA>* topicAPtr = graph.ResolveTopic<TopicStateA>();
     Topic<TopicStateB>* topicBPtr = graph.ResolveTopic<TopicStateB>();
@@ -161,11 +149,6 @@ static void Test_PeriodicOne(nlTestSuite *inSuite, void *inContext)
     Graph graph;
     _TimeoutPublisherService timeoutPublisherService(graph);
 
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    Topic<PeriodicTopicState> topicInstance(&graph);
-    graph.AddVertex(&topicInstance);
-#endif
-
     Topic<PeriodicTopicState>* topicPtr = graph.ResolveTopic<PeriodicTopicState>();
 
     timeoutPublisherService.SchedulePeriodicPublishing<PeriodicTopicState>(5000);
@@ -191,13 +174,6 @@ static void Test_PeriodicMultiple(nlTestSuite *inSuite, void *inContext)
 
     Graph graph;
     _TimeoutPublisherService timeoutPublisherService(graph);
-
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    Topic<TopicState9ms> topic9Instance(&graph);
-    Topic<TopicState15ms> topic15Instance(&graph);
-    graph.AddVertex(&topic9Instance);
-    graph.AddVertex(&topic15Instance);
-#endif
 
     Topic<TopicState9ms>* topic9Ptr = graph.ResolveTopic<TopicState9ms>();
     Topic<TopicState15ms>* topic15Ptr = graph.ResolveTopic<TopicState15ms>();

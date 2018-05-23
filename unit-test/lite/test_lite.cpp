@@ -117,14 +117,12 @@ static void Test_ConstructionDestruction(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, graph.GetVertices().size() == 0);
 
     // Instantiate Graph Elements
-    Topic<PacketTypeA> topicPacketA(&graph);
-    Topic<PacketTypeB> topicPacketB(&graph);
+    Topic<PacketTypeA>* topicPacketA(graph.ResolveTopic<PacketTypeA>());
     TestDetector detector(&graph);
+    Topic<PacketTypeB>* topicPacketB(graph.ResolveTopic<PacketTypeB>());
 
-    // Order Vertices
-    graph.AddVertex(&topicPacketA);
-    graph.AddVertex(&detector);
-    graph.AddVertex(&topicPacketB);
+    (void)topicPacketA;
+    (void)topicPacketB;
 
     // Assert
     NL_TEST_ASSERT(inSuite, graph.GetVertices().size() == 3);
@@ -154,54 +152,49 @@ static void Test_DetectorInOutConnections(nlTestSuite *inSuite, void *inContext)
 
     // Arrange
     Graph graph;
-    Topic<PacketTypeA> ta(&graph);
-    Topic<PacketTypeB> tb(&graph);
+    Topic<PacketTypeA>* ta(graph.ResolveTopic<PacketTypeA>());
     TestDetector da(&graph);
+    Topic<PacketTypeB>* tb(graph.ResolveTopic<PacketTypeB>());
 
     // Order Vertices (unnecessary for this test)
-    graph.AddVertex(&ta);
-    graph.AddVertex(&da);
-    graph.AddVertex(&tb);
 
     PacketTypeA dataIn;
 
     // Act
-    ta.Publish(dataIn);
-    ta.ProcessVertex();
+    ta->Publish(dataIn);
+    ta->ProcessVertex();
     da.ProcessVertex();
-    tb.ProcessVertex();
+    tb->ProcessVertex();
 
     // Assert
-    NL_TEST_ASSERT(inSuite, ta.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, ta->GetState() == Vertex::kVertexDone);
     NL_TEST_ASSERT(inSuite, da.GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, tb.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tb->GetState() == Vertex::kVertexDone);
 
     // Arrange
-    ta.SetState(Vertex::kVertexClear);
+    ta->SetState(Vertex::kVertexClear);
     da.SetState(Vertex::kVertexClear);
-    tb.SetState(Vertex::kVertexClear);
+    tb->SetState(Vertex::kVertexClear);
 
     // Act
-    ta.Publish(dataIn);
-    ta.ProcessVertex();
+    ta->Publish(dataIn);
+    ta->ProcessVertex();
     // DOES NOT PROCESS da
-    tb.ProcessVertex();
+    tb->ProcessVertex();
 
     // Assert that no data shows up on tb regardless
-    NL_TEST_ASSERT(inSuite, tb.GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, tb->GetState() == Vertex::kVertexClear);
 }
 
 static void Test_SingleEvaluate(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
-    Topic<PacketTypeA> ta(&graph);
-    Topic<PacketTypeB> tb(&graph);
+    Topic<PacketTypeA>* ta(graph.ResolveTopic<PacketTypeA>());
     TestDetector detector(&graph);
+    Topic<PacketTypeB>* tb(graph.ResolveTopic<PacketTypeB>());
 
-    // Order Vertices (unnecessary for this test)
-    graph.AddVertex(&ta);
-    graph.AddVertex(&detector);
-    graph.AddVertex(&tb);
+    (void)ta;
+    (void)tb;
 
     PacketTypeA mockData;
 
@@ -326,15 +319,10 @@ namespace
 static void Test_BeginEvaluationEvaluateCompleteEvaluation(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
-    Topic<PacketTypeA> ta(&graph);
-    Topic<PacketTypeB> tb(&graph);
-    Topic<PacketTypeC> tc(&graph);
+    Topic<PacketTypeA>* ta(graph.ResolveTopic<PacketTypeA>());
+    Topic<PacketTypeB>* tb(graph.ResolveTopic<PacketTypeB>());
     TestEvaluateCallsDetector detector(&graph);
-
-    graph.AddVertex(&ta);
-    graph.AddVertex(&tb);
-    graph.AddVertex(&detector);
-    graph.AddVertex(&tc);
+    Topic<PacketTypeC>* tc(graph.ResolveTopic<PacketTypeC>());
 
     // Assert init conditions
     NL_TEST_ASSERT(inSuite, detector.mPreProcCount == 0);
@@ -352,10 +340,10 @@ static void Test_BeginEvaluationEvaluateCompleteEvaluation(nlTestSuite *inSuite,
     NL_TEST_ASSERT(inSuite, detector.mEvalBCount == 0);
     NL_TEST_ASSERT(inSuite, detector.mPostProcCount == 0);
 
-    NL_TEST_ASSERT(inSuite, ta.GetState() == Vertex::kVertexClear);
-    NL_TEST_ASSERT(inSuite, tb.GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, ta->GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, tb->GetState() == Vertex::kVertexClear);
     NL_TEST_ASSERT(inSuite, detector.GetState() == Vertex::kVertexClear);
-    NL_TEST_ASSERT(inSuite, tc.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tc->GetState() == Vertex::kVertexDone);
 
     // Act with one of the subscribing types
     graph.PushData<PacketTypeA>(PacketTypeA());
@@ -366,10 +354,10 @@ static void Test_BeginEvaluationEvaluateCompleteEvaluation(nlTestSuite *inSuite,
     NL_TEST_ASSERT(inSuite, detector.mEvalACount == 1);
     NL_TEST_ASSERT(inSuite, detector.mEvalBCount == 0);
     NL_TEST_ASSERT(inSuite, detector.mPostProcCount == 1);
-    NL_TEST_ASSERT(inSuite, ta.GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, tb.GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, ta->GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tb->GetState() == Vertex::kVertexClear);
     NL_TEST_ASSERT(inSuite, detector.GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, tc.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tc->GetState() == Vertex::kVertexDone);
 
     // Act with one of the subscribing types
     graph.PushData<PacketTypeB>(PacketTypeB());
@@ -380,10 +368,10 @@ static void Test_BeginEvaluationEvaluateCompleteEvaluation(nlTestSuite *inSuite,
     NL_TEST_ASSERT(inSuite, detector.mEvalACount == 1);
     NL_TEST_ASSERT(inSuite, detector.mEvalBCount == 1);
     NL_TEST_ASSERT(inSuite, detector.mPostProcCount == 2);
-    NL_TEST_ASSERT(inSuite, ta.GetState() == Vertex::kVertexClear);
-    NL_TEST_ASSERT(inSuite, tb.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, ta->GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, tb->GetState() == Vertex::kVertexDone);
     NL_TEST_ASSERT(inSuite, detector.GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, tc.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tc->GetState() == Vertex::kVertexDone);
 }
 
 namespace
@@ -433,19 +421,12 @@ namespace
 static void Test_SplitterPublisher(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
-    Topic<PacketTypeA> ta(&graph);
-    Topic<PacketTypeB> tb(&graph);
-    Topic<PacketTypeC> tc(&graph);
-    Topic<SplitterTrigger> ts(&graph);
+    Topic<SplitterTrigger>* ts(graph.ResolveTopic<SplitterTrigger>());
     SplitterDetector splitter(&graph);
+    Topic<PacketTypeA>* ta(graph.ResolveTopic<PacketTypeA>());
+    Topic<PacketTypeB>* tb(graph.ResolveTopic<PacketTypeB>());
     TestEvaluateCallsDetector detector(&graph);
-
-    graph.AddVertex(&ts);
-    graph.AddVertex(&splitter);
-    graph.AddVertex(&ta);
-    graph.AddVertex(&tb);
-    graph.AddVertex(&detector);
-    graph.AddVertex(&tc);
+    Topic<PacketTypeC>* tc(graph.ResolveTopic<PacketTypeC>());
 
     // Assert init conditions
     NL_TEST_ASSERT(inSuite, detector.mPreProcCount == 0);
@@ -462,12 +443,12 @@ static void Test_SplitterPublisher(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, detector.mEvalACount == 1);
     NL_TEST_ASSERT(inSuite, detector.mEvalBCount == 1);
     NL_TEST_ASSERT(inSuite, detector.mPostProcCount == 1);
-    NL_TEST_ASSERT(inSuite, ts.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, ts->GetState() == Vertex::kVertexDone);
     NL_TEST_ASSERT(inSuite, splitter.GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, ta.GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, tb.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, ta->GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tb->GetState() == Vertex::kVertexDone);
     NL_TEST_ASSERT(inSuite, detector.GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, tc.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tc->GetState() == Vertex::kVertexDone);
 
     // Act with one of the subscribing types
     graph.PushData<PacketTypeC>(PacketTypeC());
@@ -478,12 +459,12 @@ static void Test_SplitterPublisher(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, detector.mEvalACount == 1);
     NL_TEST_ASSERT(inSuite, detector.mEvalBCount == 1);
     NL_TEST_ASSERT(inSuite, detector.mPostProcCount == 1);
-    NL_TEST_ASSERT(inSuite, ts.GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, ts->GetState() == Vertex::kVertexClear);
     NL_TEST_ASSERT(inSuite, splitter.GetState() == Vertex::kVertexClear);
-    NL_TEST_ASSERT(inSuite, ta.GetState() == Vertex::kVertexClear);
-    NL_TEST_ASSERT(inSuite, tb.GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, ta->GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, tb->GetState() == Vertex::kVertexClear);
     NL_TEST_ASSERT(inSuite, detector.GetState() == Vertex::kVertexClear);
-    NL_TEST_ASSERT(inSuite, tc.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tc->GetState() == Vertex::kVertexDone);
 
     // Act with one of the subscribing types
     graph.PushData<PacketTypeB>(PacketTypeB());
@@ -494,32 +475,29 @@ static void Test_SplitterPublisher(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, detector.mEvalACount == 1);
     NL_TEST_ASSERT(inSuite, detector.mEvalBCount == 2);
     NL_TEST_ASSERT(inSuite, detector.mPostProcCount == 2);
-    NL_TEST_ASSERT(inSuite, ts.GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, ts->GetState() == Vertex::kVertexClear);
     NL_TEST_ASSERT(inSuite, splitter.GetState() == Vertex::kVertexClear);
-    NL_TEST_ASSERT(inSuite, ta.GetState() == Vertex::kVertexClear);
-    NL_TEST_ASSERT(inSuite, tb.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, ta->GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, tb->GetState() == Vertex::kVertexDone);
     NL_TEST_ASSERT(inSuite, detector.GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, tc.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, tc->GetState() == Vertex::kVertexDone);
 }
 
 static void Test_EvalsInSubscribeOrder(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
-    Topic<PacketTypeA> ta(&graph);
-    Topic<PacketTypeB> tb(&graph);
-    Topic<PacketTypeC> tc(&graph);
-    Topic<SplitterTrigger> ts(&graph);
+    Topic<SplitterTrigger>* ts(graph.ResolveTopic<SplitterTrigger>());
     SplitterDetector splitter(&graph);
+    Topic<PacketTypeA>* ta(graph.ResolveTopic<PacketTypeA>());
+    Topic<PacketTypeB>* tb(graph.ResolveTopic<PacketTypeB>());
     TestEvaluateCallsDetector fwd_detector(&graph);
     TestEvaluateCallsDetector rev_detector(&graph, true);
+    Topic<PacketTypeC>* tc(graph.ResolveTopic<PacketTypeC>());
 
-    graph.AddVertex(&ts);
-    graph.AddVertex(&splitter);
-    graph.AddVertex(&ta);
-    graph.AddVertex(&tb);
-    graph.AddVertex(&fwd_detector);
-    graph.AddVertex(&rev_detector);
-    graph.AddVertex(&tc);
+    (void)ts;
+    (void)ta;
+    (void)tb;
+    (void)tc;
 
     // Assert init conditions
     NL_TEST_ASSERT(inSuite, fwd_detector.mEvalAOrder == -1);

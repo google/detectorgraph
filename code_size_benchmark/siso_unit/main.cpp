@@ -60,24 +60,20 @@ class SisoGraph : public ProcessorContainer
 {
 public:
     SisoGraph()
-    : mInputTopic(&mGraph)
-    , mOutputTopic(&mGraph)
+    : mInputTopic(mGraph.ResolveTopic<InputTopic>())
     , mSisoDetector(&mGraph)
+    , mOutputTopic(mGraph.ResolveTopic<OutputTopic>())
     {
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        mGraph.AddVertex(&mInputTopic);
-        mGraph.AddVertex(&mSisoDetector);
-        mGraph.AddVertex(&mOutputTopic);
-#endif
+        DG_ASSERT(mGraph.IsGraphSorted());
     }
 
     void ProcessOutput()
     {
     }
 
-    Topic<InputTopic> mInputTopic;
-    Topic<OutputTopic> mOutputTopic;
+    Topic<InputTopic>* mInputTopic;
     SisoDetector mSisoDetector;
+    Topic<OutputTopic>* mOutputTopic;
 };
 
 int main()
@@ -86,7 +82,7 @@ int main()
     SisoGraph dg;
 
     dg.ProcessData<InputTopic>(InputTopic(42));
-    DG_LOG("OutputTopic = %d", dg.mOutputTopic.GetNewValue().v);
+    DG_LOG("OutputTopic = %d", dg.mOutputTopic->GetNewValue().v);
 
     return 0;
 }
