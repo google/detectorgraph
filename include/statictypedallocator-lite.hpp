@@ -137,6 +137,9 @@ public:
         return newObjPtr;
     }
 
+    /**
+     * @brief Deletes/Frees an allocated object via the base ptr.
+     */
     void Delete(TBase* targetObject)
     {
         // O(N) deletion
@@ -172,6 +175,9 @@ public:
         nodeIt->next = NULL;
     }
 
+    /**
+     * @brief Deletes all allocated objects.
+     */
     void clear()
     {
         // O(N) clear.
