@@ -184,84 +184,56 @@ class ConcentratorGraph : public ProcessorContainer
 {
 public:
     ConcentratorGraph()
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    : mInputTopic(&mGraph)
-    , mInnerData0(&mGraph)
-    , mInnerData1(&mGraph)
-    , mInnerData2(&mGraph)
-    , mInnerData3(&mGraph)
-    , mInnerData4(&mGraph)
-    , mInnerData5(&mGraph)
-    , mInnerData6(&mGraph)
-    , mInnerData7(&mGraph)
-    , mInnerData8(&mGraph)
-    , mInnerData9(&mGraph)
-    , mInnerDataA(&mGraph)
-    , mInnerDataB(&mGraph)
-    , mInnerDataC(&mGraph)
-    , mInnerDataD(&mGraph)
-    , mInnerDataE(&mGraph)
-    , mInnerDataF(&mGraph)
-    , mInnerDataG(&mGraph)
-    , mOutputTopic(&mGraph)
-#endif
+    : mInputTopic(mGraph.ResolveTopic<InputTopic>())
     , mSplitter(&mGraph)
+    , mInnerData0(mGraph.ResolveTopic<InnerData0>())
+    , mInnerData1(mGraph.ResolveTopic<InnerData1>())
+    , mInnerData2(mGraph.ResolveTopic<InnerData2>())
+    , mInnerData3(mGraph.ResolveTopic<InnerData3>())
+    , mInnerData4(mGraph.ResolveTopic<InnerData4>())
+    , mInnerData5(mGraph.ResolveTopic<InnerData5>())
+    , mInnerData6(mGraph.ResolveTopic<InnerData6>())
+    , mInnerData7(mGraph.ResolveTopic<InnerData7>())
+    , mInnerData8(mGraph.ResolveTopic<InnerData8>())
+    , mInnerData9(mGraph.ResolveTopic<InnerData9>())
+    , mInnerDataA(mGraph.ResolveTopic<InnerDataA>())
+    , mInnerDataB(mGraph.ResolveTopic<InnerDataB>())
+    , mInnerDataC(mGraph.ResolveTopic<InnerDataC>())
+    , mInnerDataD(mGraph.ResolveTopic<InnerDataD>())
+    , mInnerDataE(mGraph.ResolveTopic<InnerDataE>())
+    , mInnerDataF(mGraph.ResolveTopic<InnerDataF>())
+    , mInnerDataG(mGraph.ResolveTopic<InnerDataG>())
     , mConcentrator(&mGraph)
+    , mOutputTopic(mGraph.ResolveTopic<OutputTopic>())
     {
-
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-        mGraph.AddVertex(&mInputTopic);
-        mGraph.AddVertex(&mSplitter);
-        mGraph.AddVertex(&mInnerData0);
-        mGraph.AddVertex(&mInnerData1);
-        mGraph.AddVertex(&mInnerData2);
-        mGraph.AddVertex(&mInnerData3);
-        mGraph.AddVertex(&mInnerData4);
-        mGraph.AddVertex(&mInnerData5);
-        mGraph.AddVertex(&mInnerData6);
-        mGraph.AddVertex(&mInnerData7);
-        mGraph.AddVertex(&mInnerData8);
-        mGraph.AddVertex(&mInnerData9);
-        mGraph.AddVertex(&mInnerDataA);
-        mGraph.AddVertex(&mInnerDataB);
-        mGraph.AddVertex(&mInnerDataC);
-        mGraph.AddVertex(&mInnerDataD);
-        mGraph.AddVertex(&mInnerDataE);
-        mGraph.AddVertex(&mInnerDataF);
-        mGraph.AddVertex(&mInnerDataG);
-        mGraph.AddVertex(&mConcentrator);
-        mGraph.AddVertex(&mOutputTopic);
         DG_ASSERT(mGraph.IsGraphSorted());
-#endif
     }
 
     void ProcessOutput()
     {
     }
 
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-    Topic<InputTopic> mInputTopic;
-    Topic<InnerData0> mInnerData0;
-    Topic<InnerData1> mInnerData1;
-    Topic<InnerData2> mInnerData2;
-    Topic<InnerData3> mInnerData3;
-    Topic<InnerData4> mInnerData4;
-    Topic<InnerData5> mInnerData5;
-    Topic<InnerData6> mInnerData6;
-    Topic<InnerData7> mInnerData7;
-    Topic<InnerData8> mInnerData8;
-    Topic<InnerData9> mInnerData9;
-    Topic<InnerDataA> mInnerDataA;
-    Topic<InnerDataB> mInnerDataB;
-    Topic<InnerDataC> mInnerDataC;
-    Topic<InnerDataD> mInnerDataD;
-    Topic<InnerDataE> mInnerDataE;
-    Topic<InnerDataF> mInnerDataF;
-    Topic<InnerDataG> mInnerDataG;
-    Topic<OutputTopic> mOutputTopic;
-#endif
+    Topic<InputTopic>* mInputTopic;
     SplitterDetector mSplitter;
+    Topic<InnerData0>* mInnerData0;
+    Topic<InnerData1>* mInnerData1;
+    Topic<InnerData2>* mInnerData2;
+    Topic<InnerData3>* mInnerData3;
+    Topic<InnerData4>* mInnerData4;
+    Topic<InnerData5>* mInnerData5;
+    Topic<InnerData6>* mInnerData6;
+    Topic<InnerData7>* mInnerData7;
+    Topic<InnerData8>* mInnerData8;
+    Topic<InnerData9>* mInnerData9;
+    Topic<InnerDataA>* mInnerDataA;
+    Topic<InnerDataB>* mInnerDataB;
+    Topic<InnerDataC>* mInnerDataC;
+    Topic<InnerDataD>* mInnerDataD;
+    Topic<InnerDataE>* mInnerDataE;
+    Topic<InnerDataF>* mInnerDataF;
+    Topic<InnerDataG>* mInnerDataG;
     ConcentratorDetector mConcentrator;
+    Topic<OutputTopic>* mOutputTopic;
 };
 
 int main()
@@ -270,7 +242,7 @@ int main()
     ConcentratorGraph sdg;
 
     sdg.ProcessData<InputTopic>(InputTopic());
-    DG_LOG("OutputTopic = %d", sdg.mOutputTopic.GetNewValue().v);
+    DG_LOG("OutputTopic = %d", sdg.mOutputTopic->GetNewValue().v);
 
     return 0;
 }
