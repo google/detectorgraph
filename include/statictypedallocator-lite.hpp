@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef DETECTORGRAPH_INCLUDE_STATICTYPEDALLOCATOR_LITE_HPP_
+#define DETECTORGRAPH_INCLUDE_STATICTYPEDALLOCATOR_LITE_HPP_
+
 #include "dgassert.hpp"
 
 #include <new>
@@ -230,3 +233,5 @@ private:
 };
 
 }
+
+#endif // DETECTORGRAPH_INCLUDE_STATICTYPEDALLOCATOR_LITE_HPP_
