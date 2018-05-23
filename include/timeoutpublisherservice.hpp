@@ -131,14 +131,13 @@ public:
     void StartPeriodicPublishing();
 
     /**
-     * @brief Should return a unique id/handle for a new timer
+     * @brief Returns a unique id/handle for a new timer
      *
-     * This must be implemented by subclasses. Different TimeoutPublishers will
-     * call this to 'acquire' a timer. The handle is then used throughout the API
-     * to refer to any individual timer.
-     * Note that this should never return kInvalidTimeoutPublisherHandle.
+     * Different TimeoutPublishers will call this to 'acquire' a timer. The
+     * handle is then used throughout the API to refer to any individual timer.
+     * Note that this will never return kInvalidTimeoutPublisherHandle.
      */
-    virtual TimeoutPublisherHandle GetUniqueTimerHandle() = 0;
+    TimeoutPublisherHandle GetUniqueTimerHandle();
 
     /**
      * @brief Schedules a TopicState for publishing periodically
@@ -306,6 +305,9 @@ private:
      * @brief Map of pending TopicStates per Handle
      */
     TimeoutDispatchersContainer mTimeoutDispatchers;
+
+    // TODO(cscotti): delete me
+    TimeoutPublisherHandle mLastHandleId;
 
     /**
      * @brief List of scheduled periodic TopicStates dispatcher

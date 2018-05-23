@@ -43,12 +43,8 @@ static int teardown_timeoutpublisher(void *inContext)
 namespace {
     struct MockTimeoutPublisherService : public TimeoutPublisherService
     {
-        MockTimeoutPublisherService(Graph& arGraph) : TimeoutPublisherService(arGraph), mLastHandleId(0) {}
+        MockTimeoutPublisherService(Graph& arGraph) : TimeoutPublisherService(arGraph) {}
 
-        virtual TimeoutPublisherHandle GetUniqueTimerHandle()
-        {
-            return ++mLastHandleId;
-        }
         virtual void SetTimeout(const uint64_t aMillisecondsFromNow, const TimeoutPublisherHandle aTimerId) { mTimerMap[aTimerId] = false; /* running = true */ }
         virtual void Start(const TimeoutPublisherHandle aTimerId) { mTimerMap[aTimerId] = true; /* running = true */ }
         virtual void Cancel(const TimeoutPublisherHandle aTimerId) { mTimerMap[aTimerId] = false; /* running = false */ }
@@ -65,7 +61,6 @@ namespace {
         }
 
         std::map<TimeoutPublisherHandle, bool> mTimerMap;
-        TimeoutPublisherHandle mLastHandleId;
     };
 
     struct TriggerTopicState : public TopicState { TriggerTopicState(int aV = 0) : mV(aV) {}; int mV; };
@@ -87,6 +82,11 @@ namespace {
         {
             PublishOnTimeout(TimeoutTopicState(9999), 1000);
             mEvalCount++;
+        }
+
+        TimeoutPublisherHandle GetDefaultTimeoutPublisherHandle()
+        {
+            return TimeoutPublisher<TimeoutTopicState>::mDefaultHandle;
         }
 
         int mEvalCount;
@@ -122,7 +122,7 @@ static void Test_PublishOnTimeoutEvaluation(nlTestSuite *inSuite, void *inContex
 
     // Assert - detector is evaluted once and doesnt emit any further outputs
     NL_TEST_ASSERT(inSuite, detector.mEvalCount == 1);
-    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[timeoutPublisherService.mLastHandleId] == true);
+    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.GetDefaultTimeoutPublisherHandle()] == true);
     NL_TEST_ASSERT(inSuite, detector.HasTimeoutExpired() == false);
     NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
 
@@ -132,15 +132,15 @@ static void Test_PublishOnTimeoutEvaluation(nlTestSuite *inSuite, void *inContex
     // Assert - nothing changes
     NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
     NL_TEST_ASSERT(inSuite, detector.HasTimeoutExpired() == false);
-    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[timeoutPublisherService.mLastHandleId] == true);
+    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.GetDefaultTimeoutPublisherHandle()] == true);
 
     // Act - fire timeout
-    timeoutPublisherService.FireMockTimeout(timeoutPublisherService.mLastHandleId);
+    timeoutPublisherService.FireMockTimeout(detector.GetDefaultTimeoutPublisherHandle());
 
     // Assert - no TimeoutData emitted until evaluation (but timer stops)
     NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
     NL_TEST_ASSERT(inSuite, detector.HasTimeoutExpired() == true);
-    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[timeoutPublisherService.mLastHandleId] == false);
+    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.GetDefaultTimeoutPublisherHandle()] == false);
 
     // Act - evaluate graph
     graph.EvaluateGraph();

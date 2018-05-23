@@ -18,13 +18,8 @@ namespace DetectorGraph
 {
 
 TestTimeoutPublisherService::TestTimeoutPublisherService(Graph& arGraph)
-: TimeoutPublisherService(arGraph), mLastHandleId(0), mElapsedTime(0), mWallClockOffset(0), mMetronomeId(0), mMetronomeTimerPeriod(0)
+: TimeoutPublisherService(arGraph), mElapsedTime(0), mWallClockOffset(0), mMetronomeId(kInvalidTimeoutPublisherHandle), mMetronomeTimerPeriod(0)
 {
-}
-
-TimeoutPublisherHandle TestTimeoutPublisherService::GetUniqueTimerHandle()
-{
-    return ++mLastHandleId; // 0 will never be handle ID
 }
 
 void TestTimeoutPublisherService::SetTimeout(const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerId)

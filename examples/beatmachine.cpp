@@ -212,6 +212,7 @@ class SleepBasedTimeoutPublisherService : public DetectorGraph::TimeoutPublisher
 public:
     SleepBasedTimeoutPublisherService(DetectorGraph::Graph& arGraph)
     : DetectorGraph::TimeoutPublisherService(arGraph)
+    , mMetronomeId(kInvalidTimeoutPublisherHandle)
     {
     }
 
@@ -243,7 +244,6 @@ public:
 
     // BEGIN CONCRETE IMPLEMENTATIONS
     // All methods below are necessary for the concrete implementation of TimeoutPublisherService
-    TimeoutPublisherHandle GetUniqueTimerHandle() { return ++mLastHandleId; }
     TimeOffset GetTime() const
     {
         return std::chrono::duration_cast<Milliseconds>(WallClock::now().time_since_epoch())
@@ -282,7 +282,6 @@ private:
 
 private:
     std::map<TimeoutPublisherHandle, TimeOffset> mTimerMap;
-    TimeoutPublisherHandle mLastHandleId;
     TimeoutPublisherHandle mMetronomeId;
     TimeOffset mMetronomeTimerPeriod;
 };

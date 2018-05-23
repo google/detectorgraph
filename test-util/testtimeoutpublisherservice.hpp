@@ -35,7 +35,6 @@ public:
     // Implementing TimeoutPublisherService derived class
     TestTimeoutPublisherService(Graph& arGraph);
 
-    virtual TimeoutPublisherHandle GetUniqueTimerHandle();
     virtual TimeOffset GetTime() const;
     virtual TimeOffset GetMonotonicTime() const;
 
@@ -60,7 +59,6 @@ private:
     // This could be optimized for time with a queue on the next deadline to
     // remove the O(N) search for next deadline. But ffs, this is a mock class!
     std::map<TimeoutPublisherHandle, TimeOffset> mTimerMap;
-    TimeoutPublisherHandle mLastHandleId;
 
     // Equivalent to monotonic time
     TimeOffset mElapsedTime;

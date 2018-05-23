@@ -17,7 +17,7 @@
 namespace DetectorGraph
 {
 
-TimeoutPublisherService::TimeoutPublisherService(Graph& arGraph) : mrGraph(arGraph), mMetronomePeriodMsec(0)
+TimeoutPublisherService::TimeoutPublisherService(Graph& arGraph) : mrGraph(arGraph), mMetronomePeriodMsec(0), mLastHandleId(0)
 {
 }
 
@@ -39,6 +39,16 @@ TimeoutPublisherService::~TimeoutPublisherService()
         delete tZombieDataIt->mpDispatcher;
     }
 #endif
+}
+
+TimeoutPublisherHandle TimeoutPublisherService::GetUniqueTimerHandle()
+{
+    // Type sanity check;
+    DG_ASSERT(mLastHandleId != kInvalidTimeoutPublisherHandle);
+    return mLastHandleId++;
+    // TimeoutPublisherHandle newHandle = (TimeoutPublisherHandle)mTimeoutDispatchers.size();
+    // mTimeoutDispatchers.push_back(NULL);
+    // return newHandle;
 }
 
 void TimeoutPublisherService::ScheduleTimeoutDispatcher(
