@@ -21,10 +21,6 @@
 
 using namespace DetectorGraph;
 
-// #define SIZE_BENCHMARK_DT
-#define SIZE_BENCHMARK_DD
-// #define SIZE_BENCHMARK_1_ON_1_DETECTOR
-
 struct InputTopic : public TopicState { };
 
 struct InnerData0 : public TopicState { };
@@ -43,9 +39,7 @@ struct InnerDataC : public TopicState { };
 struct InnerDataD : public TopicState { };
 struct InnerDataE : public TopicState { };
 struct InnerDataF : public TopicState { };
-#ifdef SIZE_BENCHMARK_DT
 struct InnerDataG : public TopicState { };
-#endif
 
 struct OutputTopic : public TopicState
 {
@@ -73,9 +67,7 @@ class SplitterDetector
 , public Publisher<InnerDataD>
 , public Publisher<InnerDataE>
 , public Publisher<InnerDataF>
-#ifdef SIZE_BENCHMARK_DT
 , public Publisher<InnerDataG>
-#endif
 {
 public:
     SplitterDetector(Graph* graph) : Detector(graph)
@@ -97,9 +89,7 @@ public:
         SetupPublishing<InnerDataD>(this);
         SetupPublishing<InnerDataE>(this);
         SetupPublishing<InnerDataF>(this);
-#ifdef SIZE_BENCHMARK_DT
         SetupPublishing<InnerDataG>(this);
-#endif
     }
 
     virtual void Evaluate(const InputTopic&)
@@ -120,18 +110,14 @@ public:
         Publisher<InnerDataD>::Publish(InnerDataD());
         Publisher<InnerDataE>::Publish(InnerDataE());
         Publisher<InnerDataF>::Publish(InnerDataF());
-#ifdef SIZE_BENCHMARK_DT
         Publisher<InnerDataG>::Publish(InnerDataG());
-#endif
     }
 
 };
 
-#ifdef SIZE_BENCHMARK_DD
 class ConcentratorDetector
 : public Detector
 , public SubscriberInterface<InnerData0>
-#ifndef SIZE_BENCHMARK_1_ON_1_DETECTOR
 , public SubscriberInterface<InnerData1>
 , public SubscriberInterface<InnerData2>
 , public SubscriberInterface<InnerData3>
@@ -147,17 +133,13 @@ class ConcentratorDetector
 , public SubscriberInterface<InnerDataD>
 , public SubscriberInterface<InnerDataE>
 , public SubscriberInterface<InnerDataF>
-#ifdef SIZE_BENCHMARK_DT
 , public SubscriberInterface<InnerDataG>
-#endif
-#endif
 , public Publisher<OutputTopic>
 {
 public:
     ConcentratorDetector(Graph* graph) : Detector(graph), v()
     {
         Subscribe<InnerData0>(this);
-#ifndef SIZE_BENCHMARK_1_ON_1_DETECTOR
         Subscribe<InnerData1>(this);
         Subscribe<InnerData2>(this);
         Subscribe<InnerData3>(this);
@@ -173,15 +155,11 @@ public:
         Subscribe<InnerDataD>(this);
         Subscribe<InnerDataE>(this);
         Subscribe<InnerDataF>(this);
-#ifdef SIZE_BENCHMARK_DT
         Subscribe<InnerDataG>(this);
-#endif
-#endif
         SetupPublishing<OutputTopic>(this);
     }
 
     virtual void Evaluate(const InnerData0&) { v++; }
-#ifndef SIZE_BENCHMARK_1_ON_1_DETECTOR
     virtual void Evaluate(const InnerData1&) { v++; }
     virtual void Evaluate(const InnerData2&) { v++; }
     virtual void Evaluate(const InnerData3&) { v++; }
@@ -197,14 +175,10 @@ public:
     virtual void Evaluate(const InnerDataD&) { v++; }
     virtual void Evaluate(const InnerDataE&) { v++; }
     virtual void Evaluate(const InnerDataF&) { v++; }
-#ifdef SIZE_BENCHMARK_DT
     virtual void Evaluate(const InnerDataG&) { v++; }
-#endif
-#endif
     virtual void CompleteEvaluation() { Publish(OutputTopic(v)); }
     int v;
 };
-#endif
 
 class ConcentratorGraph : public ProcessorContainer
 {
@@ -228,15 +202,11 @@ public:
     , mInnerDataD(&mGraph)
     , mInnerDataE(&mGraph)
     , mInnerDataF(&mGraph)
-#ifdef SIZE_BENCHMARK_DT
     , mInnerDataG(&mGraph)
-#endif
     , mOutputTopic(&mGraph)
 #endif
     , mSplitter(&mGraph)
-#ifdef SIZE_BENCHMARK_DD
     , mConcentrator(&mGraph)
-#endif
     {
 
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
@@ -258,12 +228,8 @@ public:
         mGraph.AddVertex(&mInnerDataD);
         mGraph.AddVertex(&mInnerDataE);
         mGraph.AddVertex(&mInnerDataF);
-#ifdef SIZE_BENCHMARK_DT
         mGraph.AddVertex(&mInnerDataG);
-#endif
-#ifdef SIZE_BENCHMARK_DD
         mGraph.AddVertex(&mConcentrator);
-#endif
         mGraph.AddVertex(&mOutputTopic);
         DG_ASSERT(mGraph.IsGraphSorted());
 #endif
@@ -291,15 +257,11 @@ public:
     Topic<InnerDataD> mInnerDataD;
     Topic<InnerDataE> mInnerDataE;
     Topic<InnerDataF> mInnerDataF;
-#ifdef SIZE_BENCHMARK_DT
     Topic<InnerDataG> mInnerDataG;
-#endif
     Topic<OutputTopic> mOutputTopic;
 #endif
     SplitterDetector mSplitter;
-#ifdef SIZE_BENCHMARK_DD
     ConcentratorDetector mConcentrator;
-#endif
 };
 
 int main()
