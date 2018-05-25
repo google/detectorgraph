@@ -22,6 +22,8 @@
 #include "vertex.hpp"
 #include "topicstate.hpp"
 
+#include <algorithm>
+
 #define SUITE_DECLARATION(name, test_ptr) { #name, test_ptr, setup_##name, teardown_##name }
 
 using namespace DetectorGraph;

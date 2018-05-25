@@ -106,14 +106,14 @@ public:
      * @brief Constructs & Allocates new object of type TChild with arguments.
      */
     template <class TChild, typename... TChildArgs>
-    TBase* New(TChildArgs&&... constructor_args)
+    TChild* New(TChildArgs&&... constructor_args)
     {
         NodeHeader* node = GetNodeHeader<TChild>();
 
         DG_ASSERT(!node->busy);
         // NOTE: Cannot store more than one object at the same time.
 
-        TBase* newObjPtr =
+        TChild* newObjPtr =
             new(node->storage) TChild(std::forward<TChildArgs>(constructor_args)...);
 
         node->busy = true;
@@ -125,14 +125,14 @@ public:
      * @brief Copy-Constructs & Allocates new object of type TChild.
      */
     template<class TChild>
-    TBase* New(const TChild& aOriginal)
+    TChild* New(const TChild& aOriginal)
     {
         NodeHeader* node = GetNodeHeader<TChild>();
 
         DG_ASSERT(!node->busy);
         // NOTE: Cannot store more than one object at the same time.
 
-        TBase* newObjPtr =
+        TChild* newObjPtr =
             new(node->storage) TChild(aOriginal);
 
         node->busy = true;

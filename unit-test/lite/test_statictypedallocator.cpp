@@ -61,11 +61,9 @@ static void Test_StoreOneType(nlTestSuite *inSuite, void *inContext)
     {
         StaticTypedAllocator<SomeBase> allocator;
 
-        SomeBase* basePtr = allocator.New<SomeChild<TopicStateA>>(TopicStateA(42));
-        allocator.Delete(basePtr);
-
-        SomeChild<TopicStateA>* childPtr = static_cast< SomeChild<TopicStateA>* >(basePtr);
+        SomeChild<TopicStateA>* childPtr = allocator.New<SomeChild<TopicStateA>>(TopicStateA(42));
         NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
+        allocator.Delete(childPtr);
     }
     NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);
 }
