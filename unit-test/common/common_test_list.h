@@ -26,6 +26,7 @@
 #include "test_subscriptiondispatcherscontainer.h"
 #include "test_timeoutpublisher.h"
 #include "test_timeoutpublisherservice.h"
+#include "test_topic.h"
 #include "test_topicregistry.h"
 
 #define COMMON_TEST_LIST \
@@ -36,6 +37,7 @@
     subscriptiondispatcherscontainer_testsuite, \
     timeoutpublisher_testsuite, \
     timeoutpublisherservice_testsuite, \
+    topic_testsuite, \
     topicregistry_testsuite, \
 
 #endif // __DETECTORGRAPH_UNIT_TEST_COMMON_TEST_LIST_H__
