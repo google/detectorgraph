@@ -123,22 +123,6 @@ public:
         return newObjPtr;
     }
 
-    template <class TChild, typename... TChildArgs>
-    TChild* NewSpec(TChildArgs&&... constructor_args)
-    {
-        NodeHeader* node = GetNodeHeader<TChild>();
-
-        DG_ASSERT(!node->busy);
-        // NOTE: Cannot store more than one object at the same time.
-
-        TChild* newObjPtr =
-            new(node->storage) TChild(std::forward<TChildArgs>(constructor_args)...);
-
-        node->busy = true;
-        LinkNode(node);
-        return newObjPtr;
-    }
-
     /**
      * @brief Copy-Constructs & Allocates new object of type TChild.
      */

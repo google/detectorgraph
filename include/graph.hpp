@@ -165,7 +165,7 @@ public:
         if (tObj == NULL)
         {
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-            tObj = topicAllocator.NewSpec<Topic<TTopicState>>();
+            tObj = topicAllocator.New<Topic<TTopicState>>();
 #else
             tObj = new Topic<TTopicState>();
 #endif

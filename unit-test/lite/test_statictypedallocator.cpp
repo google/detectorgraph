@@ -186,42 +186,12 @@ static void Test_Clear(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, SomeChild<TopicStateB>::instanceCount == 0);
 }
 
-// Types with different requirements tested on Test_PerfectNew
-
-// Non-Copy-constructible, Non-default-constructible
-template<class T> struct SpoiledChild : public SomeBase
-{
-    static int instanceCount;
-    SpoiledChild(const T& d) : data(d) { instanceCount++; }
-    ~SpoiledChild() { instanceCount--; }
-    T data;
-private:
-    SpoiledChild(const SpoiledChild&) {}
-};
-
-template<>
-int SpoiledChild<TopicStateA>::instanceCount = 0;
-
-// Non-Copy-constructible, Default-constructible
-template<class T> struct ChillChild : public SomeBase
-{
-    static int instanceCount;
-    ChillChild() : data(42) { instanceCount++; }
-    ~ChillChild() { instanceCount--; }
-    T data;
-private:
-    ChillChild(const ChillChild& other) { }
-};
-
-template<>
-int ChillChild<TopicStateA>::instanceCount = 0;
-
 static void Test_PerfectNew(nlTestSuite *inSuite, void *inContext)
 {
     {
         StaticTypedAllocator<SomeBase> allocator;
 
-        SomeBase* basePtr = allocator.New<SomeChild<TopicStateA>>((TopicStateA(42)));
+        SomeBase* basePtr = allocator.New<SomeChild<TopicStateA>>(TopicStateA(42));
         allocator.Delete(basePtr);
 
         SomeChild<TopicStateA>* childPtr = static_cast< SomeChild<TopicStateA>* >(basePtr);
@@ -232,24 +202,90 @@ static void Test_PerfectNew(nlTestSuite *inSuite, void *inContext)
     {
         StaticTypedAllocator<SomeBase> allocator;
 
-        SomeBase* basePtr = allocator.New<SpoiledChild<TopicStateA>>(TopicStateA(42));
+        SomeBase* basePtr = allocator.New<SomeChild<TopicStateA>>(42);
         allocator.Delete(basePtr);
 
-        SpoiledChild<TopicStateA>* childPtr = static_cast< SpoiledChild<TopicStateA>* >(basePtr);
+        SomeChild<TopicStateA>* childPtr = static_cast< SomeChild<TopicStateA>* >(basePtr);
         NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
     }
-    NL_TEST_ASSERT(inSuite, SpoiledChild<TopicStateA>::instanceCount == 0);
+    NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);
+}
+
+// Types with different requirements tested on Test_PerfectNew
+
+// Non-Copy-constructible, Non-default-constructible
+template<class T> struct NonCopyNonDefault : public SomeBase
+{
+    static int instanceCount;
+    NonCopyNonDefault(const T& d) : data(d) { instanceCount++; }
+    ~NonCopyNonDefault() { instanceCount--; }
+    T data;
+private:
+    NonCopyNonDefault(const NonCopyNonDefault&) {}
+};
+
+template<>
+int NonCopyNonDefault<TopicStateA>::instanceCount = 0;
+
+// Non-Copy-constructible, Default-constructible
+template<class T> struct NonCopyButDefault : public SomeBase
+{
+    static int instanceCount;
+    NonCopyButDefault() : data(42) { instanceCount++; }
+    ~NonCopyButDefault() { instanceCount--; }
+    T data;
+private:
+    NonCopyButDefault(const NonCopyButDefault& other) { }
+};
+
+template<>
+int NonCopyButDefault<TopicStateA>::instanceCount = 0;
+
+static void Test_PerfectNewWithRestrictions(nlTestSuite *inSuite, void *inContext)
+{
+    {
+        StaticTypedAllocator<SomeBase> allocator;
+
+        SomeBase* basePtr = allocator.New<NonCopyNonDefault<TopicStateA>>(TopicStateA(42));
+        allocator.Delete(basePtr);
+
+        NonCopyNonDefault<TopicStateA>* childPtr = static_cast< NonCopyNonDefault<TopicStateA>* >(basePtr);
+        NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
+    }
+    NL_TEST_ASSERT(inSuite, NonCopyNonDefault<TopicStateA>::instanceCount == 0);
 
     {
         StaticTypedAllocator<SomeBase> allocator;
 
-        SomeBase* basePtr = allocator.New<ChillChild<TopicStateA>>();
+        SomeBase* basePtr = allocator.New<NonCopyNonDefault<TopicStateA>>(42);
         allocator.Delete(basePtr);
 
-        ChillChild<TopicStateA>* childPtr = static_cast< ChillChild<TopicStateA>* >(basePtr);
+        NonCopyNonDefault<TopicStateA>* childPtr = static_cast< NonCopyNonDefault<TopicStateA>* >(basePtr);
         NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
     }
-    NL_TEST_ASSERT(inSuite, ChillChild<TopicStateA>::instanceCount == 0);
+    NL_TEST_ASSERT(inSuite, NonCopyNonDefault<TopicStateA>::instanceCount == 0);
+
+    {
+        StaticTypedAllocator<SomeBase> allocator;
+
+        SomeBase* basePtr = allocator.New<NonCopyNonDefault<TopicStateA>>(42);
+        allocator.Delete(basePtr);
+
+        NonCopyNonDefault<TopicStateA>* childPtr = static_cast< NonCopyNonDefault<TopicStateA>* >(basePtr);
+        NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
+    }
+    NL_TEST_ASSERT(inSuite, NonCopyNonDefault<TopicStateA>::instanceCount == 0);
+
+    {
+        StaticTypedAllocator<SomeBase> allocator;
+
+        SomeBase* basePtr = allocator.New<NonCopyButDefault<TopicStateA>>();
+        allocator.Delete(basePtr);
+
+        NonCopyButDefault<TopicStateA>* childPtr = static_cast< NonCopyButDefault<TopicStateA>* >(basePtr);
+        NL_TEST_ASSERT(inSuite, childPtr->data.a == 42);
+    }
+    NL_TEST_ASSERT(inSuite, NonCopyButDefault<TopicStateA>::instanceCount == 0);
 }
 
 static const nlTest sTests[] = {
@@ -261,6 +297,7 @@ static const nlTest sTests[] = {
     NL_TEST_DEF("Test_MultipleInstances", Test_MultipleInstances),
     NL_TEST_DEF("Test_Clear", Test_Clear),
     NL_TEST_DEF("Test_PerfectNew", Test_PerfectNew),
+    NL_TEST_DEF("Test_PerfectNewWithRestrictions", Test_PerfectNewWithRestrictions),
     NL_TEST_SENTINEL()
 };
 
