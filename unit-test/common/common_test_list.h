@@ -20,6 +20,7 @@
 /* (1) INCLUDE YOUR TEST HERE */
 
 #include "test_foodetector.h"
+#include "test_futurepublisher.h"
 #include "test_graphinputqueue.h"
 #include "test_lag.h"
 #include "test_subscriptiondispatcherscontainer.h"
@@ -28,6 +29,7 @@
 
 #define COMMON_TEST_LIST \
     foodetector_testsuite, \
+    futurepublisher_testsuite, \
     graphinputqueue_testsuite, \
     lag_testsuite, \
     subscriptiondispatcherscontainer_testsuite, \

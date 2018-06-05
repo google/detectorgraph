@@ -21,7 +21,6 @@
 
 /* (1) INCLUDE YOUR TEST HERE */
 #include "test_detector.h"
-#include "test_futurepublisher.h"
 #include "test_graph.h"
 #include "test_graphanalyzer.h"
 #include "test_graphstatestore.h"
@@ -39,7 +38,6 @@ typedef int (*test_fp)(void);
 #define UNIT_TEST_LIST {\
     COMMON_TEST_LIST \
     detector_testsuite, \
-    futurepublisher_testsuite, \
     graph_testsuite, \
     graphanalyzer_testsuite, \
     graphstatestore_testsuite, \

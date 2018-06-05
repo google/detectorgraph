@@ -84,19 +84,27 @@ static int teardown_futurepublisher(void *inContext)
 static void Test_GraphTopology(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
+    graph.ResolveTopic<EchoTopicState>();
     SampleEchoDetector detector(&graph);
+
     NL_TEST_ASSERT(inSuite, detector.mFutureState.mEchoSource == EchoTopicState::NONE);
     NL_TEST_ASSERT(inSuite, graph.GetVertices().size() == 2);
-    NL_TEST_ASSERT(inSuite, graph.ResolveTopic<EchoTopicState>()->GetOutEdges().front() == &detector);
-    NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetOutEdges().size() == 0);
-    NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetFutureOutEdges().front() == graph.ResolveTopic<EchoTopicState>());
-    NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetInEdges().front() == graph.ResolveTopic<EchoTopicState>());
-    NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetFutureInEdges().size() == 0);
+
+
+    NL_TEST_ASSERT(inSuite, *(graph.ResolveTopic<EchoTopicState>()->GetOutEdges().begin()) == &detector);
+    NL_TEST_ASSERT(inSuite, detector.GetOutEdges().size() == 0);
+
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    NL_TEST_ASSERT(inSuite, *(detector.GetFutureOutEdges().begin()) == graph.ResolveTopic<EchoTopicState>());
+    NL_TEST_ASSERT(inSuite, *(detector.GetInEdges().begin()) == graph.ResolveTopic<EchoTopicState>());
+    NL_TEST_ASSERT(inSuite, detector.GetFutureInEdges().size() == 0);
+#endif
 }
 
 static void Test_PublishOnFutureEvaluation(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
+    graph.ResolveTopic<EchoTopicState>();
     SampleEchoDetector detector(&graph);
 
     graph.PushData<EchoTopicState>(EchoTopicState(EchoTopicState::EXTERNAL_PUBLISH, 1));
@@ -118,6 +126,7 @@ static void Test_PublishOnFutureEvaluation(nlTestSuite *inSuite, void *inContext
 static void Test_EvaluateAllPendingWithFuturePublish(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
+    graph.ResolveTopic<EchoTopicState>();
     SampleEchoDetector detector(&graph);
 
     graph.PushData<EchoTopicState>(EchoTopicState(EchoTopicState::EXTERNAL_PUBLISH, 5));
