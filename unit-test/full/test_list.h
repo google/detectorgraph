@@ -28,7 +28,6 @@
 #include "test_nodenameutils.h"
 #include "test_testsplitterdetector.h"
 #include "test_testtimeoutpublisherservice.h"
-#include "test_timeoutpublisher.h"
 #include "test_topic.h"
 #include "test_topicstate.h"
 
@@ -45,7 +44,6 @@ typedef int (*test_fp)(void);
     nodenameutils_testsuite, \
     testsplitterdetector_testsuite, \
     testtimeoutpublisherservice_testsuite, \
-    timeoutpublisher_testsuite, \
     topic_testsuite, \
     topicstate_testsuite, \
 }

@@ -24,6 +24,7 @@
 #include "test_graphinputqueue.h"
 #include "test_lag.h"
 #include "test_subscriptiondispatcherscontainer.h"
+#include "test_timeoutpublisher.h"
 #include "test_timeoutpublisherservice.h"
 #include "test_topicregistry.h"
 
@@ -33,6 +34,7 @@
     graphinputqueue_testsuite, \
     lag_testsuite, \
     subscriptiondispatcherscontainer_testsuite, \
+    timeoutpublisher_testsuite, \
     timeoutpublisherservice_testsuite, \
     topicregistry_testsuite, \
 
