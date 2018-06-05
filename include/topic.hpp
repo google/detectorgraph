@@ -33,10 +33,7 @@
 // FULL_END
 #endif
 
-// Necessary for Post-C++11 type checking
-#if __cplusplus >= 201103L
-#include <type_traits>
-#endif
+#include "dgstdincludes.hpp"
 
 namespace DetectorGraph
 {
@@ -87,7 +84,7 @@ template<class T>
 class Topic : public BaseTopic
 {
     // Post-C++11 type checking
-#if __cplusplus >= 201103L
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_STATIC_ASSERTS)
     static_assert(std::is_base_of<TopicState, T>::value, "T must inherit from TopicState");
 #endif
 

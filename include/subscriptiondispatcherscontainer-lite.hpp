@@ -18,8 +18,7 @@
 #include "subscriptiondispatcher.hpp"
 #include "dgassert.hpp"
 #include "detectorgraphliteconfig.hpp"
-
-#include <stdint.h>
+#include "dgstdincludes.hpp"
 
 namespace DetectorGraph
 {

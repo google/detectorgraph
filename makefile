@@ -20,6 +20,9 @@ CPPSTD ?= -std=c++11
 LITE_CONFIG ?= -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions -fno-rtti -Os
 FULL_CONFIG ?=
 
+# Enables std::static_asserts for checking library usage patterns.
+LITE_CONFIG += -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_STATIC_ASSERTS -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_PERFECT_FORWARDING
+
 # To use the lite version of the library in the examples swap the config below
 CONFIG ?= $(FULL_CONFIG)
 # CONFIG=$(LITE_CONFIG)

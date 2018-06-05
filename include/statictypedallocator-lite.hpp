@@ -16,10 +16,7 @@
 #define DETECTORGRAPH_INCLUDE_STATICTYPEDALLOCATOR_LITE_HPP_
 
 #include "dgassert.hpp"
-
-#include <new>
-#include <stdint.h>
-#include <utility>
+#include "dgstdincludes.hpp"
 
 namespace DetectorGraph
 {
@@ -113,8 +110,13 @@ public:
         DG_ASSERT(!node->busy);
         // NOTE: Cannot store more than one object at the same time.
 
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_PERFECT_FORWARDING)
         TChild* newObjPtr =
             new(node->storage) TChild(std::forward<TChildArgs>(constructor_args)...);
+#else
+        TChild* newObjPtr =
+            new(node->storage) TChild(constructor_args...);
+#endif
 
         node->busy = true;
         LinkNode(node);

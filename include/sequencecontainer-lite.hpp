@@ -16,13 +16,7 @@
 #define DETECTORGRAPH_INCLUDE_SEQUENCECONTAINER_LITE_HPP_
 
 #include "dgassert.hpp"
-
-#include <new>
-#include <stdint.h>
-
-#if __cplusplus >= 201103L
-#include <type_traits>
-#endif
+#include "dgstdincludes.hpp"
 
 namespace DetectorGraph
 {
@@ -34,7 +28,7 @@ namespace DetectorGraph
 template <typename T, unsigned N>
 class SequenceContainer
 {
-#if __cplusplus >= 201103L
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_STATIC_ASSERTS)
     static_assert(sizeof(T) % sizeof(uint32_t) == 0, "T must be uint32_t aligned");
     static_assert(std::is_copy_constructible<T>::value, "Generic SequenceContainer copy-constructs T");
 #endif
