@@ -20,12 +20,14 @@
 /* (1) INCLUDE YOUR TEST HERE */
 
 #include "test_graphinputqueue.h"
+#include "test_lag.h"
 #include "test_topicregistry.h"
 #include "test_subscriptiondispatcherscontainer.h"
 #include "test_timeoutpublisherservice.h"
 
 #define COMMON_TEST_LIST \
     topicregistry_testsuite, \
+    lag_testsuite, \
     graphinputqueue_testsuite, \
     subscriptiondispatcherscontainer_testsuite, \
     timeoutpublisherservice_testsuite, \

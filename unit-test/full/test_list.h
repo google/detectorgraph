@@ -27,7 +27,6 @@
 #include "test_graphanalyzer.h"
 #include "test_graphstatestore.h"
 #include "test_graphtestutils.h"
-#include "test_lag.h"
 #include "test_nodenameutils.h"
 #include "test_testsplitterdetector.h"
 #include "test_testtimeoutpublisherservice.h"
@@ -47,7 +46,6 @@ typedef int (*test_fp)(void);
     graphanalyzer_testsuite, \
     graphstatestore_testsuite, \
     graphtestutils_testsuite, \
-    lag_testsuite, \
     nodenameutils_testsuite, \
     testsplitterdetector_testsuite, \
     testtimeoutpublisherservice_testsuite, \
