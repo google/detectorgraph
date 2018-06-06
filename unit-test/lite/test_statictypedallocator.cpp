@@ -178,8 +178,8 @@ static void Test_Clear(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);
     NL_TEST_ASSERT(inSuite, SomeChild<TopicStateB>::instanceCount == 0);
 
-    allocator.New(SomeChild<TopicStateA>(1));
-    allocator.New(SomeChild<TopicStateB>(1));
+    allocator.New<SomeChild<TopicStateA>>(1);
+    allocator.New<SomeChild<TopicStateB>>(1);
 
     allocator.clear();
     NL_TEST_ASSERT(inSuite, SomeChild<TopicStateA>::instanceCount == 0);

@@ -103,7 +103,11 @@ public:
      * @brief Constructs & Allocates new object of type TChild with arguments.
      */
     template <class TChild, typename... TChildArgs>
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_PERFECT_FORWARDING)
     TChild* New(TChildArgs&&... constructor_args)
+#else
+    TChild* New(TChildArgs&... constructor_args)
+#endif
     {
         NodeHeader* node = GetNodeHeader<TChild>();
 
@@ -117,25 +121,6 @@ public:
         TChild* newObjPtr =
             new(node->storage) TChild(constructor_args...);
 #endif
-
-        node->busy = true;
-        LinkNode(node);
-        return newObjPtr;
-    }
-
-    /**
-     * @brief Copy-Constructs & Allocates new object of type TChild.
-     */
-    template<class TChild>
-    TChild* New(const TChild& aOriginal)
-    {
-        NodeHeader* node = GetNodeHeader<TChild>();
-
-        DG_ASSERT(!node->busy);
-        // NOTE: Cannot store more than one object at the same time.
-
-        TChild* newObjPtr =
-            new(node->storage) TChild(aOriginal);
 
         node->busy = true;
         LinkNode(node);
