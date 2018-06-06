@@ -18,6 +18,7 @@
 #include "topic.hpp"
 #include "topicstate.hpp"
 #include "dgassert.hpp"
+#include "dgstdincludes.hpp"
 #include <detectorgraphliteconfig.hpp>
 
 namespace DetectorGraph
@@ -36,7 +37,7 @@ public:
     TopicRegistry() : registry() {}
     template<class TTopicState> Topic<TTopicState>* Resolve()
     {
-#if __cplusplus >= 201103L
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_STATIC_ASSERTS)
         static_assert(std::is_base_of<TopicState, TTopicState>::value,
             "Trying to Resolve non-Topic type.");
 #endif
@@ -54,7 +55,7 @@ public:
 
     template<class TTopicState> void Register(Topic<TTopicState>* obj)
     {
-#if __cplusplus >= 201103L
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_STATIC_ASSERTS)
         static_assert(std::is_base_of<TopicState, TTopicState>::value,
             "Trying to Register non-Topic type.");
 #endif
