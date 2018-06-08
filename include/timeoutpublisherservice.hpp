@@ -25,6 +25,7 @@
 // LITE_END
 #else
 // FULL_BEGIN
+#include "dglogging.hpp"
 #include <vector>
 // FULL_END
 #endif
@@ -178,6 +179,7 @@ public:
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
         ScheduleTimeoutDispatcher(mTimeoutDispatchersAllocator.New<Dispatcher<T>>(aData), aMillisecondsFromNow, aTimerHandle);
 #else
+        DG_LOG("Schedulling Timeout for %s in %d milliseconds\n", aData.GetName(), aMillisecondsFromNow);
         ScheduleTimeoutDispatcher(new Dispatcher<T>(aData), aMillisecondsFromNow, aTimerHandle);
 #endif
     }
