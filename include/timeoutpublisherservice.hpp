@@ -158,6 +158,13 @@ public:
 #else
         SchedulePeriodicPublishingDispatcher(new Dispatcher<T>(), aPeriodInMilliseconds);
 #endif
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        DG_LOG("Scheduling PeriodicPublishing every %d milliseconds\n", aPeriodInMilliseconds);
+#else
+        DG_LOG("Scheduling PeriodicPublishing of %s every %d milliseconds\n", T().GetName(), aPeriodInMilliseconds);
+#endif
+#endif
     }
 
     /**
@@ -179,8 +186,14 @@ public:
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
         ScheduleTimeoutDispatcher(mTimeoutDispatchersAllocator.New<Dispatcher<T>>(aData), aMillisecondsFromNow, aTimerHandle);
 #else
-        DG_LOG("Schedulling Timeout for %s in %d milliseconds\n", aData.GetName(), aMillisecondsFromNow);
         ScheduleTimeoutDispatcher(new Dispatcher<T>(aData), aMillisecondsFromNow, aTimerHandle);
+#endif
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        DG_LOG("Scheduling Timeout in %d milliseconds\n", aMillisecondsFromNow);
+#else
+        DG_LOG("Scheduling Timeout for %s in %d milliseconds\n", aData.GetName(), aMillisecondsFromNow);
+#endif
 #endif
     }
 

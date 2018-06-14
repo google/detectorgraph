@@ -61,6 +61,9 @@ void Graph::AddVertex(Vertex* aVertex)
 #if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     mNeedsSorting = true;
 #endif
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+    DG_LOG("Added Vertex (total=%u)", mVertices.size());
+#endif
 }
 
 void Graph::RemoveVertex(Vertex* aVertex)

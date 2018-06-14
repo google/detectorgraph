@@ -15,6 +15,8 @@
 #ifndef DETECTORGRAPH_INCLUDE_VERTEX_HPP_
 #define DETECTORGRAPH_INCLUDE_VERTEX_HPP_
 
+#include "dglogging.hpp"
+
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
 // LITE_BEGIN
 #include "detectorgraphliteconfig.hpp"
@@ -81,6 +83,9 @@ public:
         mOutEdges.push_back(aVertex);
 #if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
         aVertex->mInEdges.push_back(this);
+#endif
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+    DG_LOG("Added Edge (total=%u)", mOutEdges.size());
 #endif
     }
 

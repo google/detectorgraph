@@ -27,6 +27,9 @@ LITE_CONFIG += -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_STATIC_ASSERTS -DBUILD_FEATU
 CONFIG ?= $(FULL_CONFIG)
 # CONFIG=$(LITE_CONFIG)
 
+# Enables a bunch of debug logs that help understand Graph and TimeoutPublisherService resource usage.
+# CONFIG += -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE
+
 FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
 
 # The core library will work fine without C++11 but some examples rely on it

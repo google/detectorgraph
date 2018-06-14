@@ -45,6 +45,9 @@ TimeoutPublisherHandle TimeoutPublisherService::GetUniqueTimerHandle()
 {
     TimeoutPublisherHandle newHandle = (TimeoutPublisherHandle)mTimeoutDispatchers.size();
     mTimeoutDispatchers.push_back(NULL);
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+        DG_LOG("Reserved UniqueTimerHandle=%d\n", (int)newHandle);
+#endif
     return newHandle;
 }
 
@@ -122,6 +125,9 @@ void TimeoutPublisherService::StartPeriodicPublishing()
     if (mMetronomePeriodMsec > 0)
     {
         StartMetronome(mMetronomePeriodMsec);
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+        DG_LOG("Started Metronome with period of %d milliseconds\n", mMetronomePeriodMsec);
+#endif
     }
 }
 
