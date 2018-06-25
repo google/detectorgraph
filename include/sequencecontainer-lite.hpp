@@ -99,6 +99,8 @@ public:
     }
 
 
+    typedef T value_type;
+    enum { max_size = N };
     typedef T * iterator;
     typedef const T * const_iterator;
     const_iterator begin() const { return &(Items()[0]); }

@@ -87,7 +87,7 @@ unit-test/test_full:
 	g++ $(CPPSTD) $(FLAGS) $(FULL_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(FULL_TESTS) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(FULL_TESTS_SRCS) -o test_full.out && ./test_full.out
 
 unit-test/test_lite:
-	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(LITE_TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(LITE_TESTS_SRCS) -o test_lite.out && ./test_lite.out
+	g++ $(CPPSTD) $(FLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(LITE_TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(LITE_TESTS_SRCS) -o test_lite.out && ./test_lite.out
 
 examples/helloworld:
 	# Minimal Include & Sources dependencies

@@ -27,7 +27,6 @@
 #include "test_graphtestutils.h"
 #include "test_nodenameutils.h"
 #include "test_testsplitterdetector.h"
-#include "test_testtimeoutpublisherservice.h"
 #include "test_topicstate.h"
 
 typedef int (*test_fp)(void);
@@ -42,7 +41,6 @@ typedef int (*test_fp)(void);
     graphtestutils_testsuite, \
     nodenameutils_testsuite, \
     testsplitterdetector_testsuite, \
-    testtimeoutpublisherservice_testsuite, \
     topicstate_testsuite, \
 }
 

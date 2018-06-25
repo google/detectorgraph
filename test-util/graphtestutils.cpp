@@ -31,6 +31,7 @@ namespace GraphTestUtils
         while (aGraph.HasDataPending()) { aGraph.EvaluateGraph(); }
     }
 
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     void PrintOutputs(Graph& aGraph)
     {
         DG_LOG("-----Graph::GetOutputList() contains:-----");
@@ -43,6 +44,7 @@ namespace GraphTestUtils
         }
         DG_LOG("---------------------DONE------------------------");
     }
+#endif
 
 } // namespace GraphTestUtils
 

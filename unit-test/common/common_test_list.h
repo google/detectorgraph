@@ -26,6 +26,7 @@
 #include "test_subscriptiondispatcherscontainer.h"
 #include "test_timeoutpublisher.h"
 #include "test_timeoutpublisherservice.h"
+#include "test_testtimeoutpublisherservice.h"
 #include "test_topic.h"
 #include "test_topicregistry.h"
 
@@ -37,6 +38,7 @@
     subscriptiondispatcherscontainer_testsuite, \
     timeoutpublisher_testsuite, \
     timeoutpublisherservice_testsuite, \
+    testtimeoutpublisherservice_testsuite, \
     topic_testsuite, \
     topicregistry_testsuite, \
 
