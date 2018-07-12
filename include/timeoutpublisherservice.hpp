@@ -183,6 +183,8 @@ public:
     template<class T>
     void ScheduleTimeout(const T& aData, const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerHandle)
     {
+        // Due to Lite limitations we need to cancel/free the old Dispatcher for the same handle before we schedule the new one.
+        CancelPublishOnTimeout(aTimerHandle);
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
         ScheduleTimeoutDispatcher(mTimeoutDispatchersAllocator.New<Dispatcher<T>>(aData), aMillisecondsFromNow, aTimerHandle);
 #else

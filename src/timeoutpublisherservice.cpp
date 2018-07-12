@@ -58,8 +58,9 @@ void TimeoutPublisherService::ScheduleTimeoutDispatcher(
 {
     // Assert valid Handle
     DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
-    CancelPublishOnTimeout(aHandle);
     unsigned dispatcherIdx = (unsigned)aHandle;
+    // Assert dispatcher is available
+    DG_ASSERT(mTimeoutDispatchers[dispatcherIdx] == NULL);
     mTimeoutDispatchers[dispatcherIdx] = aDispatcher;
     SetTimeout(aMillisecondsFromNow, aHandle);
     Start(aHandle);

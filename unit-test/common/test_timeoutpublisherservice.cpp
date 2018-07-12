@@ -105,6 +105,32 @@ static void Test_DispatchSingleTS(nlTestSuite *inSuite, void *inContext)
 
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, topicAPtr->HasNewValue());
+    NL_TEST_ASSERT(inSuite, topicAPtr->GetNewValue().v == 42);
+}
+
+static void Test_DispatchUpdate(nlTestSuite *inSuite, void *inContext)
+{
+    Graph graph;
+    _TimeoutPublisherService timeoutPublisherService(graph);
+
+    Topic<TopicStateA>* topicAPtr = graph.ResolveTopic<TopicStateA>();
+
+    TimeoutPublisherHandle handle = timeoutPublisherService.GetUniqueTimerHandle();
+
+    timeoutPublisherService.ScheduleTimeout<TopicStateA>(TopicStateA(42),
+                                                         /* not used */0,
+                                                         handle);
+
+    // Updates earlier publishing with a new value.
+    timeoutPublisherService.ScheduleTimeout<TopicStateA>(TopicStateA(58),
+                                                         /* not used */0,
+                                                         handle);
+
+    timeoutPublisherService.TimeoutExpired(handle);
+
+    graph.EvaluateGraph();
+    NL_TEST_ASSERT(inSuite, topicAPtr->HasNewValue());
+    NL_TEST_ASSERT(inSuite, topicAPtr->GetNewValue().v == 58);
 }
 
 static void Test_DispatchMultiple(nlTestSuite *inSuite, void *inContext)
@@ -227,6 +253,7 @@ static void Test_PeriodicMultiple(nlTestSuite *inSuite, void *inContext)
 static const nlTest sTests[] = {
     NL_TEST_DEF("Test_Lifetime", Test_Lifetime),
     NL_TEST_DEF("Test_DispatchSingleTS", Test_DispatchSingleTS),
+    NL_TEST_DEF("Test_DispatchUpdate", Test_DispatchUpdate),
     NL_TEST_DEF("Test_DispatchMultiple", Test_DispatchMultiple),
     NL_TEST_DEF("Test_PeriodicOne", Test_PeriodicOne),
     NL_TEST_DEF("Test_PeriodicMultiple", Test_PeriodicMultiple),
