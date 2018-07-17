@@ -138,11 +138,11 @@ void TimeoutPublisherService::MetronomeFired()
         it != mPeriodicSeries.end();
         ++it)
     {
-        it->mMetronomeCounter++;
-        if (it->mMetronomeCounter >= (it->mPublishingPeriodMsec / mMetronomePeriodMsec))
+        it->mMetronomeAccumulator += mMetronomePeriodMsec;
+        if (it->mMetronomeAccumulator >= it->mPublishingPeriodMsec)
         {
             it->mpDispatcher->Dispatch(mrGraph);
-            it->mMetronomeCounter = 0;
+            it->mMetronomeAccumulator = 0;
         }
     }
 }
@@ -152,6 +152,27 @@ TimeOffset TimeoutPublisherService::gcd(TimeOffset lhs, TimeOffset rhs)
     while (rhs != 0)
     {
         TimeOffset temp = rhs;
+        // TODO(DGRAPH-52): This uses a (uint64_t)%(uint64_t) op.
+        // An alternative is to use:
+        // TimeOffset mod64(TimeOffset A, TimeOffset B)
+        // {
+        //     TimeOffset X = B;
+
+        //     while (X <= (A>>1))
+        //     {
+        //         X <<= 1;
+        //     }
+
+        //     while (A >= B)
+        //     {
+        //         if (A >= X)
+        //             A -= X;
+        //         X >>= 1;
+        //     }
+
+        //     // return TimeOffset();
+        //     return A;
+        // }
         rhs = lhs % rhs;
         lhs = temp;
     }

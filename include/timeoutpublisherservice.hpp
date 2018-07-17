@@ -83,13 +83,13 @@ class TimeoutPublisherService
     struct PeriodicPublishingSeries
     {
         TimeOffset mPublishingPeriodMsec;
-        TimeOffset mMetronomeCounter;
+        TimeOffset mMetronomeAccumulator;
         DispatcherInterface* mpDispatcher;
 
         PeriodicPublishingSeries(TimeOffset aPublishingPeriodMsec,
             DispatcherInterface* aDispatcher)
         : mPublishingPeriodMsec(aPublishingPeriodMsec)
-        , mMetronomeCounter(0)
+        , mMetronomeAccumulator(0)
         , mpDispatcher(aDispatcher) {}
     };
 
