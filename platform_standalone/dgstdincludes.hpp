@@ -23,6 +23,8 @@
 #include <utility>
 #endif
 
+#include "dgalternatives.hpp"
+
 #include <new>
 #include <stdint.h>
 

@@ -152,28 +152,35 @@ TimeOffset TimeoutPublisherService::gcd(TimeOffset lhs, TimeOffset rhs)
     while (rhs != 0)
     {
         TimeOffset temp = rhs;
-        // TODO(DGRAPH-52): This uses a (uint64_t)%(uint64_t) op.
+#if defined(DG_TIMEOFFSET_REMAINDER)
+        // This algorithm uses a mod(uint64_t, uint64_t) operation. In some
+        // target platforms that's either not available or explicitly banned.
+        // In those platforms, add
         // An alternative is to use:
         // TimeOffset mod64(TimeOffset A, TimeOffset B)
         // {
         //     TimeOffset X = B;
-
         //     while (X <= (A>>1))
         //     {
         //         X <<= 1;
         //     }
-
         //     while (A >= B)
         //     {
         //         if (A >= X)
+        //         {
         //             A -= X;
+        //         }
         //         X >>= 1;
         //     }
-
-        //     // return TimeOffset();
         //     return A;
         // }
+        //
+        // And then define (e.g. on detectorgraphliteconfig.hpp):
+        // #define DG_TIMEOFFSET_REMAINDER((A),(B)) mod64(A,B)
+        rhs = DG_TIMEOFFSET_REMAINDER(lhs, rhs);
+#else
         rhs = lhs % rhs;
+#endif
         lhs = temp;
     }
     return lhs;
