@@ -52,25 +52,25 @@
 <text text-anchor="middle" x="69.7017" y="-515.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Vertex</text>
 <polyline fill="none" stroke="black" points="9.31641,-509.5 130.087,-509.5 "/>
 <text text-anchor="start" x="17.3164" y="-497.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mState</text>
-<text text-anchor="start" x="17.3164" y="-487.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mInEdges</text>
-<text text-anchor="start" x="17.3164" y="-477.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mOutEdges</text>
-<text text-anchor="start" x="17.3164" y="-467.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureInEdges</text>
-<text text-anchor="start" x="17.3164" y="-457.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureOutEdges</text>
+<text text-anchor="start" x="17.3164" y="-487.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mOutEdges</text>
+<text text-anchor="start" x="17.3164" y="-477.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mInEdges</text>
+<text text-anchor="start" x="17.3164" y="-467.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureOutEdges</text>
+<text text-anchor="start" x="17.3164" y="-457.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureInEdges</text>
 <polyline fill="none" stroke="black" points="9.31641,-451.5 130.087,-451.5 "/>
 <text text-anchor="start" x="17.3164" y="-439.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Vertex()</text>
 <text text-anchor="start" x="17.3164" y="-429.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Vertex()</text>
 <text text-anchor="start" x="17.3164" y="-419.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
 <text text-anchor="start" x="17.3164" y="-409.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetVertexType()</text>
-<text text-anchor="start" x="17.3164" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetName()</text>
-<text text-anchor="start" x="17.3164" y="-389.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ InsertEdge()</text>
-<text text-anchor="start" x="17.3164" y="-379.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveEdge()</text>
-<text text-anchor="start" x="17.3164" y="-369.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutEdges()</text>
-<text text-anchor="start" x="17.3164" y="-359.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetInEdges()</text>
+<text text-anchor="start" x="17.3164" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetState()</text>
+<text text-anchor="start" x="17.3164" y="-389.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetState()</text>
+<text text-anchor="start" x="17.3164" y="-379.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ InsertEdge()</text>
+<text text-anchor="start" x="17.3164" y="-369.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveEdge()</text>
+<text text-anchor="start" x="17.3164" y="-359.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutEdges()</text>
 <text text-anchor="start" x="17.3164" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ MarkFutureEdge()</text>
-<text text-anchor="start" x="17.3164" y="-339.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureOutEdges()</text>
-<text text-anchor="start" x="17.3164" y="-329.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureInEdges()</text>
-<text text-anchor="start" x="17.3164" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetState()</text>
-<text text-anchor="start" x="17.3164" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetState()</text>
+<text text-anchor="start" x="17.3164" y="-339.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetInEdges()</text>
+<text text-anchor="start" x="17.3164" y="-329.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureOutEdges()</text>
+<text text-anchor="start" x="17.3164" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureInEdges()</text>
+<text text-anchor="start" x="17.3164" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetName()</text>
 </a>
 </g>
 </g>
@@ -132,12 +132,12 @@
 <text text-anchor="start" x="328.023" y="-660.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ EvaluateGraph()</text>
 <text text-anchor="start" x="328.023" y="-650.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ HasDataPending()</text>
 <text text-anchor="start" x="328.023" y="-640.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ EvaluateIfHasDataPending()</text>
-<text text-anchor="start" x="328.023" y="-630.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutputList()</text>
-<text text-anchor="start" x="328.023" y="-620.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ TopoSortGraph()</text>
-<text text-anchor="start" x="328.023" y="-610.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ AddVertex()</text>
-<text text-anchor="start" x="328.023" y="-600.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveVertex()</text>
-<text text-anchor="start" x="328.023" y="-590.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetVertices()</text>
-<text text-anchor="start" x="328.023" y="-580.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetTopicRegistry()</text>
+<text text-anchor="start" x="328.023" y="-630.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ AddVertex()</text>
+<text text-anchor="start" x="328.023" y="-620.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveVertex()</text>
+<text text-anchor="start" x="328.023" y="-610.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetTopicRegistry()</text>
+<text text-anchor="start" x="328.023" y="-600.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetVertices()</text>
+<text text-anchor="start" x="328.023" y="-590.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutputList()</text>
+<text text-anchor="start" x="328.023" y="-580.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ TopoSortGraph()</text>
 </a>
 </g>
 </g>

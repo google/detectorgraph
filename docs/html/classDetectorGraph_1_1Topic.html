@@ -28,6 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
   </td>
  </tr>
@@ -69,6 +70,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classDetectorGraph_1_1Topic-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -85,63 +87,10 @@ Collaboration diagram for DetectorGraph::Topic&lt; T &gt;:</div>
 </div>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a734fe1f6e027eb7cc87ae4ca92cd1a29"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a734fe1f6e027eb7cc87ae4ca92cd1a29">Topic</a> ()</td></tr>
-<tr class="separator:a734fe1f6e027eb7cc87ae4ca92cd1a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c61e215453ae8bfac9f9c79fe3ab236"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a2c61e215453ae8bfac9f9c79fe3ab236">Publish</a> (const T &amp;arPayload)</td></tr>
-<tr class="memdesc:a2c61e215453ae8bfac9f9c79fe3ab236"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append data to its list.  <a href="#a2c61e215453ae8bfac9f9c79fe3ab236">More...</a><br /></td></tr>
-<tr class="separator:a2c61e215453ae8bfac9f9c79fe3ab236"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb4682ee08b786517b6e11761be566db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#afb4682ee08b786517b6e11761be566db">DispatchIntoSubscriber</a> (<a class="el" href="classDetectorGraph_1_1SubscriberInterface.html">SubscriberInterface</a>&lt; T &gt; *aSubscriber)</td></tr>
-<tr class="memdesc:afb4682ee08b786517b6e11761be566db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pass pending data to its handler.  <a href="#afb4682ee08b786517b6e11761be566db">More...</a><br /></td></tr>
-<tr class="separator:afb4682ee08b786517b6e11761be566db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2731a0f1b0e69f40140e866f3a2a58d"><td class="memItemLeft" align="right" valign="top">const std::list&lt; T &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#ab2731a0f1b0e69f40140e866f3a2a58d">GetCurrentValues</a> () const</td></tr>
-<tr class="separator:ab2731a0f1b0e69f40140e866f3a2a58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6074b31ae076b626be2c04f819a6f41f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a6074b31ae076b626be2c04f819a6f41f">HasNewValue</a> () const</td></tr>
-<tr class="memdesc:a6074b31ae076b626be2c04f819a6f41f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the new Data is available.  <a href="#a6074b31ae076b626be2c04f819a6f41f">More...</a><br /></td></tr>
-<tr class="separator:a6074b31ae076b626be2c04f819a6f41f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3acc3d38431047d1ca7e09f37c84a7b6"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a3acc3d38431047d1ca7e09f37c84a7b6">GetNewValue</a> () const</td></tr>
-<tr class="memdesc:a3acc3d38431047d1ca7e09f37c84a7b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns reference to the new/latest value in the topic.  <a href="#a3acc3d38431047d1ca7e09f37c84a7b6">More...</a><br /></td></tr>
-<tr class="separator:a3acc3d38431047d1ca7e09f37c84a7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9902dccf5bef968887f820c0271e54b4"><td class="memItemLeft" align="right" valign="top">virtual std::list&lt; ptr::shared_ptr&lt; const <a class="el" href="structDetectorGraph_1_1TopicState.html">TopicState</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a9902dccf5bef968887f820c0271e54b4">GetCurrentTopicStates</a> () const</td></tr>
-<tr class="separator:a9902dccf5bef968887f820c0271e54b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2fbf28ba1bcb5f82212d977ccf32f73"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceDetectorGraph.html#a0df71abd3fecc25a0f29d8fae82383d2">TopicStateIdType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#af2fbf28ba1bcb5f82212d977ccf32f73">GetId</a> () const</td></tr>
-<tr class="separator:af2fbf28ba1bcb5f82212d977ccf32f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5fa5d0d9d6a9084d3ee0cc26f242857"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#ab5fa5d0d9d6a9084d3ee0cc26f242857">~Topic</a> ()</td></tr>
-<tr class="separator:ab5fa5d0d9d6a9084d3ee0cc26f242857"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1606cc7c644ff5470fe1598ec62efbbc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a1606cc7c644ff5470fe1598ec62efbbc">ProcessVertex</a> ()</td></tr>
-<tr class="separator:a1606cc7c644ff5470fe1598ec62efbbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classDetectorGraph_1_1BaseTopic"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classDetectorGraph_1_1BaseTopic')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classDetectorGraph_1_1BaseTopic.html">DetectorGraph::BaseTopic</a></td></tr>
-<tr class="memitem:a40dabc717b2029edb51f799fe8d00c15 inherit pub_methods_classDetectorGraph_1_1BaseTopic"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classDetectorGraph_1_1Vertex.html#a3733e9756129294ce39358d283f6bf3a">VertexType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1BaseTopic.html#a40dabc717b2029edb51f799fe8d00c15">GetVertexType</a> () const</td></tr>
-<tr class="separator:a40dabc717b2029edb51f799fe8d00c15 inherit pub_methods_classDetectorGraph_1_1BaseTopic"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classDetectorGraph_1_1Vertex"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classDetectorGraph_1_1Vertex')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classDetectorGraph_1_1Vertex.html">DetectorGraph::Vertex</a></td></tr>
-<tr class="memitem:ae8361dc744896e0c7b142fbb18de2125 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ae8361dc744896e0c7b142fbb18de2125">Vertex</a> ()</td></tr>
-<tr class="separator:ae8361dc744896e0c7b142fbb18de2125 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89b2ac11b75adb81244509c357b895b2 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a89b2ac11b75adb81244509c357b895b2">~Vertex</a> ()</td></tr>
-<tr class="separator:a89b2ac11b75adb81244509c357b895b2 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbc5ecc45ae0d669b719fad5af37b936 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#afbc5ecc45ae0d669b719fad5af37b936">GetName</a> () const</td></tr>
-<tr class="separator:afbc5ecc45ae0d669b719fad5af37b936 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8d7d49659bd1d91d21c92b75c07524f inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ab8d7d49659bd1d91d21c92b75c07524f">InsertEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
-<tr class="separator:ab8d7d49659bd1d91d21c92b75c07524f inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cd1bc354b88c2235d17188ce644b57f inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a5cd1bc354b88c2235d17188ce644b57f">RemoveEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
-<tr class="separator:a5cd1bc354b88c2235d17188ce644b57f inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8115e2dc389471f1ecd8c92caed6e71c inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a8115e2dc389471f1ecd8c92caed6e71c">GetOutEdges</a> ()</td></tr>
-<tr class="separator:a8115e2dc389471f1ecd8c92caed6e71c inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6da190391495f5663d9500ba5f731d7e inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a6da190391495f5663d9500ba5f731d7e">GetInEdges</a> ()</td></tr>
-<tr class="separator:a6da190391495f5663d9500ba5f731d7e inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3315300ef5d69f835535e6d1a5be7f05 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a3315300ef5d69f835535e6d1a5be7f05">MarkFutureEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
-<tr class="separator:a3315300ef5d69f835535e6d1a5be7f05 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78c5967ebff1a3461456fe5a07badaf5 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a78c5967ebff1a3461456fe5a07badaf5">GetFutureOutEdges</a> ()</td></tr>
-<tr class="separator:a78c5967ebff1a3461456fe5a07badaf5 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe8614df03f055b27bc40b0b99cc0771 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#afe8614df03f055b27bc40b0b99cc0771">GetFutureInEdges</a> ()</td></tr>
-<tr class="separator:afe8614df03f055b27bc40b0b99cc0771 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a79403b777366a39832e7510a080a87 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a9a79403b777366a39832e7510a080a87">GetState</a> () const</td></tr>
-<tr class="separator:a9a79403b777366a39832e7510a080a87 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa025bbb709d942aba350fb3b0cf8186c inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#aa025bbb709d942aba350fb3b0cf8186c">SetState</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a> aNewState)</td></tr>
-<tr class="separator:aa025bbb709d942aba350fb3b0cf8186c inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ad4b060bf95d9d99a069d78cf28d077e1"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#ad4b060bf95d9d99a069d78cf28d077e1">ValuesContainer</a></td></tr>
+<tr class="separator:ad4b060bf95d9d99a069d78cf28d077e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classDetectorGraph_1_1Vertex"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classDetectorGraph_1_1Vertex')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classDetectorGraph_1_1Vertex.html">DetectorGraph::Vertex</a></td></tr>
 <tr class="memitem:a610015cdacec588c2fa7f938f6b70a29 inherit pub_types_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a> { <a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29aa4de895dafaae536a791668f3b8c7b2b">kVertexClear</a>, 
 <a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29a8c4a6da1b28cf7a46bfb20628d66112c">kVertexProcessing</a>, 
@@ -154,20 +103,80 @@ Additional Inherited Members</h2></td></tr>
 <a class="el" href="classDetectorGraph_1_1Vertex.html#a3733e9756129294ce39358d283f6bf3aac160286b04b2173401c155d3788a95ce">kTestVertex</a>
  }</td></tr>
 <tr class="separator:a3733e9756129294ce39358d283f6bf3a inherit pub_types_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50bf6ef5248c9d452ff07bdfdd04da94 inherit pub_types_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a></td></tr>
+<tr class="separator:a50bf6ef5248c9d452ff07bdfdd04da94 inherit pub_types_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a734fe1f6e027eb7cc87ae4ca92cd1a29"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a734fe1f6e027eb7cc87ae4ca92cd1a29">Topic</a> ()</td></tr>
+<tr class="separator:a734fe1f6e027eb7cc87ae4ca92cd1a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c61e215453ae8bfac9f9c79fe3ab236"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a2c61e215453ae8bfac9f9c79fe3ab236">Publish</a> (const T &amp;arPayload)</td></tr>
+<tr class="memdesc:a2c61e215453ae8bfac9f9c79fe3ab236"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append data to its vector.  <a href="#a2c61e215453ae8bfac9f9c79fe3ab236">More...</a><br /></td></tr>
+<tr class="separator:a2c61e215453ae8bfac9f9c79fe3ab236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1606cc7c644ff5470fe1598ec62efbbc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a1606cc7c644ff5470fe1598ec62efbbc">ProcessVertex</a> ()</td></tr>
+<tr class="separator:a1606cc7c644ff5470fe1598ec62efbbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb4682ee08b786517b6e11761be566db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#afb4682ee08b786517b6e11761be566db">DispatchIntoSubscriber</a> (<a class="el" href="classDetectorGraph_1_1SubscriberInterface.html">SubscriberInterface</a>&lt; T &gt; *aSubscriber)</td></tr>
+<tr class="memdesc:afb4682ee08b786517b6e11761be566db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pass pending data to its handler.  <a href="#afb4682ee08b786517b6e11761be566db">More...</a><br /></td></tr>
+<tr class="separator:afb4682ee08b786517b6e11761be566db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6074b31ae076b626be2c04f819a6f41f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a6074b31ae076b626be2c04f819a6f41f">HasNewValue</a> () const</td></tr>
+<tr class="memdesc:a6074b31ae076b626be2c04f819a6f41f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the new Data is available.  <a href="#a6074b31ae076b626be2c04f819a6f41f">More...</a><br /></td></tr>
+<tr class="separator:a6074b31ae076b626be2c04f819a6f41f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3acc3d38431047d1ca7e09f37c84a7b6"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a3acc3d38431047d1ca7e09f37c84a7b6">GetNewValue</a> () const</td></tr>
+<tr class="memdesc:a3acc3d38431047d1ca7e09f37c84a7b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns reference to the new/latest value in the topic.  <a href="#a3acc3d38431047d1ca7e09f37c84a7b6">More...</a><br /></td></tr>
+<tr class="separator:a3acc3d38431047d1ca7e09f37c84a7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e374757ac126ddcc4ff99c719a43d9d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classDetectorGraph_1_1Topic.html#ad4b060bf95d9d99a069d78cf28d077e1">ValuesContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a5e374757ac126ddcc4ff99c719a43d9d">GetCurrentValues</a> () const</td></tr>
+<tr class="separator:a5e374757ac126ddcc4ff99c719a43d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5fa5d0d9d6a9084d3ee0cc26f242857"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#ab5fa5d0d9d6a9084d3ee0cc26f242857">~Topic</a> ()</td></tr>
+<tr class="separator:ab5fa5d0d9d6a9084d3ee0cc26f242857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2fbf28ba1bcb5f82212d977ccf32f73"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceDetectorGraph.html#a0df71abd3fecc25a0f29d8fae82383d2">TopicStateIdType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#af2fbf28ba1bcb5f82212d977ccf32f73">GetId</a> () const</td></tr>
+<tr class="separator:af2fbf28ba1bcb5f82212d977ccf32f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9902dccf5bef968887f820c0271e54b4"><td class="memItemLeft" align="right" valign="top">virtual std::list&lt; ptr::shared_ptr&lt; const <a class="el" href="structDetectorGraph_1_1TopicState.html">TopicState</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Topic.html#a9902dccf5bef968887f820c0271e54b4">GetCurrentTopicStates</a> () const</td></tr>
+<tr class="separator:a9902dccf5bef968887f820c0271e54b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classDetectorGraph_1_1BaseTopic"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classDetectorGraph_1_1BaseTopic')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classDetectorGraph_1_1BaseTopic.html">DetectorGraph::BaseTopic</a></td></tr>
+<tr class="memitem:a40dabc717b2029edb51f799fe8d00c15 inherit pub_methods_classDetectorGraph_1_1BaseTopic"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classDetectorGraph_1_1Vertex.html#a3733e9756129294ce39358d283f6bf3a">VertexType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1BaseTopic.html#a40dabc717b2029edb51f799fe8d00c15">GetVertexType</a> () const</td></tr>
+<tr class="separator:a40dabc717b2029edb51f799fe8d00c15 inherit pub_methods_classDetectorGraph_1_1BaseTopic"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classDetectorGraph_1_1Vertex"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classDetectorGraph_1_1Vertex')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classDetectorGraph_1_1Vertex.html">DetectorGraph::Vertex</a></td></tr>
+<tr class="memitem:ae8361dc744896e0c7b142fbb18de2125 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ae8361dc744896e0c7b142fbb18de2125">Vertex</a> ()</td></tr>
+<tr class="separator:ae8361dc744896e0c7b142fbb18de2125 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89b2ac11b75adb81244509c357b895b2 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a89b2ac11b75adb81244509c357b895b2">~Vertex</a> ()</td></tr>
+<tr class="separator:a89b2ac11b75adb81244509c357b895b2 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a79403b777366a39832e7510a080a87 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a9a79403b777366a39832e7510a080a87">GetState</a> () const</td></tr>
+<tr class="separator:a9a79403b777366a39832e7510a080a87 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa025bbb709d942aba350fb3b0cf8186c inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#aa025bbb709d942aba350fb3b0cf8186c">SetState</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a> aNewState)</td></tr>
+<tr class="separator:aa025bbb709d942aba350fb3b0cf8186c inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8d7d49659bd1d91d21c92b75c07524f inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ab8d7d49659bd1d91d21c92b75c07524f">InsertEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
+<tr class="separator:ab8d7d49659bd1d91d21c92b75c07524f inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cd1bc354b88c2235d17188ce644b57f inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a5cd1bc354b88c2235d17188ce644b57f">RemoveEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
+<tr class="separator:a5cd1bc354b88c2235d17188ce644b57f inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a429437c134a4a5c8123fbf600ed677 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a2a429437c134a4a5c8123fbf600ed677">GetOutEdges</a> ()</td></tr>
+<tr class="separator:a2a429437c134a4a5c8123fbf600ed677 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3315300ef5d69f835535e6d1a5be7f05 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a3315300ef5d69f835535e6d1a5be7f05">MarkFutureEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
+<tr class="separator:a3315300ef5d69f835535e6d1a5be7f05 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1b3a861d8e96ae999f9eb29d8ae487d inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ab1b3a861d8e96ae999f9eb29d8ae487d">GetInEdges</a> ()</td></tr>
+<tr class="separator:ab1b3a861d8e96ae999f9eb29d8ae487d inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19acba32c8857f1e9349329be7526eaf inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a19acba32c8857f1e9349329be7526eaf">GetFutureOutEdges</a> ()</td></tr>
+<tr class="separator:a19acba32c8857f1e9349329be7526eaf inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad887d5485b41f22b3cdfb7739a95fcd6 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ad887d5485b41f22b3cdfb7739a95fcd6">GetFutureInEdges</a> ()</td></tr>
+<tr class="separator:ad887d5485b41f22b3cdfb7739a95fcd6 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbc5ecc45ae0d669b719fad5af37b936 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#afbc5ecc45ae0d669b719fad5af37b936">GetName</a> () const</td></tr>
+<tr class="separator:afbc5ecc45ae0d669b719fad5af37b936 inherit pub_methods_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_classDetectorGraph_1_1BaseTopic"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classDetectorGraph_1_1BaseTopic')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classDetectorGraph_1_1BaseTopic.html">DetectorGraph::BaseTopic</a></td></tr>
 <tr class="memitem:ab81e6a53a112dfdb28277c9eaa449479 inherit pro_methods_classDetectorGraph_1_1BaseTopic"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1BaseTopic.html#ab81e6a53a112dfdb28277c9eaa449479">MarkChildrenState</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a> aNewState)</td></tr>
 <tr class="separator:ab81e6a53a112dfdb28277c9eaa449479 inherit pro_methods_classDetectorGraph_1_1BaseTopic"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classDetectorGraph_1_1Vertex"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classDetectorGraph_1_1Vertex')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classDetectorGraph_1_1Vertex.html">DetectorGraph::Vertex</a></td></tr>
 <tr class="memitem:af7403502b8788da52373c01f871ee974 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#af7403502b8788da52373c01f871ee974">mState</a></td></tr>
 <tr class="separator:af7403502b8788da52373c01f871ee974 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa94b293f7d369e680072e8c2d83870d2 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#aa94b293f7d369e680072e8c2d83870d2">mInEdges</a></td></tr>
-<tr class="separator:aa94b293f7d369e680072e8c2d83870d2 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14e4ea25e4a17ca932b98b25a75608db inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a14e4ea25e4a17ca932b98b25a75608db">mOutEdges</a></td></tr>
-<tr class="separator:a14e4ea25e4a17ca932b98b25a75608db inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8833928eff93d9bea04fd09f99ec34f5 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a8833928eff93d9bea04fd09f99ec34f5">mFutureInEdges</a></td></tr>
-<tr class="separator:a8833928eff93d9bea04fd09f99ec34f5 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadd460dbfe45419c23d25465303bd5d4 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#aadd460dbfe45419c23d25465303bd5d4">mFutureOutEdges</a></td></tr>
-<tr class="separator:aadd460dbfe45419c23d25465303bd5d4 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2564a59372fe536bbef7ab5086a9d3 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ace2564a59372fe536bbef7ab5086a9d3">mOutEdges</a></td></tr>
+<tr class="separator:ace2564a59372fe536bbef7ab5086a9d3 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbd4e2c05981840997ad0c6ec9f295ec inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#abbd4e2c05981840997ad0c6ec9f295ec">mInEdges</a></td></tr>
+<tr class="separator:abbd4e2c05981840997ad0c6ec9f295ec inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbf1784bd4c950463b719b8e5ac4b69c inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#abbf1784bd4c950463b719b8e5ac4b69c">mFutureOutEdges</a></td></tr>
+<tr class="separator:abbf1784bd4c950463b719b8e5ac4b69c inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc66e5b7e6f4ed71ada36df2eef62fa1 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#abc66e5b7e6f4ed71ada36df2eef62fa1">mFutureInEdges</a></td></tr>
+<tr class="separator:abc66e5b7e6f4ed71ada36df2eef62fa1 inherit pro_attribs_classDetectorGraph_1_1Vertex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T&gt;<br />
@@ -176,15 +185,34 @@ class DetectorGraph::Topic&lt; T &gt;</h3>
 <p>Manage data and its handler. </p>
 <p>It is a data transport system with publish / subscribe semantics.</p>
 <h1>Internals</h1>
-<p><code>std::list&lt;T&gt; mCurrentValues</code> is the holder for current values in the topic.</p>
-<p>This list is cleared once per evaluation at either:</p><ul>
+<p><code>std::vector&lt;T&gt; mCurrentValues</code> is the holder for current values in the topic.</p>
+<p>This vector is cleared once per evaluation at either:</p><ul>
 <li>The first Publish call during an evaluation pass (cleared before adding new value)</li>
 <li><a class="el" href="classDetectorGraph_1_1Topic.html" title="Manage data and its handler. ">Topic</a> is processed, and no further data will be Published to it</li>
 </ul>
-<p>The intended behavior is to have this list always contain all the data for a single evaluation pass - or nothing if that's the case. </p>
+<p>The intended behavior is to have this vector always contain all the data for a single evaluation pass - or nothing if that's the case. </p>
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00074">74</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00084">84</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="ad4b060bf95d9d99a069d78cf28d077e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4b060bf95d9d99a069d78cf28d077e1">&#9670;&nbsp;</a></span>ValuesContainer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::vector&lt;T&gt; <a class="el" href="classDetectorGraph_1_1Topic.html">DetectorGraph::Topic</a>&lt; T &gt;::<a class="el" href="classDetectorGraph_1_1Topic.html#ad4b060bf95d9d99a069d78cf28d077e1">ValuesContainer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00096">96</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a734fe1f6e027eb7cc87ae4ca92cd1a29"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a734fe1f6e027eb7cc87ae4ca92cd1a29">&#9670;&nbsp;</a></span>Topic()</h2>
 
@@ -210,7 +238,7 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00082">82</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00099">99</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
@@ -239,7 +267,7 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00168">168</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00190">190</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
@@ -272,7 +300,7 @@ template&lt;class T&gt; </div>
 
 <p>Pass pending data to its handler. </p>
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00105">105</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00141">141</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
@@ -303,12 +331,12 @@ template&lt;class T&gt; </div>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1BaseTopic.html#a85384fec181412e7c8adb36e22b645da">DetectorGraph::BaseTopic</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00149">149</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00200">200</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ab2731a0f1b0e69f40140e866f3a2a58d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2731a0f1b0e69f40140e866f3a2a58d">&#9670;&nbsp;</a></span>GetCurrentValues()</h2>
+<a id="a5e374757ac126ddcc4ff99c719a43d9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e374757ac126ddcc4ff99c719a43d9d">&#9670;&nbsp;</a></span>GetCurrentValues()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +347,7 @@ template&lt;class T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::list&lt;T&gt;&amp; <a class="el" href="classDetectorGraph_1_1Topic.html">DetectorGraph::Topic</a>&lt; T &gt;::GetCurrentValues </td>
+          <td class="memname">const <a class="el" href="classDetectorGraph_1_1Topic.html#ad4b060bf95d9d99a069d78cf28d077e1">ValuesContainer</a>&amp; <a class="el" href="classDetectorGraph_1_1Topic.html">DetectorGraph::Topic</a>&lt; T &gt;::GetCurrentValues </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -332,7 +360,7 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00118">118</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00185">185</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
@@ -363,7 +391,7 @@ template&lt;class T&gt; </div>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1BaseTopic.html#a1f1ef9c517c93c3cd5d24fac316e81be">DetectorGraph::BaseTopic</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00163">163</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00195">195</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
@@ -396,7 +424,7 @@ template&lt;class T&gt; </div>
 <p>This method is a direct forwarding of the internal STL container and as such, calling GetNewValue on an empty <a class="el" href="classDetectorGraph_1_1Topic.html" title="Manage data and its handler. ">Topic</a> is undefined.</p>
 <p>On debug builds, a DG_ASSERT will check that the <a class="el" href="classDetectorGraph_1_1Topic.html" title="Manage data and its handler. ">Topic</a> contains a value. </p>
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00143">143</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00179">179</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
@@ -428,7 +456,7 @@ template&lt;class T&gt; </div>
 <p>Returns true if the new Data is available. </p>
 <p>New data is signaled by the <a class="el" href="classDetectorGraph_1_1Topic.html" title="Manage data and its handler. ">Topic</a> having been Processed and containing in storage. </p>
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00129">129</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00166">166</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
@@ -459,7 +487,7 @@ template&lt;class T&gt; </div>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1Vertex.html#a20a16d1dd83539212d679fb29e1a037f">DetectorGraph::Vertex</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00171">171</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00121">121</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>
@@ -489,9 +517,9 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Append data to its list. </p>
+<p>Append data to its vector. </p>
 
-<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00092">92</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="topic_8hpp_source.html#l00110">110</a> of file <a class="el" href="topic_8hpp_source.html">topic.hpp</a>.</p>
 
 </div>
 </div>

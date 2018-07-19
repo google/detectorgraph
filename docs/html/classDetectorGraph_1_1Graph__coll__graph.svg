@@ -22,12 +22,12 @@
 <text text-anchor="start" x="8" y="-86.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ EvaluateGraph()</text>
 <text text-anchor="start" x="8" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ HasDataPending()</text>
 <text text-anchor="start" x="8" y="-66.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ EvaluateIfHasDataPending()</text>
-<text text-anchor="start" x="8" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutputList()</text>
-<text text-anchor="start" x="8" y="-46.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ TopoSortGraph()</text>
-<text text-anchor="start" x="8" y="-36.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ AddVertex()</text>
-<text text-anchor="start" x="8" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveVertex()</text>
-<text text-anchor="start" x="8" y="-16.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetVertices()</text>
-<text text-anchor="start" x="8" y="-6.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetTopicRegistry()</text>
+<text text-anchor="start" x="8" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ AddVertex()</text>
+<text text-anchor="start" x="8" y="-46.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveVertex()</text>
+<text text-anchor="start" x="8" y="-36.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetTopicRegistry()</text>
+<text text-anchor="start" x="8" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetVertices()</text>
+<text text-anchor="start" x="8" y="-16.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutputList()</text>
+<text text-anchor="start" x="8" y="-6.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ TopoSortGraph()</text>
 </g>
 </g>
 </svg>

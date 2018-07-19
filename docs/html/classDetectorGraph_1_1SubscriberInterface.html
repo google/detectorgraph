@@ -28,6 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
   </td>
  </tr>
@@ -102,7 +103,7 @@ class DetectorGraph::SubscriberInterface&lt; T &gt;</h3>
 <li>Abstracts the interface of Subscriber to a <a class="el" href="classDetectorGraph_1_1Topic.html" title="Manage data and its handler. ">Topic</a> into a type-safe method.</li>
 <li>Document in a clear way the Subscriptions of a <a class="el" href="classDetectorGraph_1_1Detector.html" title="A unit of logic in a DetectorGraph. ">Detector</a>.</li>
 </ul>
-<p>To enable the subscription Detectors must call <a class="el" href="classDetectorGraph_1_1Detector.html#aa9d64f8bd48113bf64ecc15b108f7424" title="Setup an subscription on a specific topic. ">Detector::Subscribe</a> from the inheriting <a class="el" href="classDetectorGraph_1_1Detector.html" title="A unit of logic in a DetectorGraph. ">Detector</a>'s constructor: </p><div class="fragment"><div class="line"><span class="keyword">class </span>FooDetector :</div><div class="line">    <span class="keyword">public</span> Detector,</div><div class="line">    <span class="keyword">public</span> SubscriberInterface&lt;BarTopicState&gt;</div><div class="line">{</div><div class="line">    FooDetector(Graph* graph) : Detector(graph)</div><div class="line">    {</div><div class="line">        Subscribe&lt;BarTopicState&gt;(<span class="keyword">this</span>);</div><div class="line">    }</div><div class="line">}</div></div><!-- fragment --> 
+<p>To enable the subscription Detectors must call <a class="el" href="classDetectorGraph_1_1Detector.html#a9abf0258bd7bb4cd10040c44b778bd38" title="Setup an subscription on a specific topic. ">Detector::Subscribe</a> from the inheriting <a class="el" href="classDetectorGraph_1_1Detector.html" title="A unit of logic in a DetectorGraph. ">Detector</a>'s constructor: </p><div class="fragment"><div class="line"><span class="keyword">class </span>FooDetector :</div><div class="line">    <span class="keyword">public</span> Detector,</div><div class="line">    <span class="keyword">public</span> SubscriberInterface&lt;BarTopicState&gt;</div><div class="line">{</div><div class="line">    FooDetector(Graph* graph) : Detector(graph)</div><div class="line">    {</div><div class="line">        Subscribe&lt;BarTopicState&gt;(<span class="keyword">this</span>);</div><div class="line">    }</div><div class="line">}</div></div><!-- fragment --> 
 <p class="definition">Definition at line <a class="el" href="subscriberinterface_8hpp_source.html#l00059">59</a> of file <a class="el" href="subscriberinterface_8hpp_source.html">subscriberinterface.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa6ff973e38d74612e60d91f104daa624"></a>

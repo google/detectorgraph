@@ -17,14 +17,14 @@
 <polyline fill="none" stroke="black" points="0,-108.5 134.662,-108.5 "/>
 <text text-anchor="start" x="8" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Topic()</text>
 <text text-anchor="start" x="8" y="-86.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Publish()</text>
-<text text-anchor="start" x="8" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ DispatchIntoSubscriber()</text>
-<text text-anchor="start" x="8" y="-66.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentValues()</text>
+<text text-anchor="start" x="8" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
+<text text-anchor="start" x="8" y="-66.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ DispatchIntoSubscriber()</text>
 <text text-anchor="start" x="8" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ HasNewValue()</text>
 <text text-anchor="start" x="8" y="-46.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetNewValue()</text>
-<text text-anchor="start" x="8" y="-36.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentTopicStates()</text>
-<text text-anchor="start" x="8" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetId()</text>
-<text text-anchor="start" x="8" y="-16.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Topic()</text>
-<text text-anchor="start" x="8" y="-6.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
+<text text-anchor="start" x="8" y="-36.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentValues()</text>
+<text text-anchor="start" x="8" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Topic()</text>
+<text text-anchor="start" x="8" y="-16.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetId()</text>
+<text text-anchor="start" x="8" y="-6.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentTopicStates()</text>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
@@ -53,25 +53,25 @@
 <text text-anchor="middle" x="67.3311" y="-514.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Vertex</text>
 <polyline fill="none" stroke="black" points="6.9458,-508.5 127.716,-508.5 "/>
 <text text-anchor="start" x="14.9458" y="-496.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mState</text>
-<text text-anchor="start" x="14.9458" y="-486.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mInEdges</text>
-<text text-anchor="start" x="14.9458" y="-476.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mOutEdges</text>
-<text text-anchor="start" x="14.9458" y="-466.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureInEdges</text>
-<text text-anchor="start" x="14.9458" y="-456.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureOutEdges</text>
+<text text-anchor="start" x="14.9458" y="-486.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mOutEdges</text>
+<text text-anchor="start" x="14.9458" y="-476.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mInEdges</text>
+<text text-anchor="start" x="14.9458" y="-466.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureOutEdges</text>
+<text text-anchor="start" x="14.9458" y="-456.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureInEdges</text>
 <polyline fill="none" stroke="black" points="6.9458,-450.5 127.716,-450.5 "/>
 <text text-anchor="start" x="14.9458" y="-438.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Vertex()</text>
 <text text-anchor="start" x="14.9458" y="-428.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Vertex()</text>
 <text text-anchor="start" x="14.9458" y="-418.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
 <text text-anchor="start" x="14.9458" y="-408.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetVertexType()</text>
-<text text-anchor="start" x="14.9458" y="-398.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetName()</text>
-<text text-anchor="start" x="14.9458" y="-388.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ InsertEdge()</text>
-<text text-anchor="start" x="14.9458" y="-378.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveEdge()</text>
-<text text-anchor="start" x="14.9458" y="-368.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutEdges()</text>
-<text text-anchor="start" x="14.9458" y="-358.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetInEdges()</text>
+<text text-anchor="start" x="14.9458" y="-398.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetState()</text>
+<text text-anchor="start" x="14.9458" y="-388.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetState()</text>
+<text text-anchor="start" x="14.9458" y="-378.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ InsertEdge()</text>
+<text text-anchor="start" x="14.9458" y="-368.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveEdge()</text>
+<text text-anchor="start" x="14.9458" y="-358.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutEdges()</text>
 <text text-anchor="start" x="14.9458" y="-348.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ MarkFutureEdge()</text>
-<text text-anchor="start" x="14.9458" y="-338.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureOutEdges()</text>
-<text text-anchor="start" x="14.9458" y="-328.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureInEdges()</text>
-<text text-anchor="start" x="14.9458" y="-318.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetState()</text>
-<text text-anchor="start" x="14.9458" y="-308.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetState()</text>
+<text text-anchor="start" x="14.9458" y="-338.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetInEdges()</text>
+<text text-anchor="start" x="14.9458" y="-328.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureOutEdges()</text>
+<text text-anchor="start" x="14.9458" y="-318.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureInEdges()</text>
+<text text-anchor="start" x="14.9458" y="-308.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetName()</text>
 </a>
 </g>
 </g>

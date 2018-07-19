@@ -18,14 +18,14 @@
 <polyline fill="none" stroke="black" points="0,-178.5 164.589,-178.5 "/>
 <text text-anchor="start" x="8" y="-166.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ TimeoutPublisherService()</text>
 <text text-anchor="start" x="8" y="-156.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~TimeoutPublisherService()</text>
-<text text-anchor="start" x="8" y="-146.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetUniqueTimerHandle()</text>
-<text text-anchor="start" x="8" y="-136.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ScheduleTimeout()</text>
-<text text-anchor="start" x="8" y="-126.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetTime()</text>
-<text text-anchor="start" x="8" y="-116.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetMonotonicTime()</text>
+<text text-anchor="start" x="8" y="-146.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ StartPeriodicPublishing()</text>
+<text text-anchor="start" x="8" y="-136.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetUniqueTimerHandle()</text>
+<text text-anchor="start" x="8" y="-126.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SchedulePeriodicPublishing()</text>
+<text text-anchor="start" x="8" y="-116.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ScheduleTimeout()</text>
 <text text-anchor="start" x="8" y="-106.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ CancelPublishOnTimeout()</text>
 <text text-anchor="start" x="8" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ HasTimeoutExpired()</text>
-<text text-anchor="start" x="8" y="-86.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SchedulePeriodicPublishing()</text>
-<text text-anchor="start" x="8" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ StartPeriodicPublishing()</text>
+<text text-anchor="start" x="8" y="-86.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetTime()</text>
+<text text-anchor="start" x="8" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetMonotonicTime()</text>
 <text text-anchor="start" x="8" y="-66.5" font-family="Helvetica,sans-Serif" font-size="10.00"># TimeoutExpired()</text>
 <text text-anchor="start" x="8" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00"># SetTimeout()</text>
 <text text-anchor="start" x="8" y="-46.5" font-family="Helvetica,sans-Serif" font-size="10.00"># Start()</text>

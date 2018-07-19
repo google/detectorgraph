@@ -28,6 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
   </td>
  </tr>
@@ -100,6 +101,8 @@ Public Types</h2></td></tr>
 <a class="el" href="classDetectorGraph_1_1Vertex.html#a3733e9756129294ce39358d283f6bf3aac160286b04b2173401c155d3788a95ce">kTestVertex</a>
  }</td></tr>
 <tr class="separator:a3733e9756129294ce39358d283f6bf3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50bf6ef5248c9d452ff07bdfdd04da94"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a></td></tr>
+<tr class="separator:a50bf6ef5248c9d452ff07bdfdd04da94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -111,45 +114,62 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a20a16d1dd83539212d679fb29e1a037f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2f98b811bcaaaefdf52c3fcdd128c44"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classDetectorGraph_1_1Vertex.html#a3733e9756129294ce39358d283f6bf3a">VertexType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ad2f98b811bcaaaefdf52c3fcdd128c44">GetVertexType</a> () const =0</td></tr>
 <tr class="separator:ad2f98b811bcaaaefdf52c3fcdd128c44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbc5ecc45ae0d669b719fad5af37b936"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#afbc5ecc45ae0d669b719fad5af37b936">GetName</a> () const</td></tr>
-<tr class="separator:afbc5ecc45ae0d669b719fad5af37b936"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8d7d49659bd1d91d21c92b75c07524f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ab8d7d49659bd1d91d21c92b75c07524f">InsertEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
-<tr class="separator:ab8d7d49659bd1d91d21c92b75c07524f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cd1bc354b88c2235d17188ce644b57f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a5cd1bc354b88c2235d17188ce644b57f">RemoveEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
-<tr class="separator:a5cd1bc354b88c2235d17188ce644b57f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8115e2dc389471f1ecd8c92caed6e71c"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a8115e2dc389471f1ecd8c92caed6e71c">GetOutEdges</a> ()</td></tr>
-<tr class="separator:a8115e2dc389471f1ecd8c92caed6e71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6da190391495f5663d9500ba5f731d7e"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a6da190391495f5663d9500ba5f731d7e">GetInEdges</a> ()</td></tr>
-<tr class="separator:a6da190391495f5663d9500ba5f731d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3315300ef5d69f835535e6d1a5be7f05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a3315300ef5d69f835535e6d1a5be7f05">MarkFutureEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
-<tr class="separator:a3315300ef5d69f835535e6d1a5be7f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78c5967ebff1a3461456fe5a07badaf5"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a78c5967ebff1a3461456fe5a07badaf5">GetFutureOutEdges</a> ()</td></tr>
-<tr class="separator:a78c5967ebff1a3461456fe5a07badaf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe8614df03f055b27bc40b0b99cc0771"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#afe8614df03f055b27bc40b0b99cc0771">GetFutureInEdges</a> ()</td></tr>
-<tr class="separator:afe8614df03f055b27bc40b0b99cc0771"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a79403b777366a39832e7510a080a87"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a9a79403b777366a39832e7510a080a87">GetState</a> () const</td></tr>
 <tr class="separator:a9a79403b777366a39832e7510a080a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa025bbb709d942aba350fb3b0cf8186c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#aa025bbb709d942aba350fb3b0cf8186c">SetState</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a> aNewState)</td></tr>
 <tr class="separator:aa025bbb709d942aba350fb3b0cf8186c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8d7d49659bd1d91d21c92b75c07524f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ab8d7d49659bd1d91d21c92b75c07524f">InsertEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
+<tr class="separator:ab8d7d49659bd1d91d21c92b75c07524f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cd1bc354b88c2235d17188ce644b57f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a5cd1bc354b88c2235d17188ce644b57f">RemoveEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
+<tr class="separator:a5cd1bc354b88c2235d17188ce644b57f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a429437c134a4a5c8123fbf600ed677"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a2a429437c134a4a5c8123fbf600ed677">GetOutEdges</a> ()</td></tr>
+<tr class="separator:a2a429437c134a4a5c8123fbf600ed677"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3315300ef5d69f835535e6d1a5be7f05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a3315300ef5d69f835535e6d1a5be7f05">MarkFutureEdge</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
+<tr class="separator:a3315300ef5d69f835535e6d1a5be7f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1b3a861d8e96ae999f9eb29d8ae487d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ab1b3a861d8e96ae999f9eb29d8ae487d">GetInEdges</a> ()</td></tr>
+<tr class="separator:ab1b3a861d8e96ae999f9eb29d8ae487d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19acba32c8857f1e9349329be7526eaf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a19acba32c8857f1e9349329be7526eaf">GetFutureOutEdges</a> ()</td></tr>
+<tr class="separator:a19acba32c8857f1e9349329be7526eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad887d5485b41f22b3cdfb7739a95fcd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ad887d5485b41f22b3cdfb7739a95fcd6">GetFutureInEdges</a> ()</td></tr>
+<tr class="separator:ad887d5485b41f22b3cdfb7739a95fcd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbc5ecc45ae0d669b719fad5af37b936"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#afbc5ecc45ae0d669b719fad5af37b936">GetName</a> () const</td></tr>
+<tr class="separator:afbc5ecc45ae0d669b719fad5af37b936"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:af7403502b8788da52373c01f871ee974"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a610015cdacec588c2fa7f938f6b70a29">VertexSearchState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#af7403502b8788da52373c01f871ee974">mState</a></td></tr>
 <tr class="separator:af7403502b8788da52373c01f871ee974"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa94b293f7d369e680072e8c2d83870d2"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#aa94b293f7d369e680072e8c2d83870d2">mInEdges</a></td></tr>
-<tr class="separator:aa94b293f7d369e680072e8c2d83870d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14e4ea25e4a17ca932b98b25a75608db"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a14e4ea25e4a17ca932b98b25a75608db">mOutEdges</a></td></tr>
-<tr class="separator:a14e4ea25e4a17ca932b98b25a75608db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8833928eff93d9bea04fd09f99ec34f5"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#a8833928eff93d9bea04fd09f99ec34f5">mFutureInEdges</a></td></tr>
-<tr class="separator:a8833928eff93d9bea04fd09f99ec34f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadd460dbfe45419c23d25465303bd5d4"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#aadd460dbfe45419c23d25465303bd5d4">mFutureOutEdges</a></td></tr>
-<tr class="separator:aadd460dbfe45419c23d25465303bd5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2564a59372fe536bbef7ab5086a9d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#ace2564a59372fe536bbef7ab5086a9d3">mOutEdges</a></td></tr>
+<tr class="separator:ace2564a59372fe536bbef7ab5086a9d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbd4e2c05981840997ad0c6ec9f295ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#abbd4e2c05981840997ad0c6ec9f295ec">mInEdges</a></td></tr>
+<tr class="separator:abbd4e2c05981840997ad0c6ec9f295ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbf1784bd4c950463b719b8e5ac4b69c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#abbf1784bd4c950463b719b8e5ac4b69c">mFutureOutEdges</a></td></tr>
+<tr class="separator:abbf1784bd4c950463b719b8e5ac4b69c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc66e5b7e6f4ed71ada36df2eef62fa1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Vertex.html#abc66e5b7e6f4ed71ada36df2eef62fa1">mFutureInEdges</a></td></tr>
+<tr class="separator:abc66e5b7e6f4ed71ada36df2eef62fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Define behaviors of a vertex in a graph. </p>
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00026">26</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00037">37</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a50bf6ef5248c9d452ff07bdfdd04da94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50bf6ef5248c9d452ff07bdfdd04da94">&#9670;&nbsp;</a></span>VertexPtrContainer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt; <a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">DetectorGraph::Vertex::VertexPtrContainer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00043">43</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a610015cdacec588c2fa7f938f6b70a29"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a610015cdacec588c2fa7f938f6b70a29">&#9670;&nbsp;</a></span>VertexSearchState</h2>
 
@@ -169,7 +189,7 @@ Protected Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="a610015cdacec588c2fa7f938f6b70a29a1be07ab753ee29a10a101f97661ed079"></a>kVertexDone&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00035">35</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00052">52</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -191,7 +211,7 @@ Protected Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="a3733e9756129294ce39358d283f6bf3aac160286b04b2173401c155d3788a95ce"></a>kTestVertex&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00045">45</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00062">62</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -219,7 +239,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00029">29</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00046">46</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -246,13 +266,13 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00030">30</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00047">47</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="afe8614df03f055b27bc40b0b99cc0771"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe8614df03f055b27bc40b0b99cc0771">&#9670;&nbsp;</a></span>GetFutureInEdges()</h2>
+<a id="ad887d5485b41f22b3cdfb7739a95fcd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad887d5485b41f22b3cdfb7739a95fcd6">&#9670;&nbsp;</a></span>GetFutureInEdges()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -261,7 +281,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt;&amp; DetectorGraph::Vertex::GetFutureInEdges </td>
+          <td class="memname"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&amp; DetectorGraph::Vertex::GetFutureInEdges </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -274,12 +294,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00095">95</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00126">126</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a78c5967ebff1a3461456fe5a07badaf5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78c5967ebff1a3461456fe5a07badaf5">&#9670;&nbsp;</a></span>GetFutureOutEdges()</h2>
+<a id="a19acba32c8857f1e9349329be7526eaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19acba32c8857f1e9349329be7526eaf">&#9670;&nbsp;</a></span>GetFutureOutEdges()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -288,7 +308,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt;&amp; DetectorGraph::Vertex::GetFutureOutEdges </td>
+          <td class="memname"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&amp; DetectorGraph::Vertex::GetFutureOutEdges </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -301,12 +321,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00090">90</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00121">121</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a6da190391495f5663d9500ba5f731d7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6da190391495f5663d9500ba5f731d7e">&#9670;&nbsp;</a></span>GetInEdges()</h2>
+<a id="ab1b3a861d8e96ae999f9eb29d8ae487d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1b3a861d8e96ae999f9eb29d8ae487d">&#9670;&nbsp;</a></span>GetInEdges()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -315,7 +335,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt;&amp; DetectorGraph::Vertex::GetInEdges </td>
+          <td class="memname"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&amp; DetectorGraph::Vertex::GetInEdges </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -328,7 +348,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00079">79</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00116">116</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -355,12 +375,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00056">56</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00133">133</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a8115e2dc389471f1ecd8c92caed6e71c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8115e2dc389471f1ecd8c92caed6e71c">&#9670;&nbsp;</a></span>GetOutEdges()</h2>
+<a id="a2a429437c134a4a5c8123fbf600ed677"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a429437c134a4a5c8123fbf600ed677">&#9670;&nbsp;</a></span>GetOutEdges()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -369,7 +389,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt;&amp; DetectorGraph::Vertex::GetOutEdges </td>
+          <td class="memname"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a>&amp; DetectorGraph::Vertex::GetOutEdges </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -382,7 +402,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00074">74</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00100">100</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -409,7 +429,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00100">100</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00071">71</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -464,7 +484,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00062">62</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00081">81</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -492,7 +512,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00084">84</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00105">105</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -547,7 +567,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00068">68</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00092">92</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -575,13 +595,13 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00105">105</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00076">76</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a8833928eff93d9bea04fd09f99ec34f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8833928eff93d9bea04fd09f99ec34f5">&#9670;&nbsp;</a></span>mFutureInEdges</h2>
+<a id="abc66e5b7e6f4ed71ada36df2eef62fa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc66e5b7e6f4ed71ada36df2eef62fa1">&#9670;&nbsp;</a></span>mFutureInEdges</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -590,7 +610,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt; DetectorGraph::Vertex::mFutureInEdges</td>
+          <td class="memname"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> DetectorGraph::Vertex::mFutureInEdges</td>
         </tr>
       </table>
   </td>
@@ -600,12 +620,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00114">114</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00148">148</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aadd460dbfe45419c23d25465303bd5d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadd460dbfe45419c23d25465303bd5d4">&#9670;&nbsp;</a></span>mFutureOutEdges</h2>
+<a id="abbf1784bd4c950463b719b8e5ac4b69c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbf1784bd4c950463b719b8e5ac4b69c">&#9670;&nbsp;</a></span>mFutureOutEdges</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -614,7 +634,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt; DetectorGraph::Vertex::mFutureOutEdges</td>
+          <td class="memname"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> DetectorGraph::Vertex::mFutureOutEdges</td>
         </tr>
       </table>
   </td>
@@ -624,12 +644,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00115">115</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00147">147</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
-<a id="aa94b293f7d369e680072e8c2d83870d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa94b293f7d369e680072e8c2d83870d2">&#9670;&nbsp;</a></span>mInEdges</h2>
+<a id="abbd4e2c05981840997ad0c6ec9f295ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbd4e2c05981840997ad0c6ec9f295ec">&#9670;&nbsp;</a></span>mInEdges</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -638,7 +658,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt; DetectorGraph::Vertex::mInEdges</td>
+          <td class="memname"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> DetectorGraph::Vertex::mInEdges</td>
         </tr>
       </table>
   </td>
@@ -648,12 +668,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00112">112</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00146">146</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a14e4ea25e4a17ca932b98b25a75608db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14e4ea25e4a17ca932b98b25a75608db">&#9670;&nbsp;</a></span>mOutEdges</h2>
+<a id="ace2564a59372fe536bbef7ab5086a9d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace2564a59372fe536bbef7ab5086a9d3">&#9670;&nbsp;</a></span>mOutEdges</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -662,7 +682,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt; DetectorGraph::Vertex::mOutEdges</td>
+          <td class="memname"><a class="el" href="classDetectorGraph_1_1Vertex.html#a50bf6ef5248c9d452ff07bdfdd04da94">VertexPtrContainer</a> DetectorGraph::Vertex::mOutEdges</td>
         </tr>
       </table>
   </td>
@@ -672,7 +692,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00113">113</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00143">143</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>
@@ -696,7 +716,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00111">111</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vertex_8hpp_source.html#l00142">142</a> of file <a class="el" href="vertex_8hpp_source.html">vertex.hpp</a>.</p>
 
 </div>
 </div>

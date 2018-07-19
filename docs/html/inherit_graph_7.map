@@ -1,4 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classDetectorGraph_1_1SubscriptionDispatcherInterface.html" title="Internal &#45; Provide interface for a SubscriptionDispatcher " alt="" coords="5,5,195,44"/>
-<area shape="rect" id="node2" href="$classDetectorGraph_1_1SubscriptionDispatcher.html" title="Internal &#45; Implements the data&#45;out edge from a topic to one of its subscriber. " alt="" coords="243,5,432,44"/>
+<area shape="rect" id="node1" href="$classDetectorGraph_1_1SequenceContainer.html" title="DetectorGraph::SequenceContainer\l\&lt; T, N \&gt;" alt="" coords="5,5,239,44"/>
 </map>

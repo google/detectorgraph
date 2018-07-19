@@ -14,25 +14,25 @@
 <text text-anchor="middle" x="60.3853" y="-212.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Vertex</text>
 <polyline fill="none" stroke="black" points="0,-206.5 120.771,-206.5 "/>
 <text text-anchor="start" x="8" y="-194.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mState</text>
-<text text-anchor="start" x="8" y="-184.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mInEdges</text>
-<text text-anchor="start" x="8" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mOutEdges</text>
-<text text-anchor="start" x="8" y="-164.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureInEdges</text>
-<text text-anchor="start" x="8" y="-154.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureOutEdges</text>
+<text text-anchor="start" x="8" y="-184.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mOutEdges</text>
+<text text-anchor="start" x="8" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mInEdges</text>
+<text text-anchor="start" x="8" y="-164.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureOutEdges</text>
+<text text-anchor="start" x="8" y="-154.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureInEdges</text>
 <polyline fill="none" stroke="black" points="0,-148.5 120.771,-148.5 "/>
 <text text-anchor="start" x="8" y="-136.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Vertex()</text>
 <text text-anchor="start" x="8" y="-126.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Vertex()</text>
 <text text-anchor="start" x="8" y="-116.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
 <text text-anchor="start" x="8" y="-106.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetVertexType()</text>
-<text text-anchor="start" x="8" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetName()</text>
-<text text-anchor="start" x="8" y="-86.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ InsertEdge()</text>
-<text text-anchor="start" x="8" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveEdge()</text>
-<text text-anchor="start" x="8" y="-66.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutEdges()</text>
-<text text-anchor="start" x="8" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetInEdges()</text>
+<text text-anchor="start" x="8" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetState()</text>
+<text text-anchor="start" x="8" y="-86.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetState()</text>
+<text text-anchor="start" x="8" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ InsertEdge()</text>
+<text text-anchor="start" x="8" y="-66.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveEdge()</text>
+<text text-anchor="start" x="8" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutEdges()</text>
 <text text-anchor="start" x="8" y="-46.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ MarkFutureEdge()</text>
-<text text-anchor="start" x="8" y="-36.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureOutEdges()</text>
-<text text-anchor="start" x="8" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureInEdges()</text>
-<text text-anchor="start" x="8" y="-16.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetState()</text>
-<text text-anchor="start" x="8" y="-6.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetState()</text>
+<text text-anchor="start" x="8" y="-36.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetInEdges()</text>
+<text text-anchor="start" x="8" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureOutEdges()</text>
+<text text-anchor="start" x="8" y="-16.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureInEdges()</text>
+<text text-anchor="start" x="8" y="-6.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetName()</text>
 </g>
 </g>
 </svg>

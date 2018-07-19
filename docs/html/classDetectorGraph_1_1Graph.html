@@ -28,6 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
   </td>
  </tr>
@@ -69,6 +70,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classDetectorGraph_1_1Graph-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -85,6 +87,11 @@ Collaboration diagram for DetectorGraph::Graph:</div>
 </div>
 </div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a7bb164723df51a6fc4648e4dcca6986e"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#a7bb164723df51a6fc4648e4dcca6986e">VertexPtrContainer</a></td></tr>
+<tr class="separator:a7bb164723df51a6fc4648e4dcca6986e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa544eda8e8c6cc577d3470f91c95f3af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#aa544eda8e8c6cc577d3470f91c95f3af">Graph</a> ()</td></tr>
@@ -97,10 +104,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac5b90d3ec0b57ff6c04a5cac1d8c687c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1Topic.html">Topic</a>&lt; TTopicState &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#ac5b90d3ec0b57ff6c04a5cac1d8c687c">ResolveTopic</a> ()</td></tr>
 <tr class="memdesc:ac5b90d3ec0b57ff6c04a5cac1d8c687c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find/add a topic in the detector graph.  <a href="#ac5b90d3ec0b57ff6c04a5cac1d8c687c">More...</a><br /></td></tr>
 <tr class="separator:ac5b90d3ec0b57ff6c04a5cac1d8c687c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a257b93c8ea843bbd4cdd9c1ee6588cbb"><td class="memTemplParams" colspan="2">template&lt;class TTopicState &gt; </td></tr>
-<tr class="memitem:a257b93c8ea843bbd4cdd9c1ee6588cbb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#a257b93c8ea843bbd4cdd9c1ee6588cbb">PushData</a> (const TTopicState &amp;dataP)</td></tr>
-<tr class="memdesc:a257b93c8ea843bbd4cdd9c1ee6588cbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push data to a specific topic in the graph.  <a href="#a257b93c8ea843bbd4cdd9c1ee6588cbb">More...</a><br /></td></tr>
-<tr class="separator:a257b93c8ea843bbd4cdd9c1ee6588cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeab252a7ba121ea31750822bc0faf111"><td class="memTemplParams" colspan="2">template&lt;class TTopicState &gt; </td></tr>
+<tr class="memitem:aeab252a7ba121ea31750822bc0faf111"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#aeab252a7ba121ea31750822bc0faf111">PushData</a> (const TTopicState &amp;aTopicState)</td></tr>
+<tr class="memdesc:aeab252a7ba121ea31750822bc0faf111"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push data to a specific topic in the graph.  <a href="#aeab252a7ba121ea31750822bc0faf111">More...</a><br /></td></tr>
+<tr class="separator:aeab252a7ba121ea31750822bc0faf111"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c4388d5a8d80710bfb0a68c2b45ebbd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceDetectorGraph.html#a4158d47258d0d5dd3b972ba6640ec1ba">ErrorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd">EvaluateGraph</a> ()</td></tr>
 <tr class="memdesc:a5c4388d5a8d80710bfb0a68c2b45ebbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate the whole graph.  <a href="#a5c4388d5a8d80710bfb0a68c2b45ebbd">More...</a><br /></td></tr>
 <tr class="separator:a5c4388d5a8d80710bfb0a68c2b45ebbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,20 +117,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a81735951033b4092daa22269d0fa8bd0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#a81735951033b4092daa22269d0fa8bd0">EvaluateIfHasDataPending</a> ()</td></tr>
 <tr class="memdesc:a81735951033b4092daa22269d0fa8bd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates <a class="el" href="classDetectorGraph_1_1Graph.html" title="Implements a graph of Topics &amp; Detectors with Input/Output APIs. ">Graph</a> if data is pending and returns true if so.  <a href="#a81735951033b4092daa22269d0fa8bd0">More...</a><br /></td></tr>
 <tr class="separator:a81735951033b4092daa22269d0fa8bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2eea42e89f2710b5e242e3db35ad905"><td class="memItemLeft" align="right" valign="top">const std::list&lt; ptr::shared_ptr&lt; const <a class="el" href="structDetectorGraph_1_1TopicState.html">TopicState</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#ae2eea42e89f2710b5e242e3db35ad905">GetOutputList</a> () const</td></tr>
-<tr class="memdesc:ae2eea42e89f2710b5e242e3db35ad905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the list of topicstates published in the last Evaluation.  <a href="#ae2eea42e89f2710b5e242e3db35ad905">More...</a><br /></td></tr>
-<tr class="separator:ae2eea42e89f2710b5e242e3db35ad905"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadaa4d809ae6d9b8fd587b6139486a7c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceDetectorGraph.html#a4158d47258d0d5dd3b972ba6640ec1ba">ErrorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#aadaa4d809ae6d9b8fd587b6139486a7c">TopoSortGraph</a> ()</td></tr>
-<tr class="memdesc:aadaa4d809ae6d9b8fd587b6139486a7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the right order to process the vertices by topologial sort.  <a href="#aadaa4d809ae6d9b8fd587b6139486a7c">More...</a><br /></td></tr>
-<tr class="separator:aadaa4d809ae6d9b8fd587b6139486a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeca787c09762c9cd4424e4927ba15eff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#aeca787c09762c9cd4424e4927ba15eff">AddVertex</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
 <tr class="separator:aeca787c09762c9cd4424e4927ba15eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae930f211208f09bf39cb687a10bdce7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#ae930f211208f09bf39cb687a10bdce7c">RemoveVertex</a> (<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *aVertex)</td></tr>
 <tr class="separator:ae930f211208f09bf39cb687a10bdce7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ce970767f446c70a0f1402d1ba61789"><td class="memItemLeft" align="right" valign="top">const std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *&gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#a8ce970767f446c70a0f1402d1ba61789">GetVertices</a> () const</td></tr>
-<tr class="separator:a8ce970767f446c70a0f1402d1ba61789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76cfd189c4d6d7e51b29637ec0c6105e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDetectorGraph_1_1TopicRegistry.html">TopicRegistry</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#a76cfd189c4d6d7e51b29637ec0c6105e">GetTopicRegistry</a> ()</td></tr>
 <tr class="separator:a76cfd189c4d6d7e51b29637ec0c6105e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab287f81113f10e53df85af683a0f7600"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classDetectorGraph_1_1Graph.html#a7bb164723df51a6fc4648e4dcca6986e">VertexPtrContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#ab287f81113f10e53df85af683a0f7600">GetVertices</a> () const</td></tr>
+<tr class="separator:ab287f81113f10e53df85af683a0f7600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2eea42e89f2710b5e242e3db35ad905"><td class="memItemLeft" align="right" valign="top">const std::list&lt; ptr::shared_ptr&lt; const <a class="el" href="structDetectorGraph_1_1TopicState.html">TopicState</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#ae2eea42e89f2710b5e242e3db35ad905">GetOutputList</a> () const</td></tr>
+<tr class="memdesc:ae2eea42e89f2710b5e242e3db35ad905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the list of topicstates published in the last Evaluation.  <a href="#ae2eea42e89f2710b5e242e3db35ad905">More...</a><br /></td></tr>
+<tr class="separator:ae2eea42e89f2710b5e242e3db35ad905"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadaa4d809ae6d9b8fd587b6139486a7c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceDetectorGraph.html#a4158d47258d0d5dd3b972ba6640ec1ba">ErrorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1Graph.html#aadaa4d809ae6d9b8fd587b6139486a7c">TopoSortGraph</a> ()</td></tr>
+<tr class="memdesc:aadaa4d809ae6d9b8fd587b6139486a7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the right order to process the vertices by topological sort.  <a href="#aadaa4d809ae6d9b8fd587b6139486a7c">More...</a><br /></td></tr>
+<tr class="separator:aadaa4d809ae6d9b8fd587b6139486a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implements a graph of <a class="el" href="classDetectorGraph_1_1Topic.html">Topics</a> &amp; <a class="el" href="helloworld_8cpp.html#Detector">Detectors</a> with Input/Output APIs. </p>
@@ -137,21 +144,38 @@ Public Member Functions</h2></td></tr>
 </ul>
 <p><a class="el" href="classDetectorGraph_1_1Graph.html" title="Implements a graph of Topics &amp; Detectors with Input/Output APIs. ">Graph</a>:</p><ul>
 <li>Owns all vertices (Topics and Detectors)</li>
-<li>Provides the data input API (<a class="el" href="classDetectorGraph_1_1Graph.html#a257b93c8ea843bbd4cdd9c1ee6588cbb">PushData&lt;T&gt;</a>) (into topics)</li>
+<li>Provides the data input API (<a class="el" href="classDetectorGraph_1_1Graph.html#aeab252a7ba121ea31750822bc0faf111">PushData&lt;T&gt;</a>) (into topics)</li>
 <li>Provides the data output API (<a class="el" href="classDetectorGraph_1_1Graph.html#ae2eea42e89f2710b5e242e3db35ad905">GetOutputList</a>) (from topics)</li>
 <li>Provides an API for graph evaluation (<a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd">EvaluateGraph</a>)</li>
 <li>Maintains the <a class="el" href="classDetectorGraph_1_1Graph.html" title="Implements a graph of Topics &amp; Detectors with Input/Output APIs. ">Graph</a>'s topological sort across graph changes topology changes</li>
 <li>Creates Topics as needed to satisfy all <a class="el" href="classDetectorGraph_1_1Detector.html" title="A unit of logic in a DetectorGraph. ">Detector</a>'s dependencies</li>
 </ul>
 <p>Typical control flow:</p><ul>
-<li>External events/messages/inputs are translated into TopicStates and passed to <a class="el" href="classDetectorGraph_1_1Graph.html#a257b93c8ea843bbd4cdd9c1ee6588cbb" title="Push data to a specific topic in the graph. ">PushData()</a>.</li>
+<li>External events/messages/inputs are translated into TopicStates and passed to <a class="el" href="classDetectorGraph_1_1Graph.html#aeab252a7ba121ea31750822bc0faf111" title="Push data to a specific topic in the graph. ">PushData()</a>.</li>
 <li><a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd" title="Evaluate the whole graph. ">EvaluateGraph()</a> running in an event loop until <a class="el" href="classDetectorGraph_1_1Graph.html#a3306d48537987744992b96a2495f4b3d" title="Returns true if there is data pending evaluation. ">HasDataPending()</a> is false.</li>
 <li>After each call to <a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd" title="Evaluate the whole graph. ">EvaluateGraph()</a> the list in <a class="el" href="classDetectorGraph_1_1Graph.html#ae2eea42e89f2710b5e242e3db35ad905" title="Returns the list of topicstates published in the last Evaluation. ">GetOutputList()</a> is inspected for TopicStates of interest that must be passed onwards to the outside.</li>
 </ul>
 <p>This class also maintains an Inversion of Control container (<a class="el" href="classDetectorGraph_1_1TopicRegistry.html">TopicRegistry</a>) for Topics. The IoC container is basically a "repository" of singleton topics. </p>
 
-<p class="definition">Definition at line <a class="el" href="graph_8hpp_source.html#l00116">116</a> of file <a class="el" href="graph_8hpp_source.html">graph.hpp</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="graph_8hpp_source.html#l00127">127</a> of file <a class="el" href="graph_8hpp_source.html">graph.hpp</a>.</p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a7bb164723df51a6fc4648e4dcca6986e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb164723df51a6fc4648e4dcca6986e">&#9670;&nbsp;</a></span>VertexPtrContainer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::list&lt;<a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a>*&gt; <a class="el" href="classDetectorGraph_1_1Graph.html#a7bb164723df51a6fc4648e4dcca6986e">DetectorGraph::Graph::VertexPtrContainer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="graph_8hpp_source.html#l00134">134</a> of file <a class="el" href="graph_8hpp_source.html">graph.hpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa544eda8e8c6cc577d3470f91c95f3af"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa544eda8e8c6cc577d3470f91c95f3af">&#9670;&nbsp;</a></span>Graph()</h2>
 
@@ -200,7 +224,7 @@ Public Member Functions</h2></td></tr>
 <p>Destructor. </p>
 <p>When a <a class="el" href="classDetectorGraph_1_1Graph.html" title="Implements a graph of Topics &amp; Detectors with Input/Output APIs. ">Graph</a> is destroyed, it deletes all the pending graph dispatchers, detectors, and topics (even if they're not referred to by any detectors). </p>
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00028">28</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00031">31</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -221,7 +245,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00061">61</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00058">58</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -242,7 +266,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Evaluate the whole graph. </p>
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00171">171</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00133">133</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -264,7 +288,7 @@ Public Member Functions</h2></td></tr>
 <p>Evaluates <a class="el" href="classDetectorGraph_1_1Graph.html" title="Implements a graph of Topics &amp; Detectors with Input/Output APIs. ">Graph</a> if data is pending and returns true if so. </p>
 <p>This method is a convenience combination of <a class="el" href="classDetectorGraph_1_1Graph.html#a3306d48537987744992b96a2495f4b3d" title="Returns true if there is data pending evaluation. ">HasDataPending()</a> and <a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd" title="Evaluate the whole graph. ">EvaluateGraph()</a> that makes it a bit cleaner to implement simple evaluation loops. It assumes that <a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd" title="Evaluate the whole graph. ">EvaluateGraph()</a> always succeeds; it'll fail a DG_ASSERT otherwise. </p>
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00212">212</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00080">80</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -286,7 +310,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns the list of topicstates published in the last Evaluation. </p>
 <p>It returns a list of references (valid only in between evaluations) to the topicstates that changed during the last call to <a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd">EvaluateGraph()</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00283">283</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00338">338</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -305,26 +329,34 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00288">288</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00102">102</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a8ce970767f446c70a0f1402d1ba61789"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ce970767f446c70a0f1402d1ba61789">&#9670;&nbsp;</a></span>GetVertices()</h2>
+<a id="ab287f81113f10e53df85af683a0f7600"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab287f81113f10e53df85af683a0f7600">&#9670;&nbsp;</a></span>GetVertices()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::list&lt; <a class="el" href="classDetectorGraph_1_1Vertex.html">Vertex</a> *&gt; &amp; DetectorGraph::Graph::GetVertices </td>
+          <td class="memname">const <a class="el" href="classDetectorGraph_1_1Graph.html#a7bb164723df51a6fc4648e4dcca6986e">VertexPtrContainer</a>&amp; DetectorGraph::Graph::GetVertices </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00073">73</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8hpp_source.html#l00221">221</a> of file <a class="el" href="graph_8hpp_source.html">graph.hpp</a>.</p>
 
 </div>
 </div>
@@ -346,12 +378,12 @@ Public Member Functions</h2></td></tr>
 <p>Returns true if there is data pending evaluation. </p>
 <p>This can be useful when implementing a 'flush &amp; evaluate all data' pattern because calls to <a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd">EvaluateGraph()</a> remove only single <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a> from the input queue at a time for each evaluation of the graph. </p>
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00229">229</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00097">97</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a257b93c8ea843bbd4cdd9c1ee6588cbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a257b93c8ea843bbd4cdd9c1ee6588cbb">&#9670;&nbsp;</a></span>PushData()</h2>
+<a id="aeab252a7ba121ea31750822bc0faf111"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeab252a7ba121ea31750822bc0faf111">&#9670;&nbsp;</a></span>PushData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -365,7 +397,7 @@ template&lt;class TTopicState &gt; </div>
           <td class="memname">void DetectorGraph::Graph::PushData </td>
           <td>(</td>
           <td class="paramtype">const TTopicState &amp;&#160;</td>
-          <td class="paramname"><em>dataP</em></td><td>)</td>
+          <td class="paramname"><em>aTopicState</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -379,7 +411,7 @@ template&lt;class TTopicState &gt; </div>
 <p>Push data to a specific topic in the graph. </p>
 <p>This method is used to input data into the graph and it's the only API to do so. </p>
 
-<p class="definition">Definition at line <a class="el" href="graph_8hpp_source.html#l00163">163</a> of file <a class="el" href="graph_8hpp_source.html">graph.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8hpp_source.html#l00187">187</a> of file <a class="el" href="graph_8hpp_source.html">graph.hpp</a>.</p>
 
 </div>
 </div>
@@ -399,7 +431,7 @@ template&lt;class TTopicState &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00067">67</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00069">69</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>
@@ -432,7 +464,7 @@ template&lt;class TTopicState &gt; </div>
 <p>If the topic to resolve already exists, return it. Otherwise, registering a new topic and then return it.</p>
 <dl class="section return"><dt>Returns</dt><dd>A unique topic of type <code>TTopic</code> in this graph. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="graph_8hpp_source.html#l00142">142</a> of file <a class="el" href="graph_8hpp_source.html">graph.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8hpp_source.html#l00160">160</a> of file <a class="el" href="graph_8hpp_source.html">graph.hpp</a>.</p>
 
 </div>
 </div>
@@ -451,9 +483,9 @@ template&lt;class TTopicState &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Determine the right order to process the vertices by topologial sort. </p>
+<p>Determine the right order to process the vertices by topological sort. </p>
 
-<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00078">78</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="graph_8cpp_source.html#l00222">222</a> of file <a class="el" href="graph_8cpp_source.html">graph.cpp</a>.</p>
 
 </div>
 </div>

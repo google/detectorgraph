@@ -28,6 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
   </td>
  </tr>
@@ -82,7 +83,7 @@ $(function() {
 <div class="dynheader">
 Collaboration diagram for DetectorGraph::TestTimeoutPublisherService:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classDetectorGraph_1_1TestTimeoutPublisherService__coll__graph.svg" width="231" height="606"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classDetectorGraph_1_1TestTimeoutPublisherService__coll__graph.svg" width="231" height="592"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="memberdecls">
@@ -90,9 +91,6 @@ Collaboration diagram for DetectorGraph::TestTimeoutPublisherService:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab9ec83bb9c65872a5980179aa31baa1c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#ab9ec83bb9c65872a5980179aa31baa1c">TestTimeoutPublisherService</a> (<a class="el" href="classDetectorGraph_1_1Graph.html">Graph</a> &amp;arGraph)</td></tr>
 <tr class="separator:ab9ec83bb9c65872a5980179aa31baa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31737b96b7655b24be54fcbe77af53b8"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#a31737b96b7655b24be54fcbe77af53b8">GetUniqueTimerHandle</a> ()</td></tr>
-<tr class="memdesc:a31737b96b7655b24be54fcbe77af53b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should return a unique id/handle for a new timer.  <a href="#a31737b96b7655b24be54fcbe77af53b8">More...</a><br /></td></tr>
-<tr class="separator:a31737b96b7655b24be54fcbe77af53b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a465a2e50963993526637003de461d2"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceDetectorGraph.html#a93a828cc683475fbe82e4ed14e992c4d">TimeOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#a4a465a2e50963993526637003de461d2">GetTime</a> () const</td></tr>
 <tr class="memdesc:a4a465a2e50963993526637003de461d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should return the time offset to Epoch.  <a href="#a4a465a2e50963993526637003de461d2">More...</a><br /></td></tr>
 <tr class="separator:a4a465a2e50963993526637003de461d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,33 +112,36 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5865dd661e385f012edce399569310f6 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a5865dd661e385f012edce399569310f6">~TimeoutPublisherService</a> ()</td></tr>
 <tr class="memdesc:a5865dd661e385f012edce399569310f6 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#a5865dd661e385f012edce399569310f6">More...</a><br /></td></tr>
 <tr class="separator:a5865dd661e385f012edce399569310f6 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd255f9fb1c04a5f7bf8bbd86fd77347 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:abd255f9fb1c04a5f7bf8bbd86fd77347 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#abd255f9fb1c04a5f7bf8bbd86fd77347">ScheduleTimeout</a> (const T &amp;aData, const <a class="el" href="namespaceDetectorGraph.html#a93a828cc683475fbe82e4ed14e992c4d">TimeOffset</a> aMillisecondsFromNow, const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a> aTimerHandle)</td></tr>
-<tr class="memdesc:abd255f9fb1c04a5f7bf8bbd86fd77347 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schedules a <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a> for Publishing after a timeout.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#abd255f9fb1c04a5f7bf8bbd86fd77347">More...</a><br /></td></tr>
-<tr class="separator:abd255f9fb1c04a5f7bf8bbd86fd77347 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5c39c599f93a4237ba57c0ca7b27160 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#ad5c39c599f93a4237ba57c0ca7b27160">CancelPublishOnTimeout</a> (const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a> aTimerHandle)</td></tr>
-<tr class="memdesc:ad5c39c599f93a4237ba57c0ca7b27160 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a timeout and deletes the stored <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a>.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#ad5c39c599f93a4237ba57c0ca7b27160">More...</a><br /></td></tr>
-<tr class="separator:ad5c39c599f93a4237ba57c0ca7b27160 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebf8f1c180d3c72050d719529ac937ba inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#aebf8f1c180d3c72050d719529ac937ba">HasTimeoutExpired</a> (const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a> aTimerHandle) const</td></tr>
-<tr class="memdesc:aebf8f1c180d3c72050d719529ac937ba inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns weather the timeout for a given handle has expired/fired already.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#aebf8f1c180d3c72050d719529ac937ba">More...</a><br /></td></tr>
-<tr class="separator:aebf8f1c180d3c72050d719529ac937ba inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1566f3f87185017667ef784b07947cc8 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a1566f3f87185017667ef784b07947cc8">StartPeriodicPublishing</a> ()</td></tr>
+<tr class="memdesc:a1566f3f87185017667ef784b07947cc8 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a Metronome to publish scheduled TopicStates.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#a1566f3f87185017667ef784b07947cc8">More...</a><br /></td></tr>
+<tr class="separator:a1566f3f87185017667ef784b07947cc8 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d634bb49fa2dec2e18b9d66290bb245 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a1d634bb49fa2dec2e18b9d66290bb245">GetUniqueTimerHandle</a> ()</td></tr>
+<tr class="memdesc:a1d634bb49fa2dec2e18b9d66290bb245 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a unique id/handle for a new timer.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#a1d634bb49fa2dec2e18b9d66290bb245">More...</a><br /></td></tr>
+<tr class="separator:a1d634bb49fa2dec2e18b9d66290bb245 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a885eb48006754ee37c9ce4084b10e7de inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a885eb48006754ee37c9ce4084b10e7de inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a885eb48006754ee37c9ce4084b10e7de">SchedulePeriodicPublishing</a> (const <a class="el" href="namespaceDetectorGraph.html#a93a828cc683475fbe82e4ed14e992c4d">TimeOffset</a> aPeriodInMilliseconds)</td></tr>
 <tr class="memdesc:a885eb48006754ee37c9ce4084b10e7de inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schedules a <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a> for publishing periodically.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#a885eb48006754ee37c9ce4084b10e7de">More...</a><br /></td></tr>
 <tr class="separator:a885eb48006754ee37c9ce4084b10e7de inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1566f3f87185017667ef784b07947cc8 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a1566f3f87185017667ef784b07947cc8">StartPeriodicPublishing</a> ()</td></tr>
-<tr class="memdesc:a1566f3f87185017667ef784b07947cc8 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a Metronome to publish scheduled TopicStates.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#a1566f3f87185017667ef784b07947cc8">More...</a><br /></td></tr>
-<tr class="separator:a1566f3f87185017667ef784b07947cc8 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd255f9fb1c04a5f7bf8bbd86fd77347 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:abd255f9fb1c04a5f7bf8bbd86fd77347 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#abd255f9fb1c04a5f7bf8bbd86fd77347">ScheduleTimeout</a> (const T &amp;aData, const <a class="el" href="namespaceDetectorGraph.html#a93a828cc683475fbe82e4ed14e992c4d">TimeOffset</a> aMillisecondsFromNow, const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a> aTimerHandle)</td></tr>
+<tr class="memdesc:abd255f9fb1c04a5f7bf8bbd86fd77347 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schedules a <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a> for Publishing after a timeout.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#abd255f9fb1c04a5f7bf8bbd86fd77347">More...</a><br /></td></tr>
+<tr class="separator:abd255f9fb1c04a5f7bf8bbd86fd77347 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5c39c599f93a4237ba57c0ca7b27160 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#ad5c39c599f93a4237ba57c0ca7b27160">CancelPublishOnTimeout</a> (const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a> aTimerHandle)</td></tr>
+<tr class="memdesc:ad5c39c599f93a4237ba57c0ca7b27160 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancels a timeout and deletes the stored <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a>.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#ad5c39c599f93a4237ba57c0ca7b27160">More...</a><br /></td></tr>
+<tr class="separator:ad5c39c599f93a4237ba57c0ca7b27160 inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebf8f1c180d3c72050d719529ac937ba inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#aebf8f1c180d3c72050d719529ac937ba">HasTimeoutExpired</a> (const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a> aTimerHandle) const</td></tr>
+<tr class="memdesc:aebf8f1c180d3c72050d719529ac937ba inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns weather the timeout for a given handle has expired/fired already.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#aebf8f1c180d3c72050d719529ac937ba">More...</a><br /></td></tr>
+<tr class="separator:aebf8f1c180d3c72050d719529ac937ba inherit pub_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:adcc58f4b0ad0e099fa48b84c467be889"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#adcc58f4b0ad0e099fa48b84c467be889">SetTimeout</a> (const <a class="el" href="namespaceDetectorGraph.html#a93a828cc683475fbe82e4ed14e992c4d">TimeOffset</a> aMillisecondsFromNow, const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a> aTimerId)</td></tr>
+<tr class="memitem:adcc58f4b0ad0e099fa48b84c467be889"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#adcc58f4b0ad0e099fa48b84c467be889">SetTimeout</a> (const <a class="el" href="namespaceDetectorGraph.html#a93a828cc683475fbe82e4ed14e992c4d">TimeOffset</a> aMillisecondsFromNow, const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a> aTimerId)</td></tr>
 <tr class="memdesc:adcc58f4b0ad0e099fa48b84c467be889"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should setup a timeout for the given handle.  <a href="#adcc58f4b0ad0e099fa48b84c467be889">More...</a><br /></td></tr>
 <tr class="separator:adcc58f4b0ad0e099fa48b84c467be889"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a632d951bcdb90554f70ad464cf3c0733"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#a632d951bcdb90554f70ad464cf3c0733">Start</a> (const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a> aTimerId)</td></tr>
+<tr class="memitem:a632d951bcdb90554f70ad464cf3c0733"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#a632d951bcdb90554f70ad464cf3c0733">Start</a> (const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a> aTimerId)</td></tr>
 <tr class="memdesc:a632d951bcdb90554f70ad464cf3c0733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should start a timer for the given handle.  <a href="#a632d951bcdb90554f70ad464cf3c0733">More...</a><br /></td></tr>
 <tr class="separator:a632d951bcdb90554f70ad464cf3c0733"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6224fe8daaf6ecf7246905af9af54a4c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#a6224fe8daaf6ecf7246905af9af54a4c">Cancel</a> (const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a> aTimerId)</td></tr>
+<tr class="memitem:a6224fe8daaf6ecf7246905af9af54a4c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#a6224fe8daaf6ecf7246905af9af54a4c">Cancel</a> (const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a> aTimerId)</td></tr>
 <tr class="memdesc:a6224fe8daaf6ecf7246905af9af54a4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should cancel the timer the given handle.  <a href="#a6224fe8daaf6ecf7246905af9af54a4c">More...</a><br /></td></tr>
 <tr class="separator:a6224fe8daaf6ecf7246905af9af54a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f8f682433afafdf0b8b380258d90f91"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TestTimeoutPublisherService.html#a4f8f682433afafdf0b8b380258d90f91">StartMetronome</a> (const <a class="el" href="namespaceDetectorGraph.html#a93a828cc683475fbe82e4ed14e992c4d">TimeOffset</a> aPeriodInMilliseconds)</td></tr>
@@ -150,7 +151,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:aa6947c669ce2dd8587f5d2ef642ed8ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should stop the metronome.  <a href="#aa6947c669ce2dd8587f5d2ef642ed8ab">More...</a><br /></td></tr>
 <tr class="separator:aa6947c669ce2dd8587f5d2ef642ed8ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classDetectorGraph_1_1TimeoutPublisherService"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classDetectorGraph_1_1TimeoutPublisherService')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html">DetectorGraph::TimeoutPublisherService</a></td></tr>
-<tr class="memitem:aba4eb825d3e64f7a14cb245ce1e9f338 inherit pro_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#aba4eb825d3e64f7a14cb245ce1e9f338">TimeoutExpired</a> (const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a> aTimerHandle)</td></tr>
+<tr class="memitem:aba4eb825d3e64f7a14cb245ce1e9f338 inherit pro_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#aba4eb825d3e64f7a14cb245ce1e9f338">TimeoutExpired</a> (const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a> aTimerHandle)</td></tr>
 <tr class="memdesc:aba4eb825d3e64f7a14cb245ce1e9f338 inherit pro_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fires/Dispatches a <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a> that was pending on a timeout.  <a href="classDetectorGraph_1_1TimeoutPublisherService.html#aba4eb825d3e64f7a14cb245ce1e9f338">More...</a><br /></td></tr>
 <tr class="separator:aba4eb825d3e64f7a14cb245ce1e9f338 inherit pro_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a314b71f2b4abd7bc9e29f3704083b59d inherit pro_methods_classDetectorGraph_1_1TimeoutPublisherService"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a314b71f2b4abd7bc9e29f3704083b59d">MetronomeFired</a> ()</td></tr>
@@ -161,7 +162,7 @@ Protected Member Functions</h2></td></tr>
 <div class="textblock"><p>Push data to a topic when timer expires. </p>
 <p><a class="el" href="classDetectorGraph_1_1TimeoutPublisher.html" title="Push data to a topic when timer expires. ">TimeoutPublisher</a> provides a mechanism to schedule the publish of data to a topic. Additionally the detector can cancel/reset a scheduled job. </p>
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8hpp_source.html#l00031">31</a> of file <a class="el" href="testtimeoutpublisherservice_8hpp_source.html">testtimeoutpublisherservice.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8hpp_source.html#l00042">42</a> of file <a class="el" href="testtimeoutpublisherservice_8hpp_source.html">testtimeoutpublisherservice.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab9ec83bb9c65872a5980179aa31baa1c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab9ec83bb9c65872a5980179aa31baa1c">&#9670;&nbsp;</a></span>TestTimeoutPublisherService()</h2>
@@ -179,7 +180,7 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00020">20</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00028">28</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -196,7 +197,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void DetectorGraph::TestTimeoutPublisherService::Cancel </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a>&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -213,7 +214,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a2c98adf321c167c7955ff93f4ca8cafb">DetectorGraph::TimeoutPublisherService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00040">40</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00053">53</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -245,7 +246,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a7c40499c47e60ff055aed04248d2d213">DetectorGraph::TimeoutPublisherService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00057">57</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00069">69</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -264,7 +265,7 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00067">67</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00079">79</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -294,7 +295,7 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00093">93</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00104">104</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -313,7 +314,7 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00184">184</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00195">195</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -345,7 +346,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#ae9e71562fdf85371161218e680e83d4b">DetectorGraph::TimeoutPublisherService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00161">161</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00172">172</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -377,39 +378,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a62a05808cf040e373778fe49dc6c2da9">DetectorGraph::TimeoutPublisherService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00156">156</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a31737b96b7655b24be54fcbe77af53b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31737b96b7655b24be54fcbe77af53b8">&#9670;&nbsp;</a></span>GetUniqueTimerHandle()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a> DetectorGraph::TestTimeoutPublisherService::GetUniqueTimerHandle </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Should return a unique id/handle for a new timer. </p>
-<p>This must be implemented by subclasses. Different TimeoutPublishers will call this to 'acquire' a timer. The handle is then used throughout the API to refer to any individual timer </p>
-
-<p>Implements <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#a241e3d45b53beec294e3909f72548da5">DetectorGraph::TimeoutPublisherService</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00025">25</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00167">167</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -431,7 +400,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a>&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -452,7 +421,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#ae89a7719f96ba6192420df60911e3cdb">DetectorGraph::TimeoutPublisherService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00030">30</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00039">39</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -472,7 +441,7 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00062">62</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00074">74</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -488,7 +457,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void DetectorGraph::TestTimeoutPublisherService::Start </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceDetectorGraph.html#a298d0ece8396c9f8df56437de75ce56b">TimeoutPublisherHandle</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceDetectorGraph.html#a3b46f49f20e3a384935c958c8f629968">TimeoutPublisherHandle</a>&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -505,7 +474,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#ad061b28e7bb84dc6d453afaf3ef74ef9">DetectorGraph::TimeoutPublisherService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00035">35</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00048">48</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>
@@ -538,7 +507,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="classDetectorGraph_1_1TimeoutPublisherService.html#aadfc9a0b5506671bc7ff171b190cdb5e">DetectorGraph::TimeoutPublisherService</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00049">49</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="testtimeoutpublisherservice_8cpp_source.html#l00062">62</a> of file <a class="el" href="testtimeoutpublisherservice_8cpp_source.html">testtimeoutpublisherservice.cpp</a>.</p>
 
 </div>
 </div>

@@ -28,6 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
   </td>
  </tr>
@@ -71,7 +72,7 @@ $(function() {
 <div class="textblock"><p><a href="https://travis-ci.org/google/detectorgraph"></a></p>
 <p><a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a> is a framework for writing programs in a formal graph topology. This can be used to write applications with multiple interdependent algorithms, applications' data models, general business logic or all of that combined. The framework uses a formal distinction between data (Topics) and transformations/logic (Detectors). It natively provides dependency injection, strict type-safety and provides loose coupling between Detectors by formalizing the touch points as Topics. It forces an intuitive (albeit unusual) programming paradigm that results in highly readable, maintainable &amp; testable code.</p>
 <p>This is not an officially supported Google product.</p>
-<p>Note that the cross-reference links in this page are only rendered in the Doxygen version of the documentation (see <a href="#building">Building</a>).</p>
+<p>Note that the cross-reference links in this page are only rendered in the Doxygen version of the documentation (see <a href="#building">Building</a>). You can also navigate the web version of the documentation hosted at <a href="https://google.github.io/detectorgraph/">https://google.github.io/detectorgraph/</a>.</p>
 <h2>Getting Started</h2>
 <h2>Usage</h2>
 <p>Applications are written as a combination of <em>Detectors</em> and <em>Topics</em>.</p>
@@ -134,31 +135,35 @@ ThresholdDetector detector(&amp;graph);
 <li>Plumbing that connects your data sources (e.g. drivers, buttons, network) to calls to <a class="el" href="classDetectorGraph_1_1ProcessorContainer.html#a7f845054f0487426caf6b2369b07b3b4">`ProcessData()`</a> for specific <em>input Topics</em></li>
 <li>An implementation of <a class="el" href="classDetectorGraph_1_1ProcessorContainer.html#a8f3cf10565478b9842e2089f2d81494f">`ProcessOutput()`</a> that links specific <em>output Topics</em> to your application's outputs (e.g. LEDs, actuators, network)</li>
 </ul>
-<p>A more powerful &amp; flexible option is to implement your own container to hold the <a class="el" href="classDetectorGraph_1_1Graph.html">`Graph`</a> and <a class="el" href="classDetectorGraph_1_1Detector.html">`Detector`</a> objects and orchestrate calls to <a class="el" href="classDetectorGraph_1_1Graph.html#a257b93c8ea843bbd4cdd9c1ee6588cbb">`PushData&lt;T&gt;()`</a>, <a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd">`EvaluateGraph()`</a> and either inspect particular Topics (retrievable via <a class="el" href="classDetectorGraph_1_1Graph.html#ac5b90d3ec0b57ff6c04a5cac1d8c687c">`ResolveTopic&lt;T&gt;()`</a>) or iterate through all modified Topics using <a class="el" href="classDetectorGraph_1_1Graph.html#ae2eea42e89f2710b5e242e3db35ad905">`GetOutputList()`</a>.</p>
+<p>A more powerful &amp; flexible option is to implement your own container to hold the <a class="el" href="classDetectorGraph_1_1Graph.html">`Graph`</a> and <a class="el" href="classDetectorGraph_1_1Detector.html">`Detector`</a> objects and orchestrate calls to <a class="el" href="classDetectorGraph_1_1Graph.html#aeab252a7ba121ea31750822bc0faf111">`PushData&lt;T&gt;()`</a>, <a class="el" href="classDetectorGraph_1_1Graph.html#a5c4388d5a8d80710bfb0a68c2b45ebbd">`EvaluateGraph()`</a> and either inspect particular Topics (retrievable via <a class="el" href="classDetectorGraph_1_1Graph.html#ac5b90d3ec0b57ff6c04a5cac1d8c687c">`ResolveTopic&lt;T&gt;()`</a>) or iterate through all modified Topics using <a class="el" href="classDetectorGraph_1_1Graph.html#ae2eea42e89f2710b5e242e3db35ad905">`GetOutputList()`</a>.</p>
 <p><a class="anchor" id="building"></a> </p><h2>Building</h2>
 <h3>Tests, Docs and Examples</h3>
-<p>The library is shipped with a bare-bones makefile that can be used to build &amp; run all of the examples, unit tests, documentation and coverage report. </p><pre class="fragment">* Dependencies:
+<p>The library is shipped with a bare-bones makefile that can be used to build &amp; run all of the examples, unit tests, documentation and coverage report.</p><ul>
+<li>Dependencies:<ul>
+<li>Gcc and/or clang with c++11</li>
+<li>gcov &amp; lcov (optional - for building test_coverage)</li>
+<li>doxygen (optional - for building docs)</li>
+<li>Eigen3 (optional - for building examples/robotlocalization)</li>
+</ul>
+</li>
+<li>Building: <pre class="fragment"> # Hello World
+ ~/detectorgraph$ make examples/helloworld
 
-    * Gcc and/or clang with c++11
-    * gcov &amp; lcov (optional)
-    * doxygen (optional)
-    * c++filt (optional)
+ # Build/Run unit tests
+ ~/detectorgraph$ make unit-test/test_lite
+ ~/detectorgraph$ make unit-test/test_full
 
-* Building
+ # Or simply:
+ ~/detectorgraph$ make unit-test/test_all
 
-    ```
-    # At the root directory
+ # Build Docs. Results in /docs
+ ~/detectorgraph$ make docs
 
-    # Build/Run unit tests
-    ~/detectorgraph$ make unit-test/test_all
-
-    # Build Docs. Results in /docs
-    ~/detectorgraph$ make docs
-
-    # Build/Run Coverage test. Results in /coverage
-    ~/detectorgraph$ make unit-test/test_coverage
-    ```
-</pre><h3>For your project</h3>
+ # Build/Run Coverage test. Results in /coverage
+ ~/detectorgraph$ make unit-test/test_coverage
+</pre></li>
+</ul>
+<h3>For your project</h3>
 <p>The library is mostly header-only (only 3 core compilation units) and has a trivial compilation process. So instead of providing a binary or a complete build system we recommend that users use their build system of choice to build the library in whatever way fits their needs better. For examples on how to do that, please check <a class="el" href="makefile.html">`makefile`</a>.</p>
 <h2>Why another Graph compute framework?</h2>
 <p><a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a> shares a lot of its core concepts with other frameworks based in computation graphs (e.g. ROS, TensorFlow etc) but has also many differences. Some of its most unique features are:</p><ul>
@@ -173,7 +178,7 @@ ThresholdDetector detector(&amp;graph);
 <h2>Naming</h2>
 <p>The <a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a> library had a little naming problem growing up. From birth it came to replace nlDetectorGraph and so it pretended to be called that way. As an adolescent it decided it wanted to be called MarkII.. but no one cared - for years now the world continues to call it simply <a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a>. Now as it approaches adulthood it has finally accepted its popular name: <a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a>.</p>
 <h2>In-depth Docs &amp; API Reference</h2>
-<p>For in depth documentation of the library, <a class="el" href="core_introduction.html">start here</a> - these are provided by the <a href="#building">auto-generated docs</a>. </p>
+<p>For in depth documentation of the library, <a class="el" href="core_introduction.html">start here</a> - these are provided by the <a href="https://google.github.io/detectorgraph/">auto-generated docs</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

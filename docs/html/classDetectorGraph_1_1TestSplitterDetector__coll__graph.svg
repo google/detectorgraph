@@ -53,25 +53,25 @@
 <text text-anchor="middle" x="129.702" y="-1124.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Vertex</text>
 <polyline fill="none" stroke="black" points="69.3164,-1118.5 190.087,-1118.5 "/>
 <text text-anchor="start" x="77.3164" y="-1106.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mState</text>
-<text text-anchor="start" x="77.3164" y="-1096.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mInEdges</text>
-<text text-anchor="start" x="77.3164" y="-1086.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mOutEdges</text>
-<text text-anchor="start" x="77.3164" y="-1076.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureInEdges</text>
-<text text-anchor="start" x="77.3164" y="-1066.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureOutEdges</text>
+<text text-anchor="start" x="77.3164" y="-1096.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mOutEdges</text>
+<text text-anchor="start" x="77.3164" y="-1086.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mInEdges</text>
+<text text-anchor="start" x="77.3164" y="-1076.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureOutEdges</text>
+<text text-anchor="start" x="77.3164" y="-1066.5" font-family="Helvetica,sans-Serif" font-size="10.00"># mFutureInEdges</text>
 <polyline fill="none" stroke="black" points="69.3164,-1060.5 190.087,-1060.5 "/>
 <text text-anchor="start" x="77.3164" y="-1048.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Vertex()</text>
 <text text-anchor="start" x="77.3164" y="-1038.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Vertex()</text>
 <text text-anchor="start" x="77.3164" y="-1028.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
 <text text-anchor="start" x="77.3164" y="-1018.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetVertexType()</text>
-<text text-anchor="start" x="77.3164" y="-1008.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetName()</text>
-<text text-anchor="start" x="77.3164" y="-998.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ InsertEdge()</text>
-<text text-anchor="start" x="77.3164" y="-988.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveEdge()</text>
-<text text-anchor="start" x="77.3164" y="-978.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutEdges()</text>
-<text text-anchor="start" x="77.3164" y="-968.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetInEdges()</text>
+<text text-anchor="start" x="77.3164" y="-1008.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetState()</text>
+<text text-anchor="start" x="77.3164" y="-998.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetState()</text>
+<text text-anchor="start" x="77.3164" y="-988.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ InsertEdge()</text>
+<text text-anchor="start" x="77.3164" y="-978.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RemoveEdge()</text>
+<text text-anchor="start" x="77.3164" y="-968.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetOutEdges()</text>
 <text text-anchor="start" x="77.3164" y="-958.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ MarkFutureEdge()</text>
-<text text-anchor="start" x="77.3164" y="-948.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureOutEdges()</text>
-<text text-anchor="start" x="77.3164" y="-938.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureInEdges()</text>
-<text text-anchor="start" x="77.3164" y="-928.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetState()</text>
-<text text-anchor="start" x="77.3164" y="-918.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ SetState()</text>
+<text text-anchor="start" x="77.3164" y="-948.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetInEdges()</text>
+<text text-anchor="start" x="77.3164" y="-938.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureOutEdges()</text>
+<text text-anchor="start" x="77.3164" y="-928.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetFutureInEdges()</text>
+<text text-anchor="start" x="77.3164" y="-918.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetName()</text>
 </a>
 </g>
 </g>
@@ -161,7 +161,7 @@
 </g>
 <!-- Node6 -->
 <g id="node7" class="node"><title>Node6</title>
-<g id="a_node7"><a xlink:href="classDetectorGraph_1_1Topic.html" target="_top" xlink:title="{DetectorGraph::Topic\l\&lt; OutA \&gt;\n||+ Topic()\l+ Publish()\l+ DispatchIntoSubscriber()\l+ GetCurrentValues()\l+ HasNewValue()\l+ GetNewValue()\l+ GetCurrentTopicStates()\l+ GetId()\l+ ~Topic()\l+ ProcessVertex()\l}">
+<g id="a_node7"><a xlink:href="classDetectorGraph_1_1Topic.html" target="_top" xlink:title="{DetectorGraph::Topic\l\&lt; OutA \&gt;\n||+ Topic()\l+ Publish()\l+ ProcessVertex()\l+ DispatchIntoSubscriber()\l+ HasNewValue()\l+ GetNewValue()\l+ GetCurrentValues()\l+ ~Topic()\l+ GetId()\l+ GetCurrentTopicStates()\l}">
 <polygon fill="none" stroke="black" points="92.3706,-253.5 92.3706,-407.5 227.033,-407.5 227.033,-253.5 92.3706,-253.5"/>
 <text text-anchor="start" x="100.371" y="-395.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Topic</text>
 <text text-anchor="middle" x="159.702" y="-385.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; OutA &gt;</text>
@@ -170,14 +170,14 @@
 <polyline fill="none" stroke="black" points="92.3706,-361.5 227.033,-361.5 "/>
 <text text-anchor="start" x="100.371" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Topic()</text>
 <text text-anchor="start" x="100.371" y="-339.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Publish()</text>
-<text text-anchor="start" x="100.371" y="-329.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ DispatchIntoSubscriber()</text>
-<text text-anchor="start" x="100.371" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentValues()</text>
+<text text-anchor="start" x="100.371" y="-329.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
+<text text-anchor="start" x="100.371" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ DispatchIntoSubscriber()</text>
 <text text-anchor="start" x="100.371" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ HasNewValue()</text>
 <text text-anchor="start" x="100.371" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetNewValue()</text>
-<text text-anchor="start" x="100.371" y="-289.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentTopicStates()</text>
-<text text-anchor="start" x="100.371" y="-279.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetId()</text>
-<text text-anchor="start" x="100.371" y="-269.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Topic()</text>
-<text text-anchor="start" x="100.371" y="-259.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
+<text text-anchor="start" x="100.371" y="-289.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentValues()</text>
+<text text-anchor="start" x="100.371" y="-279.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Topic()</text>
+<text text-anchor="start" x="100.371" y="-269.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetId()</text>
+<text text-anchor="start" x="100.371" y="-259.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentTopicStates()</text>
 </a>
 </g>
 </g>
@@ -202,14 +202,14 @@
 <polyline fill="none" stroke="black" points="187.371,-562.5 322.033,-562.5 "/>
 <text text-anchor="start" x="195.371" y="-550.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Topic()</text>
 <text text-anchor="start" x="195.371" y="-540.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Publish()</text>
-<text text-anchor="start" x="195.371" y="-530.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ DispatchIntoSubscriber()</text>
-<text text-anchor="start" x="195.371" y="-520.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentValues()</text>
+<text text-anchor="start" x="195.371" y="-530.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
+<text text-anchor="start" x="195.371" y="-520.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ DispatchIntoSubscriber()</text>
 <text text-anchor="start" x="195.371" y="-510.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ HasNewValue()</text>
 <text text-anchor="start" x="195.371" y="-500.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetNewValue()</text>
-<text text-anchor="start" x="195.371" y="-490.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentTopicStates()</text>
-<text text-anchor="start" x="195.371" y="-480.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetId()</text>
-<text text-anchor="start" x="195.371" y="-470.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Topic()</text>
-<text text-anchor="start" x="195.371" y="-460.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
+<text text-anchor="start" x="195.371" y="-490.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentValues()</text>
+<text text-anchor="start" x="195.371" y="-480.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Topic()</text>
+<text text-anchor="start" x="195.371" y="-470.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetId()</text>
+<text text-anchor="start" x="195.371" y="-460.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentTopicStates()</text>
 </a>
 </g>
 </g>
@@ -220,7 +220,7 @@
 </g>
 <!-- Node11 -->
 <g id="node12" class="node"><title>Node11</title>
-<g id="a_node12"><a xlink:href="classDetectorGraph_1_1Topic.html" target="_top" xlink:title="{DetectorGraph::Topic\l\&lt; OutB \&gt;\n||+ Topic()\l+ Publish()\l+ DispatchIntoSubscriber()\l+ GetCurrentValues()\l+ HasNewValue()\l+ GetNewValue()\l+ GetCurrentTopicStates()\l+ GetId()\l+ ~Topic()\l+ ProcessVertex()\l}">
+<g id="a_node12"><a xlink:href="classDetectorGraph_1_1Topic.html" target="_top" xlink:title="{DetectorGraph::Topic\l\&lt; OutB \&gt;\n||+ Topic()\l+ Publish()\l+ ProcessVertex()\l+ DispatchIntoSubscriber()\l+ HasNewValue()\l+ GetNewValue()\l+ GetCurrentValues()\l+ ~Topic()\l+ GetId()\l+ GetCurrentTopicStates()\l}">
 <polygon fill="none" stroke="black" points="414.371,-253.5 414.371,-407.5 549.033,-407.5 549.033,-253.5 414.371,-253.5"/>
 <text text-anchor="start" x="422.371" y="-395.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Topic</text>
 <text text-anchor="middle" x="481.702" y="-385.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; OutB &gt;</text>
@@ -229,14 +229,14 @@
 <polyline fill="none" stroke="black" points="414.371,-361.5 549.033,-361.5 "/>
 <text text-anchor="start" x="422.371" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Topic()</text>
 <text text-anchor="start" x="422.371" y="-339.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Publish()</text>
-<text text-anchor="start" x="422.371" y="-329.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ DispatchIntoSubscriber()</text>
-<text text-anchor="start" x="422.371" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentValues()</text>
+<text text-anchor="start" x="422.371" y="-329.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
+<text text-anchor="start" x="422.371" y="-319.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ DispatchIntoSubscriber()</text>
 <text text-anchor="start" x="422.371" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ HasNewValue()</text>
 <text text-anchor="start" x="422.371" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetNewValue()</text>
-<text text-anchor="start" x="422.371" y="-289.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentTopicStates()</text>
-<text text-anchor="start" x="422.371" y="-279.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetId()</text>
-<text text-anchor="start" x="422.371" y="-269.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Topic()</text>
-<text text-anchor="start" x="422.371" y="-259.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ProcessVertex()</text>
+<text text-anchor="start" x="422.371" y="-289.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentValues()</text>
+<text text-anchor="start" x="422.371" y="-279.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ~Topic()</text>
+<text text-anchor="start" x="422.371" y="-269.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetId()</text>
+<text text-anchor="start" x="422.371" y="-259.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ GetCurrentTopicStates()</text>
 </a>
 </g>
 </g>
