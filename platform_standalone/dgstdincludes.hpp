@@ -27,5 +27,6 @@
 
 #include <new>
 #include <stdint.h>
+#include <cstdlib>
 
 #endif // DETECTORGRAPH_INCLUDE_DETECTOR_GRAPH_DGSTDINCLUDES_HPP_
