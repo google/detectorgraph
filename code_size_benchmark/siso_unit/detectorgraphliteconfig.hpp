@@ -44,8 +44,9 @@ enum DetectorGraphConfigEnum
     kMaxNumberOfOutEdges = 1,
     kMaxNumberOfInEdges = 1,
     kMaxNumberOfTopicStates = 1,
-    kMaxNumberOfTimeouts = 0,
-    kMaxNumberOfPeriodicTimers = 0,
+    // TODO(DGRAPH-57): Using 0 for the two configs below causes a warning.
+    kMaxNumberOfTimeouts = 1,
+    kMaxNumberOfPeriodicTimers = 1,
 };
 
 }
