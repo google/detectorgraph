@@ -15,12 +15,10 @@
 #ifndef DETECTORGRAPH_INCLUDE_DETECTOR_HPP_
 #define DETECTORGRAPH_INCLUDE_DETECTOR_HPP_
 
-#include <list>
-#include <iostream>
-
 #include "vertex.hpp"
 #include "subscriberinterface.hpp"
 #include "subscriptiondispatcher.hpp"
+#include "subscriptiondispatcherscontainer.hpp"
 #include "topicregistry.hpp"
 #include "graph.hpp"
 #include "publisher.hpp"
@@ -119,14 +117,13 @@ protected:
      * This method must be called at the constructor of a detector;
      * once per `SubscriberInterface<T>` interfaces it implements.
      */
-    template<class TTopic> void Subscribe(SubscriberInterface<TTopic>* aSubscriber)
+    template<class TTopicState> void Subscribe(SubscriberInterface<TTopicState>* aSubscriber)
     {
-        Topic<TTopic>* topic = mGraph->ResolveTopic<TTopic>();
-        SubscriptionDispatcherInterface* dispacher = new SubscriptionDispatcher<TTopic>(topic, aSubscriber);
+        Topic<TTopicState>* topic = mGraph->ResolveTopic<TTopicState>();
+        mDispatchersContainer.CreateDispatcher(topic, aSubscriber);
 
         // Keep track of all edges
         topic->InsertEdge(this);
-        mInDispatchers.push_back(dispacher);
     }
 
     /**
@@ -198,7 +195,7 @@ private:
     /**
      * @brief Contain dispatchers to manage subscription interfaces
      */
-    std::list<SubscriptionDispatcherInterface*> mInDispatchers;
+    SubscriptionDispatchersContainer mDispatchersContainer;
 };
 
 } // namespace DetectorGraph

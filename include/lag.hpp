@@ -20,8 +20,6 @@
 #include "detector.hpp"
 #include "futurepublisher.hpp"
 
-#include <utility>
-
 namespace DetectorGraph
 {
 

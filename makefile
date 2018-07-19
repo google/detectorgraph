@@ -12,8 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-CPPSTD=-std=c++11
-FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
+# Configure the compiler.
+CXX ?= g++
+CPPSTD ?= -std=c++11
+# Other options: -std=c++0x -stdlib=libstdc++
+
+# Sometimes it's worth trying -nostdinc++ to see what leaked.
+LITE_CONFIG ?= -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE -fno-exceptions -fno-rtti -Os
+FULL_CONFIG ?=
+
+# Enables std::static_asserts for checking library usage patterns.
+LITE_CONFIG += -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_STATIC_ASSERTS -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_PERFECT_FORWARDING
+
+# Uses own implementation of 64bit % 64bit operator (this is used on TimeoutPublisherService)
+# LITE_CONFIG += -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_NO_64BIT_REMAINDER
+
+# To use the lite version of the library in the examples swap the config below
+CONFIG ?= $(FULL_CONFIG)
+# CONFIG=$(LITE_CONFIG)
+
+# Enables a bunch of debug logs that help understand Graph and TimeoutPublisherService resource usage.
+# CONFIG += -DBUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE
+
+CXXFLAGS ?=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
 
 # The core library will work fine without C++11 but some examples rely on it
 # CPPSTD=-stdlib=libstdc++
@@ -22,9 +43,15 @@ FLAGS=-Wall -Werror -Wno-error=deprecated -Werror=sign-compare
 CORE_INCLUDE=./include
 CORE_SRCS=src/graph.cpp \
      src/detector.cpp \
-     src/graphstatestore.cpp \
-     src/statesnapshot.cpp \
-     src/timeoutpublisherservice.cpp
+     src/timeoutpublisherservice.cpp \
+     $(NULL)
+
+# TODO(DGRAPH-10): TimeoutPublisherService on lite.
+FULL_SRCS=$(CORE_SRCS) \
+	src/statesnapshot.cpp \
+	src/graphstatestore.cpp \
+	$(NULL)
+
 
 # Platform-specific headers and implementations
 PLATFORM=./platform_standalone
@@ -33,27 +60,42 @@ PLATFORM_SRCS=$(PLATFORM)/dglogging.cpp
 # Graph Analysis and Tools
 UTIL=./util
 UTIL_SRCS=$(UTIL)/graphanalyzer.cpp \
-          $(UTIL)/nodenameutils.cpp
+          $(UTIL)/nodenameutils.cpp \
+          $(NULL)
 
 # Test Utilities
 TEST_UTIL=./test-util
 TEST_UTIL_SRCS=$(TEST_UTIL)/testtimeoutpublisherservice.cpp \
-               $(TEST_UTIL)/graphtestutils.cpp
+               $(TEST_UTIL)/graphtestutils.cpp \
+               $(NULL)
 
 # Unit Test Framework
 NLUNITTEST=./third_party/nltest/repo/src/
 NLUNITTEST_SRCS=$(NLUNITTEST)/nltest.c
 
+COMMON_TESTS=./unit-test/common
+FULL_TESTS=./unit-test/full
+LITE_TESTS=./unit-test/lite
+COMMON_TESTS_SRCS=$(wildcard $(COMMON_TESTS)/*.cpp)
+FULL_TESTS_SRCS=$(wildcard $(FULL_TESTS)/*.cpp)
+LITE_TESTS_SRCS=$(wildcard $(LITE_TESTS)/*.cpp)
+
 .PHONY: docs
 docs:
 	doxygen ./doxygen/Doxyfile
 
-unit-test/test_all:
-	g++ $(CPPSTD) $(FLAGS) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_all && ./test_all
+unit-test/test_all: unit-test/test_full unit-test/test_lite
+	@echo Ran unit tests for the Vanilla and Lite configs of the library
+
+unit-test/test_full:
+	$(CXX) $(CPPSTD) $(CXXFLAGS) $(FULL_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(FULL_TESTS) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(FULL_TESTS_SRCS) -o test_full.out && ./test_full.out
+
+unit-test/test_lite:
+	$(CXX) $(CPPSTD) $(CXXFLAGS) $(LITE_CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(LITE_TESTS) $(CORE_SRCS) $(PLATFORM_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(LITE_TESTS_SRCS) -o test_lite.out && ./test_lite.out
 
 examples/helloworld:
 	# Minimal Include & Sources dependencies
-	g++ $(CPPSTD) $(FLAGS) -g -I$(CORE_INCLUDE) -I$(PLATFORM) $(CORE_SRCS) $(PLATFORM_SRCS) examples/helloworld.cpp -o helloworld.out && ./helloworld.out
+	$(CXX) $(CPPSTD) $(CXXFLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) $(FULL_SRCS) $(PLATFORM_SRCS) examples/helloworld.cpp -o helloworld.out && ./helloworld.out
 
 examples/robotlocalization:
 	# Note that this example depends on the Eigen library. For more info see
@@ -61,19 +103,19 @@ examples/robotlocalization:
 	# If Eigen is not installed in your default include path you may need to
 	# add it (e.g. -I/usr/include/eigen3 ).
 	# Additionally, some versions of Eigen3 throw a bunch of warnings when
-	# compiling so you may need to turn off -Werror in FLAGS at the top of this
+	# compiling so you may need to turn off -Werror in CXXFLAGS at the top of this
 	# file.
-	g++ $(CPPSTD) $(FLAGS) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) examples/robotlocalization.cpp -o robotlocalization.out && ./robotlocalization.out
+	$(CXX) $(CPPSTD) $(CXXFLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) examples/robotlocalization.cpp -o robotlocalization.out && ./robotlocalization.out
 
 examples/%:
 	# General Purpose Example building rule.
-	g++ $(CPPSTD) $(FLAGS) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $@.cpp -o $(@:examples/%=%.out) && ./$(@:examples/%=%.out)
+	$(CXX) $(CPPSTD) $(CXXFLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $@.cpp -o $(@:examples/%=%.out) && ./$(@:examples/%=%.out)
 
 examples/all: $(basename $(wildcard examples/*.cpp))
 	@echo Built and Ran all Examples
 
 unit-test/test_coverage: cleancoverage
-	g++ $(CPPSTD) $(FLAGS) --coverage -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) $(CORE_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) unit-test/main.cpp unit-test/test_*.cpp -o test_coverage && ./test_coverage
+	$(CXX) $(CPPSTD) $(CXXFLAGS) $(CONFIG) --coverage -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) -I$(TEST_UTIL) -I$(NLUNITTEST) -I$(COMMON_TESTS) -I$(FULL_TESTS) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $(TEST_UTIL_SRCS) $(NLUNITTEST_SRCS) $(COMMON_TESTS_SRCS) $(FULL_TESTS_SRCS) -o test_coverage && ./test_coverage
 	mkdir -p coverage/
 	lcov --capture --directory . --no-external \
          -q --output-file coverage/coverage.info
@@ -85,6 +127,15 @@ unit-test/test_coverage: cleancoverage
          --extract coverage/coverage.info "*/test-util/*" \
          -q --output-file coverage/coverage.info
 	genhtml coverage/coverage.info --output-directory coverage/.
+
+code_size_benchmark/%:
+	$(CXX) $(CPPSTD) $(CXXFLAGS) -DNDEBUG $(LITE_CONFIG) -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(dir $@) $(CORE_SRCS) $(PLATFORM_SRCS) $@.cpp -o $(@:code_size_benchmark/%/main=%.out) \
+	&& ./$(@:code_size_benchmark/%/main=%.out) \
+	&& size $(@:code_size_benchmark/%/main=%.out) \
+	&& objdump -h $(@:code_size_benchmark/%/main=%.out)
+
+code_size_benchmark/all: $(basename $(wildcard code_size_benchmark/*/main.cpp))
+	@echo Built and Ran all Benchmarks
 
 all: unit-test/test_all docs examples/all unit-test/test_coverage
 

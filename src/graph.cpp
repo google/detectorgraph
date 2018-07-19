@@ -20,21 +20,17 @@
 namespace DetectorGraph
 {
 
-Graph::Graph() : mNeedsSorting(false)
+Graph::Graph()
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+ : mNeedsSorting(false)
+#endif
 {
     DG_LOG("Graph Initialized");
 }
 
 Graph::~Graph()
 {
-    // Dispose on values enqueued on mInputQueue
-    while (!mInputQueue.empty())
-    {
-        GraphInputDispatcherInterface* nextInput = mInputQueue.front();
-        mInputQueue.pop();
-        delete nextInput;
-    }
-
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     // Detectors remove themselves from the graph when deleted
     // so we need a robust deletion process (instead of for (begin,!=end,++))
     // that is ok with removing items behind the iterator.
@@ -56,24 +52,172 @@ Graph::~Graph()
         vertexIt++;
         delete tmp;
     }
+#endif
 }
 
 void Graph::AddVertex(Vertex* aVertex)
 {
     mVertices.push_back(aVertex);
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     mNeedsSorting = true;
+#endif
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+    DG_LOG("Added Vertex (total=%u)", mVertices.size());
+#endif
 }
 
 void Graph::RemoveVertex(Vertex* aVertex)
 {
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // TODO(cscotti): Assert? Destructor? Linear remove?
+    DG_LOG("dummy RemoveVertex called for %p.", (void*)aVertex);
+#else
     mVertices.remove(aVertex);
     mNeedsSorting = true;
+#endif
 }
 
-const std::list< Vertex* >& Graph::GetVertices() const
+bool Graph::EvaluateIfHasDataPending()
 {
-    return mVertices;
+    if (HasDataPending())
+    {
+        ErrorType r = ErrorType_Success;
+        r = EvaluateGraph();
+        if (r != ErrorType_Success) // LCOV_EXCL_START
+        {
+            DG_LOG("Evaluation failed with %d.", (int)r);
+            DG_ASSERT(false);
+        } // LCOV_EXCL_STOP
+        return true;
+    }
+
+    return false;
 }
+
+bool Graph::HasDataPending()
+{
+    return !mGraphInputQueue.IsEmpty();
+}
+
+TopicRegistry& Graph::GetTopicRegistry()
+{
+    return mTopicRegistry;
+}
+
+ErrorType Graph::ClearTraverseContexts()
+{
+    ErrorType r = ErrorType_Success;
+    for (VertexPtrContainer::iterator vertexIt = mVertices.begin();
+    vertexIt != mVertices.end();
+    ++vertexIt)
+    {
+        (*vertexIt)->SetState(Vertex::kVertexClear);
+    }
+    return r;
+}
+
+ErrorType Graph::TraverseVertices()
+{
+    ErrorType r = ErrorType_Success;
+
+    for (VertexPtrContainer::iterator it = mVertices.begin();
+        it != mVertices.end();
+        ++it)
+    {
+        (*it)->ProcessVertex();
+    }
+
+    return r;
+}
+
+ErrorType Graph::EvaluateGraph()
+{
+    ErrorType r = ErrorType_Success;
+
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    if (mNeedsSorting)
+    {
+        r = TopoSortGraph();
+        if (r != ErrorType_Success)
+        {
+            DG_LOG("Graph::TopoSortGraph() failed");
+            return r;
+        }
+    }
+#endif
+
+    ClearTraverseContexts();
+
+    mGraphInputQueue.DequeueAndDispatch();
+
+    r = TraverseVertices();
+    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
+    {
+        DG_LOG("Graph::TraverseVertices() failed");
+        return r;
+    } // LCOV_EXCL_STOP
+
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    r = ComposeOutputList();
+    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
+    {
+        DG_LOG("Graph::ComposeOutputList() failed");
+        return r;
+    } // LCOV_EXCL_STOP
+#endif
+
+    return r;
+}
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+bool Graph::IsGraphSorted()
+{
+    ClearTraverseContexts();
+    int processingNodes = 0;
+    for (VertexPtrContainer::iterator vertexIt = mVertices.begin();
+        vertexIt != mVertices.end();
+        ++vertexIt)
+    {
+        Vertex* v = *vertexIt;
+        if (v->GetState() == Vertex::kVertexDone)
+        {
+            return false;
+        }
+        else if (v->GetState() == Vertex::kVertexClear)
+        {
+            processingNodes++;
+            v->SetState(Vertex::kVertexProcessing);
+        }
+        for (VertexPtrContainer::iterator outEdgeIt = v->GetOutEdges().begin();
+            outEdgeIt != v->GetOutEdges().end();
+            ++outEdgeIt)
+        {
+            Vertex* outVertex = *outEdgeIt;
+            if (outVertex->GetState() == Vertex::kVertexDone)
+            {
+                return false;
+            }
+            else if (outVertex->GetState() == Vertex::kVertexClear)
+            {
+                processingNodes++;
+                outVertex->SetState(Vertex::kVertexProcessing);
+            }
+        }
+
+        v->SetState(Vertex::kVertexDone);
+        processingNodes--;
+    }
+
+    if (processingNodes != 0)
+    {
+        DG_LOG("---------%d Out of Bounds edge --------", processingNodes);
+        return false;
+    }
+
+    return true;
+}
+#else
+// FULL_BEGIN
 
 ErrorType Graph::TopoSortGraph()
 {
@@ -168,95 +312,6 @@ ErrorType Graph::DFS_visit(Vertex* v, std::list<Vertex*>& sorted)
     return r;
 }
 
-ErrorType Graph::EvaluateGraph()
-{
-    ErrorType r = ErrorType_Success;
-
-    if (mNeedsSorting)
-    {
-        r = TopoSortGraph();
-        if (r != ErrorType_Success)
-        {
-            DG_LOG("Graph::TopoSortGraph() failed");
-            return r;
-        }
-    }
-
-    ClearTraverseContexts();
-
-    if (mInputQueue.size() > 0)
-    {
-        GraphInputDispatcherInterface* nextInput = mInputQueue.front();
-        mInputQueue.pop();
-        nextInput->Dispatch();
-        delete nextInput;
-    }
-
-    r = TraverseVertices();
-    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
-    {
-        DG_LOG("Graph::TraverseVertices() failed");
-        return r;
-    } // LCOV_EXCL_STOP
-
-    r = ComposeOutputList();
-    if (r != ErrorType_Success) // LCOV_EXCL_START // Dead code for future-proofness
-    {
-        DG_LOG("Graph::ComposeOutputList() failed");
-        return r;
-    } // LCOV_EXCL_STOP
-
-    return r;
-}
-
-bool Graph::EvaluateIfHasDataPending()
-{
-    if (HasDataPending())
-    {
-        ErrorType r = ErrorType_Success;
-        r = EvaluateGraph();
-        if (r != ErrorType_Success) // LCOV_EXCL_START
-        {
-            DG_LOG("Evaluation failed with %d.", (int)r);
-            DG_ASSERT(false);
-        } // LCOV_EXCL_STOP
-        return true;
-    }
-
-    return false;
-}
-
-bool Graph::HasDataPending()
-{
-    return (mInputQueue.size() > 0);
-}
-
-ErrorType Graph::ClearTraverseContexts()
-{
-    ErrorType r = ErrorType_Success;
-    for (std::list<Vertex*>::iterator vertexIt = mVertices.begin();
-    vertexIt != mVertices.end();
-    ++vertexIt)
-    {
-        (*vertexIt)->SetState(Vertex::kVertexClear);
-    }
-    return r;
-}
-
-ErrorType Graph::TraverseVertices()
-{
-    ErrorType r = ErrorType_Success;
-
-    for (std::list< Vertex* >::iterator it = mVertices.begin();
-        it != mVertices.end();
-        ++it)
-    {
-        (*it)->ProcessVertex();
-    }
-
-    return r;
-}
-
 ErrorType Graph::ComposeOutputList()
 {
     ErrorType r = ErrorType_Success;
@@ -285,9 +340,7 @@ const std::list< ptr::shared_ptr<const TopicState> >& Graph::GetOutputList() con
     return mOutputList;
 }
 
-TopicRegistry& Graph::GetTopicRegistry()
-{
-    return mTopicRegistry;
-}
+// FULL_END
+#endif
 
 }

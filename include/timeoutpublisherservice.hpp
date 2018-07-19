@@ -18,10 +18,25 @@
 #include "graph.hpp"
 #include "topicstate.hpp"
 
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+#include "detectorgraphliteconfig.hpp"
+#include "statictypedallocator-lite.hpp"
+// LITE_END
+#else
+// FULL_BEGIN
+#include "dglogging.hpp"
+#include <vector>
+// FULL_END
+#endif
+
+
 namespace DetectorGraph
 {
 
-typedef uint64_t TimeoutPublisherHandle;
+typedef int TimeoutPublisherHandle;
+enum { kInvalidTimeoutPublisherHandle = -1 };
+
 typedef uint64_t TimeOffset;
 
 /**
@@ -32,6 +47,67 @@ typedef uint64_t TimeOffset;
  */
 class TimeoutPublisherService
 {
+    // Types and classes used internally
+    /**
+     * @brief Internal DispatcherInterface for dispatching any scheduled
+     TopicState to Graph::PushData<T>
+     */
+    struct DispatcherInterface
+    {
+        virtual void Dispatch(Graph& aGraph) = 0;
+        virtual ~DispatcherInterface() {}
+    };
+
+    /**
+     * @brief Internal Dispatcher for dispatching a particular scheduled
+     TopicState to Graph::PushData<T>
+     */
+    template<class T>
+    struct Dispatcher : public DispatcherInterface
+    {
+        Dispatcher() : mData() {}
+        Dispatcher(const T& aData) : mData(aData) {}
+        virtual void Dispatch(Graph& aGraph)
+        {
+            aGraph.PushData<T>(mData);
+        }
+        const T mData;
+    };
+
+    /**
+     * @brief Internal Dispatcher for periodically dispatching TopicState to Graph::PushData<T>
+     *
+     * This internal data structure holds a periodically-triggered dispatcher. It is also used to track
+     * the time between triggers, so that different dispatchers can use the same synchronized metronome timer.
+     */
+    struct PeriodicPublishingSeries
+    {
+        TimeOffset mPublishingPeriodMsec;
+        TimeOffset mMetronomeAccumulator;
+        DispatcherInterface* mpDispatcher;
+
+        PeriodicPublishingSeries(TimeOffset aPublishingPeriodMsec,
+            DispatcherInterface* aDispatcher)
+        : mPublishingPeriodMsec(aPublishingPeriodMsec)
+        , mMetronomeAccumulator(0)
+        , mpDispatcher(aDispatcher) {}
+    };
+
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    typedef SequenceContainer<DispatcherInterface*,
+        DetectorGraphConfig::kMaxNumberOfTimeouts> TimeoutDispatchersContainer;
+    typedef SequenceContainer<PeriodicPublishingSeries,
+        DetectorGraphConfig::kMaxNumberOfPeriodicTimers> PeriodicPublishingSeriesContainer;
+    struct TimeoutCtxt {};
+    typedef StaticTypedAllocator<DispatcherInterface, TimeoutCtxt> TimeoutDispatchersAllocator;
+    struct PeriodicCtxt {};
+    typedef StaticTypedAllocator<DispatcherInterface, PeriodicCtxt> PeriodicDispatchersAllocator;
+#else
+    typedef std::vector<DispatcherInterface*> TimeoutDispatchersContainer;
+    typedef std::vector<PeriodicPublishingSeries> PeriodicPublishingSeriesContainer;
+#endif
+
 public:
     /**
      * @brief Constructor that initializes the service connected to a graph
@@ -48,13 +124,48 @@ public:
     virtual ~TimeoutPublisherService();
 
     /**
-     * @brief Should return a unique id/handle for a new timer
+     * @brief Starts a Metronome to publish scheduled TopicStates
      *
-     * This must be implemented by subclasses. Different TimeoutPublishers will
-     * call this to 'acquire' a timer. The handle is then used throughout the API
-     * to refer to any individual timer
+     * Calling this method starts a metronome(periodic timer).
+     * TimeoutPublisherService will start publishing scheduled TopicStates periodically to graph.
      */
-    virtual TimeoutPublisherHandle GetUniqueTimerHandle() = 0;
+    void StartPeriodicPublishing();
+
+    /**
+     * @brief Returns a unique id/handle for a new timer
+     *
+     * Different TimeoutPublishers will call this to 'acquire' a timer. The
+     * handle is then used throughout the API to refer to any individual timer.
+     * Note that this will never return kInvalidTimeoutPublisherHandle.
+     */
+    TimeoutPublisherHandle GetUniqueTimerHandle();
+
+    /**
+     * @brief Schedules a TopicState for publishing periodically
+     *
+     * This is called by different Detectors with a TopicState and a publishing period.
+     * This method updates the metronome period based on the GCD of the requested publishing period.
+     * Calling 'StartPeriodicPublishing' will start publishing `T` to the graph periodically
+     * with interval @param aPeriodInMilliseconds .
+     *
+     * @param aPeriodInMilliseconds The regular period at which T should be published.
+     */
+    template<class T>
+    void SchedulePeriodicPublishing(const TimeOffset aPeriodInMilliseconds)
+    {
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        SchedulePeriodicPublishingDispatcher(mPeriodicDispatchersAllocator.New<Dispatcher<T>>(), aPeriodInMilliseconds);
+#else
+        SchedulePeriodicPublishingDispatcher(new Dispatcher<T>(), aPeriodInMilliseconds);
+#endif
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        DG_LOG("Scheduling PeriodicPublishing every %d milliseconds\n", aPeriodInMilliseconds);
+#else
+        DG_LOG("Scheduling PeriodicPublishing of %s every %d milliseconds\n", T().GetName(), aPeriodInMilliseconds);
+#endif
+#endif
+    }
 
     /**
      * @brief Schedules a TopicState for Publishing after a timeout
@@ -72,11 +183,37 @@ public:
     template<class T>
     void ScheduleTimeout(const T& aData, const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerHandle)
     {
+        // Due to Lite limitations we need to cancel/free the old Dispatcher for the same handle before we schedule the new one.
         CancelPublishOnTimeout(aTimerHandle);
-        mScheduledTopicStatesMap[aTimerHandle] = new TopicStateDispatcher<T>(aData);
-        SetTimeout(aMillisecondsFromNow, aTimerHandle);
-        Start(aTimerHandle);
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        ScheduleTimeoutDispatcher(mTimeoutDispatchersAllocator.New<Dispatcher<T>>(aData), aMillisecondsFromNow, aTimerHandle);
+#else
+        ScheduleTimeoutDispatcher(new Dispatcher<T>(aData), aMillisecondsFromNow, aTimerHandle);
+#endif
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        DG_LOG("Scheduling Timeout in %d milliseconds\n", aMillisecondsFromNow);
+#else
+        DG_LOG("Scheduling Timeout for %s in %d milliseconds\n", aData.GetName(), aMillisecondsFromNow);
+#endif
+#endif
     }
+
+    /**
+     * @brief Cancels a timeout and deletes the stored TopicState
+     *
+     * This is called by different TimeoutPublishers when a timeout must be
+     * canceled.
+     */
+    void CancelPublishOnTimeout(const TimeoutPublisherHandle aTimerHandle);
+
+    /**
+     * @brief Returns weather the timeout for a given handle has expired/fired
+     already.
+     *
+     * This will also return true if the referred timer never existed.
+     */
+    bool HasTimeoutExpired(const TimeoutPublisherHandle aTimerHandle) const;
 
     /**
      * @brief Should return the time offset to Epoch
@@ -97,48 +234,6 @@ public:
      * increasing, time offset valid for the duration of this object's instance.
      */
     virtual TimeOffset GetMonotonicTime() const = 0;
-
-    /**
-     * @brief Cancels a timeout and deletes the stored TopicState
-     *
-     * This is called by different TimeoutPublishers when a timeout must be
-     * canceled.
-     */
-    void CancelPublishOnTimeout(const TimeoutPublisherHandle aTimerHandle);
-
-    /**
-     * @brief Returns weather the timeout for a given handle has expired/fired
-     already.
-     *
-     * This will also return true if the referred timer never existed.
-     */
-    bool HasTimeoutExpired(const TimeoutPublisherHandle aTimerHandle) const;
-
-    /**
-     * @brief Schedules a TopicState for publishing periodically
-     *
-     * This is called by different Detectors with a TopicState and a publishing period.
-     * This method updates the metronome period based on the GCD of the requested publishing period.
-     * Calling 'StartPeriodicPublishing' will start publishing `T` to the graph periodically
-     * with interval @param aPeriodInMilliseconds .
-     *
-     * @param aPeriodInMilliseconds The regular period at which T should be published.
-     */
-    template<class T>
-    void SchedulePeriodicPublishing(const TimeOffset aPeriodInMilliseconds)
-    {
-        mMetronomePeriodMsec = gcd(aPeriodInMilliseconds, mMetronomePeriodMsec);
-        mScheduledPeriodicTopicStatesList.push_back(
-            PeriodicTopicStateDispatcher(aPeriodInMilliseconds, new TopicStateDispatcher<T>()));
-    }
-
-    /**
-     * @brief Starts a Metronome to publish scheduled TopicStates
-     *
-     * Calling this method starts a metronome(periodic timer).
-     * TimeoutPublisherService will start publishing scheduled TopicStates periodically to graph.
-     */
-    void StartPeriodicPublishing();
 
 protected:
     /**
@@ -198,60 +293,19 @@ protected:
 
 private:
     /**
-     * @brief Internal DispatcherInterface for dispatching any scheduled
-     TopicState to Graph::PushData<T>
+     * @brief Internal type-agnostic method to schedule timeouts
      */
-    struct TopicStateDispatcherInterface
-    {
-        virtual void Dispatch(Graph& aGraph) = 0;
-        virtual ~TopicStateDispatcherInterface() {}
-    };
+    void ScheduleTimeoutDispatcher(DispatcherInterface* aDispatcher, const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerHandle);
 
     /**
-     * @brief Internal Dispatcher for dispatching a particular scheduled
-     TopicState to Graph::PushData<T>
+     * @brief Internal type-agnostic method to schedule periodic timers
      */
-    template<class T>
-    struct TopicStateDispatcher : public TopicStateDispatcherInterface
-    {
-        TopicStateDispatcher() : mData() {}
-        TopicStateDispatcher(const T& aData) : mData(aData) {}
-        virtual void Dispatch(Graph& aGraph)
-        {
-            aGraph.PushData<T>(mData);
-        }
-        const T mData;
-    };
+    void SchedulePeriodicPublishingDispatcher(DispatcherInterface* aDispatcher, const TimeOffset aPeriodInMilliseconds);
 
-    /**
-     * @brief Internal Dispatcher for periodically dispatching TopicState to Graph::PushData<T>
-     *
-     * This internal data structure holds a periodically-triggered dispatcher. It is also used to track
-     * the time between triggers, so that different dispatchers can use the same synchronized metronome timer.
-     */
-    struct PeriodicTopicStateDispatcher
-    {
-        const TimeOffset mPublishingPeriodMsec;
-        TimeOffset mMetronomeCounter;
-        TopicStateDispatcherInterface* mpTopicStateDispatcher;
-
-        PeriodicTopicStateDispatcher(const TimeOffset aPublishingPeriodMsec,
-            TopicStateDispatcherInterface* aTopicStateDispatcherInterface)
-        : mPublishingPeriodMsec(aPublishingPeriodMsec)
-        , mMetronomeCounter(0)
-        , mpTopicStateDispatcher(aTopicStateDispatcherInterface) {}
-    };
-
-private:
     /**
      * @brief Euclidean algorithm to compute great common divisor(GCD)
      */
     TimeOffset gcd(TimeOffset lhs, TimeOffset rhs);
-
-    /**
-     * @brief Map of pending TopicStates per Handle
-     */
-    std::map<TimeoutPublisherHandle, TopicStateDispatcherInterface*> mScheduledTopicStatesMap;
 
     /**
      * @brief Reference to the graph to which timed out TopicStates will be
@@ -259,22 +313,25 @@ private:
      */
     Graph& mrGraph;
 
-    // Convenience typedefs
-    typedef std::map<TimeoutPublisherHandle, TopicStateDispatcherInterface*>::iterator MapIterator;
-
     /**
      * @brief Metronome period which used for periodic Topicstates publishing
      */
     TimeOffset mMetronomePeriodMsec;
 
     /**
+     * @brief Map of pending TopicStates per Handle
+     */
+    TimeoutDispatchersContainer mTimeoutDispatchers;
+
+    /**
      * @brief List of scheduled periodic TopicStates dispatcher
      */
-    std::list<PeriodicTopicStateDispatcher> mScheduledPeriodicTopicStatesList;
+    PeriodicPublishingSeriesContainer mPeriodicSeries;
 
-    // Convenience typedefs
-    typedef std::list<PeriodicTopicStateDispatcher>::iterator DispatcherIterator;
-
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    TimeoutDispatchersAllocator mTimeoutDispatchersAllocator;
+    PeriodicDispatchersAllocator mPeriodicDispatchersAllocator;
+#endif
 };
 
 } // namespace DetectorGraph

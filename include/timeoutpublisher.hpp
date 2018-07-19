@@ -64,9 +64,8 @@ public:
      * a TimeoutPublisherService is needed. That's done by SetTimeoutService.
      */
     TimeoutPublisher()
-    : mpTimeoutPublisherService(NULL), mDefaultHandle(0)
+    : mpTimeoutPublisherService(NULL), mDefaultHandle(kInvalidTimeoutPublisherHandle)
     {
-        mDefaultHandle = 0;
     }
 
     /**
@@ -96,9 +95,9 @@ public:
      * @param aTimerId (optional) allows detectors to control multiple concurrent timers.
      * TimeoutPublisherHandles are vended through TimeoutPublisherService::GetUniqueTimerHandle
      */
-    void PublishOnTimeout(const T& aData, const uint64_t aMillisecondsFromNow, TimeoutPublisherHandle aTimerId = 0)
+    void PublishOnTimeout(const T& aData, const uint64_t aMillisecondsFromNow, TimeoutPublisherHandle aTimerId = kInvalidTimeoutPublisherHandle)
     {
-        if (aTimerId == 0) { aTimerId = mDefaultHandle; }
+        if (aTimerId == kInvalidTimeoutPublisherHandle) { aTimerId = mDefaultHandle; }
 
         mpTimeoutPublisherService->ScheduleTimeout<T>(aData, aMillisecondsFromNow, aTimerId);
     }
@@ -106,9 +105,9 @@ public:
     /**
      * @brief Cancels the Scheduled PublishOnTimeout
      */
-    void CancelPublishOnTimeout(TimeoutPublisherHandle aTimerId = 0)
+    void CancelPublishOnTimeout(TimeoutPublisherHandle aTimerId = kInvalidTimeoutPublisherHandle)
     {
-        if (aTimerId == 0) { aTimerId = mDefaultHandle; }
+        if (aTimerId == kInvalidTimeoutPublisherHandle) { aTimerId = mDefaultHandle; }
 
         mpTimeoutPublisherService->CancelPublishOnTimeout(aTimerId);
     }
@@ -116,9 +115,9 @@ public:
     /**
      * @brief Returns weather a timeout has expired or not.
      */
-    bool HasTimeoutExpired(TimeoutPublisherHandle aTimerId = 0) const
+    bool HasTimeoutExpired(TimeoutPublisherHandle aTimerId = kInvalidTimeoutPublisherHandle) const
     {
-        if (aTimerId == 0) { aTimerId = mDefaultHandle; }
+        if (aTimerId == kInvalidTimeoutPublisherHandle) { aTimerId = mDefaultHandle; }
 
         return mpTimeoutPublisherService->HasTimeoutExpired(aTimerId);
     }

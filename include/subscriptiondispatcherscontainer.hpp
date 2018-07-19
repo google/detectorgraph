@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
-#define DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
+#ifndef DETECTORGRAPH_INCLUDE_SUBSCRIPTIONDISPATCHERSCONTAINER_HPP_
+#define DETECTORGRAPH_INCLUDE_SUBSCRIPTIONDISPATCHERSCONTAINER_HPP_
 
 #if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
 
-#include "topicregistry-lite2.hpp"
-// #include "topicregistry-lite.hpp"
+#include "subscriptiondispatcherscontainer-lite.hpp"
 
 #else
 
-#include "topicregistry-stl.hpp"
+#include "subscriptiondispatcherscontainer-stl.hpp"
 
 #endif
 
-#endif // DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
+#endif // DETECTORGRAPH_INCLUDE_SUBSCRIPTIONDISPATCHERSCONTAINER_HPP_

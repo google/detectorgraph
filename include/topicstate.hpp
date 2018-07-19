@@ -15,8 +15,11 @@
 #ifndef DETECTORGRAPH_INCLUDE_TOPICSTATE_HPP_
 #define DETECTORGRAPH_INCLUDE_TOPICSTATE_HPP_
 
-#include <list>
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// FULL_BEGIN
 #include <typeinfo>
+// FULL_END
+#endif
 
 namespace DetectorGraph
 {
@@ -51,6 +54,8 @@ struct TopicState
     TopicState() { }
     virtual ~TopicState() { }
 
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// FULL_BEGIN
     /**
      * @brief Get type name of itself
      *
@@ -97,6 +102,10 @@ struct TopicState
         static const TTopic dummy = TTopic();
         return dummy.GetId();
     } // LCOV_EXCL_LINE
+
+// FULL_END
+#endif
+
 };
 
 } // namespace DetectorGraph

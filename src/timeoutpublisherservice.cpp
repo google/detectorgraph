@@ -23,49 +23,102 @@ TimeoutPublisherService::TimeoutPublisherService(Graph& arGraph) : mrGraph(arGra
 
 TimeoutPublisherService::~TimeoutPublisherService()
 {
-    for (MapIterator tZombieDataIt = mScheduledTopicStatesMap.begin();
-        tZombieDataIt != mScheduledTopicStatesMap.end();
+// The Lite version's allocator automatically deletes all objects using RAII
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    for (TimeoutDispatchersContainer::iterator tZombieDataIt = mTimeoutDispatchers.begin();
+        tZombieDataIt != mTimeoutDispatchers.end();
         ++tZombieDataIt)
     {
-        delete tZombieDataIt->second;
+        delete *tZombieDataIt;
     }
 
-    for (DispatcherIterator tZombieDataIt = mScheduledPeriodicTopicStatesList.begin();
-        tZombieDataIt != mScheduledPeriodicTopicStatesList.end();
+    for (PeriodicPublishingSeriesContainer::iterator tZombieDataIt = mPeriodicSeries.begin();
+        tZombieDataIt != mPeriodicSeries.end();
         ++tZombieDataIt)
     {
-        delete tZombieDataIt->mpTopicStateDispatcher;
+        delete tZombieDataIt->mpDispatcher;
     }
-
+#endif
 }
 
-void TimeoutPublisherService::CancelPublishOnTimeout(const TimeoutPublisherHandle aId)
+TimeoutPublisherHandle TimeoutPublisherService::GetUniqueTimerHandle()
 {
-    if (mScheduledTopicStatesMap.count(aId))
+    TimeoutPublisherHandle newHandle = (TimeoutPublisherHandle)mTimeoutDispatchers.size();
+    mTimeoutDispatchers.push_back(NULL);
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+        DG_LOG("Reserved UniqueTimerHandle=%d\n", (int)newHandle);
+#endif
+    return newHandle;
+}
+
+void TimeoutPublisherService::ScheduleTimeoutDispatcher(
+    DispatcherInterface* aDispatcher,
+    const TimeOffset aMillisecondsFromNow,
+    const TimeoutPublisherHandle aHandle)
+{
+    // Assert valid Handle
+    DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
+    unsigned dispatcherIdx = (unsigned)aHandle;
+    // Assert dispatcher is available
+    DG_ASSERT(mTimeoutDispatchers[dispatcherIdx] == NULL);
+    mTimeoutDispatchers[dispatcherIdx] = aDispatcher;
+    SetTimeout(aMillisecondsFromNow, aHandle);
+    Start(aHandle);
+}
+
+void TimeoutPublisherService::SchedulePeriodicPublishingDispatcher(
+    DispatcherInterface* aDispatcher,
+    const TimeOffset aPeriodInMilliseconds)
+{
+    mMetronomePeriodMsec = gcd(aPeriodInMilliseconds, mMetronomePeriodMsec);
+    mPeriodicSeries.push_back(
+        PeriodicPublishingSeries(aPeriodInMilliseconds, aDispatcher));
+}
+
+void TimeoutPublisherService::CancelPublishOnTimeout(const TimeoutPublisherHandle aHandle)
+{
+    // Assert valid Handle
+    DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
+    unsigned dispatcherIdx = (unsigned)aHandle;
+    DispatcherInterface* tDispatcher = mTimeoutDispatchers[dispatcherIdx];
+
+    if (tDispatcher)
     {
-        Cancel(aId);
-        MapIterator it = mScheduledTopicStatesMap.find(aId);
-        TopicStateDispatcherInterface* tDispatcher = (*it).second;
+        Cancel(aHandle);
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        mTimeoutDispatchersAllocator.Delete(tDispatcher);
+#else
         delete tDispatcher;
-        mScheduledTopicStatesMap.erase(it);
+#endif
+        mTimeoutDispatchers[dispatcherIdx] = NULL;
     }
 }
 
-void TimeoutPublisherService::TimeoutExpired(const TimeoutPublisherHandle aId)
+void TimeoutPublisherService::TimeoutExpired(const TimeoutPublisherHandle aHandle)
 {
-    if (mScheduledTopicStatesMap.count(aId))
+    // Assert valid Handle
+    DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
+    unsigned dispatcherIdx = (unsigned)aHandle;
+    DispatcherInterface* tDispatcher = mTimeoutDispatchers[dispatcherIdx];
+    if (tDispatcher)
     {
-        MapIterator it = mScheduledTopicStatesMap.find(aId);
-        TopicStateDispatcherInterface* tDispatcher = (*it).second;
         tDispatcher->Dispatch(mrGraph);
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        mTimeoutDispatchersAllocator.Delete(tDispatcher);
+#else
         delete tDispatcher;
-        mScheduledTopicStatesMap.erase(it);
+#endif
+        mTimeoutDispatchers[dispatcherIdx] = NULL;
     }
 }
 
-bool TimeoutPublisherService::HasTimeoutExpired(const TimeoutPublisherHandle aId) const
+bool TimeoutPublisherService::HasTimeoutExpired(const TimeoutPublisherHandle aHandle) const
 {
-    return (mScheduledTopicStatesMap.count(aId) == 0);
+    // Assert valid Handle
+    DG_ASSERT(0 <= aHandle && (unsigned)aHandle < mTimeoutDispatchers.size());
+    unsigned dispatcherIdx = (unsigned)aHandle;
+    return (mTimeoutDispatchers[dispatcherIdx] == NULL);
 }
 
 void TimeoutPublisherService::StartPeriodicPublishing()
@@ -73,20 +126,23 @@ void TimeoutPublisherService::StartPeriodicPublishing()
     if (mMetronomePeriodMsec > 0)
     {
         StartMetronome(mMetronomePeriodMsec);
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+        DG_LOG("Started Metronome with period of %d milliseconds\n", mMetronomePeriodMsec);
+#endif
     }
 }
 
 void TimeoutPublisherService::MetronomeFired()
 {
-    for (DispatcherIterator it = mScheduledPeriodicTopicStatesList.begin();
-        it != mScheduledPeriodicTopicStatesList.end();
+    for (PeriodicPublishingSeriesContainer::iterator it = mPeriodicSeries.begin();
+        it != mPeriodicSeries.end();
         ++it)
     {
-        it->mMetronomeCounter++;
-        if (it->mMetronomeCounter >= (it->mPublishingPeriodMsec / mMetronomePeriodMsec))
+        it->mMetronomeAccumulator += mMetronomePeriodMsec;
+        if (it->mMetronomeAccumulator >= it->mPublishingPeriodMsec)
         {
-            it->mpTopicStateDispatcher->Dispatch(mrGraph);
-            it->mMetronomeCounter = 0;
+            it->mpDispatcher->Dispatch(mrGraph);
+            it->mMetronomeAccumulator = 0;
         }
     }
 }
@@ -96,7 +152,11 @@ TimeOffset TimeoutPublisherService::gcd(TimeOffset lhs, TimeOffset rhs)
     while (rhs != 0)
     {
         TimeOffset temp = rhs;
+#if defined(DG_TIMEOFFSET_REMAINDER)
+        rhs = DG_TIMEOFFSET_REMAINDER(lhs, rhs);
+#else
         rhs = lhs % rhs;
+#endif
         lhs = temp;
     }
     return lhs;

@@ -15,8 +15,19 @@
 #ifndef DETECTORGRAPH_INCLUDE_VERTEX_HPP_
 #define DETECTORGRAPH_INCLUDE_VERTEX_HPP_
 
+#include "dglogging.hpp"
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+#include "detectorgraphliteconfig.hpp"
+#include "sequencecontainer-lite.hpp"
+// LITE_END
+#else
+// FULL_BEGIN
 #include <list>
 #include <typeinfo>
+// FULL_END
+#endif
 
 namespace DetectorGraph
 {
@@ -26,6 +37,12 @@ namespace DetectorGraph
 class Vertex
 {
 public:
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    typedef SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfOutEdges> VertexPtrContainer;
+#else
+    typedef std::list<Vertex*> VertexPtrContainer;
+#endif
+
     Vertex() : mState(kVertexClear) {}
     virtual ~Vertex() {}
     virtual void ProcessVertex() = 0;
@@ -51,52 +68,6 @@ public:
 
     virtual VertexType GetVertexType() const = 0;
 
-    // This uses RTTI only for clarity purposes. And could potentially be removed.
-    // LCOV_EXCL_START
-    const char * GetName() const
-    {
-        return typeid(*this).name();
-    }
-    // LCOV_EXCL_STOP
-
-    void InsertEdge(Vertex* aVertex)
-    {
-        mOutEdges.push_back(aVertex);
-        aVertex->mInEdges.push_back(this);
-    }
-
-    void RemoveEdge(Vertex* aVertex)
-    {
-        mOutEdges.remove(aVertex);
-        aVertex->mInEdges.remove(this);
-    }
-
-    std::list<Vertex*>& GetOutEdges()
-    {
-        return mOutEdges;
-    }
-
-    std::list<Vertex*>& GetInEdges()
-    {
-        return mInEdges;
-    }
-
-    void MarkFutureEdge(Vertex* aVertex)
-    {
-        mFutureOutEdges.push_back(aVertex);
-        aVertex->mFutureInEdges.push_back(this);
-    }
-
-    std::list<Vertex*>& GetFutureOutEdges()
-    {
-        return mFutureOutEdges;
-    }
-
-    std::list<Vertex*>& GetFutureInEdges()
-    {
-        return mFutureInEdges;
-    }
-
     VertexSearchState GetState() const
     {
         return mState;
@@ -107,12 +78,75 @@ public:
         mState = aNewState;
     }
 
+    void InsertEdge(Vertex* aVertex)
+    {
+        mOutEdges.push_back(aVertex);
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        aVertex->mInEdges.push_back(this);
+#endif
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_INSTRUMENT_RESOURCE_USAGE)
+    DG_LOG("Added Edge (total=%u)", mOutEdges.size());
+#endif
+    }
+
+    void RemoveEdge(Vertex* aVertex)
+    {
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        mOutEdges.remove(aVertex);
+        aVertex->mInEdges.remove(this);
+#endif
+    }
+
+    VertexPtrContainer& GetOutEdges()
+    {
+        return mOutEdges;
+    }
+
+    void MarkFutureEdge(Vertex* aVertex)
+    {
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+        mFutureOutEdges.push_back(aVertex);
+        aVertex->mFutureInEdges.push_back(this);
+#endif
+    }
+
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // FULL_BEGIN
+public:
+    VertexPtrContainer& GetInEdges()
+    {
+        return mInEdges;
+    }
+
+    VertexPtrContainer& GetFutureOutEdges()
+    {
+        return mFutureOutEdges;
+    }
+
+    VertexPtrContainer& GetFutureInEdges()
+    {
+        return mFutureInEdges;
+    }
+
+    // This uses RTTI only for clarity purposes. And could potentially be removed.
+    // LCOV_EXCL_START
+    const char * GetName() const
+    {
+        return typeid(*this).name();
+    }
+    // LCOV_EXCL_STOP
+    // FULL_END
+#endif
+
 protected:
     VertexSearchState mState;
-    std::list<Vertex*> mInEdges;
-    std::list<Vertex*> mOutEdges;
-    std::list<Vertex*> mFutureInEdges;
-    std::list<Vertex*> mFutureOutEdges;
+    VertexPtrContainer mOutEdges;
+
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    VertexPtrContainer mInEdges;
+    VertexPtrContainer mFutureOutEdges;
+    VertexPtrContainer mFutureInEdges;
+#endif
 };
 
 } // namespace DetectorGraph

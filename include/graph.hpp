@@ -15,13 +15,7 @@
 #ifndef DETECTORGRAPH_INCLUDE_GRAPH_HPP_
 #define DETECTORGRAPH_INCLUDE_GRAPH_HPP_
 
-#include <list>
-#include <queue>
-#include <typeinfo>
-#include <limits>
-#include <stdint.h>
 
-#include "sharedptr.hpp"
 #include "subscriberinterface.hpp"
 #include "vertex.hpp"
 #include "subscriptiondispatcher.hpp"
@@ -29,8 +23,25 @@
 #include "topic.hpp"
 #include "topicstate.hpp"
 #include "topicregistry.hpp"
+#include "graphinputqueue.hpp"
 
 #include "errortype.hpp"
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+#include "detectorgraphliteconfig.hpp"
+#include "sequencecontainer-lite.hpp"
+#include "statictypedallocator-lite.hpp"
+// LITE_END
+#else
+// FULL_BEGIN
+#include "sharedptr.hpp"
+#include <list>
+#include <typeinfo>
+#include <limits>
+#include <stdint.h>
+// FULL_END
+#endif
 
 namespace DetectorGraph
 {
@@ -116,6 +127,13 @@ public:
 class Graph
 {
 public:
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    typedef SequenceContainer<Vertex*, DetectorGraphConfig::kMaxNumberOfVertices> VertexPtrContainer;
+#else
+    typedef std::list<Vertex*> VertexPtrContainer;
+#endif
+
     /**
      * @brief Constructor
      *
@@ -143,12 +161,18 @@ public:
     {
         Topic<TTopicState>* tObj = mTopicRegistry.Resolve<TTopicState>();
 
+        // Creates Topics on demand.
         if (tObj == NULL)
         {
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+            tObj = topicAllocator.New<Topic<TTopicState>>();
+#else
             tObj = new Topic<TTopicState>();
+#endif
             mTopicRegistry.Register<TTopicState>(tObj);
             AddVertex(tObj);
         }
+        // FULL_END
 
         return tObj;
     } // LCOV_EXCL_LINE
@@ -160,9 +184,9 @@ public:
      * it's the only API to do so.
      *
      */
-    template<class TTopicState> void PushData(const TTopicState& dataP)
+    template<class TTopicState> void PushData(const TTopicState& aTopicState)
     {
-        mInputQueue.push(new GraphInputDispatcher<TTopicState>(*ResolveTopic<TTopicState>(), dataP));
+        mGraphInputQueue.Enqueue(*ResolveTopic<TTopicState>(), aTopicState);
     }
 
     /**
@@ -190,26 +214,16 @@ public:
      */
     bool EvaluateIfHasDataPending();
 
-    /**
-     * @brief Returns the list of topicstates published in the last Evaluation.
-     *
-     * It returns a list of references (valid only in between evaluations) to
-     * the topicstates that changed during the last call to \ref EvaluateGraph()
-     */
-    const std::list<ptr::shared_ptr<const TopicState> >& GetOutputList() const;
-
-    /**
-     * @brief Determine the right order to process the vertices by topologial sort
-     */
-    ErrorType TopoSortGraph();
-
     void AddVertex(Vertex* aVertex);
     void RemoveVertex(Vertex* aVertex);
-    const std::list< Vertex* >& GetVertices() const;
     TopicRegistry& GetTopicRegistry();
 
-private:
+    const VertexPtrContainer& GetVertices() const
+    {
+        return mVertices;
+    }
 
+private:
     /**
      * @ brief Clears @ref VertexSearchState to kVertexClear on all vertices
      */
@@ -220,22 +234,58 @@ private:
      */
     ErrorType TraverseVertices();
 
+private:
+    TopicRegistry mTopicRegistry;
+    GraphInputQueue mGraphInputQueue;
+    VertexPtrContainer mVertices;
+
+
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    // LITE_BEGIN
+public:
+    /**
+     * @brief Checks that the vertices are topologically sorted.
+     */
+    bool IsGraphSorted();
+    // LITE_END
+
+private:
+    struct GraphTopicAllocatorCtxt {};
+    StaticTypedAllocator<BaseTopic, GraphTopicAllocatorCtxt> topicAllocator;
+
+#else
+    // FULL_BEGIN
+
+public:
+    /**
+     * @brief Returns the list of topicstates published in the last Evaluation.
+     *
+     * It returns a list of references (valid only in between evaluations) to
+     * the topicstates that changed during the last call to \ref EvaluateGraph()
+     */
+    const std::list<ptr::shared_ptr<const TopicState> >& GetOutputList() const;
+
+    /**
+     * @brief Determine the right order to process the vertices by topological sort
+     */
+    ErrorType TopoSortGraph();
+
+private:
     /**
      * @brief Pop data out of topics to the output list after evaluation
      */
     ErrorType ComposeOutputList();
 
     /**
-     * @brief Recursive method used on Depth-First-Search used on toposorting
+     * @brief Recursive method used on Depth-First-Search used on topo-sorting
      */
-    ErrorType DFS_visit(Vertex* v, std::list<Vertex*>& sorted);
+    ErrorType DFS_visit(Vertex* v, VertexPtrContainer& sorted);
 
 private:
-    TopicRegistry mTopicRegistry;
     bool mNeedsSorting;
-    std::list< Vertex* > mVertices;
-    std::queue< GraphInputDispatcherInterface* > mInputQueue;
     std::list<ptr::shared_ptr<const TopicState> > mOutputList;
+    // FULL_END
+#endif
 };
 
 }

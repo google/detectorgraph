@@ -19,6 +19,17 @@
 #include "topicstate.hpp"
 #include "timeoutpublisherservice.hpp"
 
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+// LITE_BEGIN
+#include "detectorgraphliteconfig.hpp"
+#include "sequencecontainer-lite.hpp"
+// LITE_END
+#else
+// FULL_BEGIN
+#include <map>
+// FULL_END
+#endif
+
 namespace DetectorGraph
 {
 
@@ -30,12 +41,23 @@ namespace DetectorGraph
  */
 class TestTimeoutPublisherService : public TimeoutPublisherService
 {
-    typedef std::map<TimeoutPublisherHandle, TimeOffset>::iterator MapIterator;
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    struct TimeOffsetPairType
+    {
+        TimeoutPublisherHandle first;
+        TimeOffset second;
+        TimeOffsetPairType(TimeoutPublisherHandle aHandle, TimeOffset aOffset) : first(aHandle), second(aOffset) {}
+    };
+    typedef SequenceContainer<TimeOffsetPairType, DetectorGraphConfig::kMaxNumberOfTimeouts + 1> TimeOffsetsContainer;
+#else
+    typedef std::map<TimeoutPublisherHandle, TimeOffset> TimeOffsetsContainer;
+#endif
+    typedef TimeOffsetsContainer::iterator TimeOffsetsIterator;
+
 public:
     // Implementing TimeoutPublisherService derived class
     TestTimeoutPublisherService(Graph& arGraph);
 
-    virtual TimeoutPublisherHandle GetUniqueTimerHandle();
     virtual TimeOffset GetTime() const;
     virtual TimeOffset GetMonotonicTime() const;
 
@@ -53,21 +75,21 @@ public:
     TimeOffset GetMetronomePeriod();
 
 private:
-    MapIterator GetNextTimeout();
+    TimeOffsetsIterator GetNextTimeout();
 
 private:
+    static const TimeOffset kInvalidMaxOffset;
+    static const TimeoutPublisherHandle kMetronomeId;
     // Mock Inspection state
     // This could be optimized for time with a queue on the next deadline to
     // remove the O(N) search for next deadline. But ffs, this is a mock class!
-    std::map<TimeoutPublisherHandle, TimeOffset> mTimerMap;
-    TimeoutPublisherHandle mLastHandleId;
+    TimeOffsetsContainer mTimerDeadlines;
 
     // Equivalent to monotonic time
     TimeOffset mElapsedTime;
     // Offset summed with monotonic time to produce GetTime()
     int64_t mWallClockOffset;
 
-    TimeoutPublisherHandle mMetronomeId;
     TimeOffset mMetronomeTimerPeriod;
 };
 

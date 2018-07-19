@@ -20,9 +20,6 @@
 #include "graph.hpp"
 #include "lag.hpp"
 
-#include <typeinfo>
-#include <iostream>
-
 #define SUITE_DECLARATION(name, test_ptr) { #name, test_ptr, setup_##name, teardown_##name }
 
 using namespace DetectorGraph;
@@ -84,12 +81,11 @@ static void Test_LaggedDataConstructor(nlTestSuite *inSuite, void *inContext)
 static void Test_FeedbackLoop(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
-
-    LoopTestDetector detector(&graph);
-    Lag<LoopTopicState> delayDetector(&graph);
-
-    // Resolve output topics
+    graph.ResolveTopic<StartTopicState>();
     Topic< Lagged<LoopTopicState> >* outputTopic = graph.ResolveTopic< Lagged<LoopTopicState> >();
+    LoopTestDetector detector(&graph);
+    graph.ResolveTopic<LoopTopicState>();
+    Lag<LoopTopicState> delayDetector(&graph);
 
     graph.PushData<StartTopicState>(0);
 
@@ -97,31 +93,31 @@ static void Test_FeedbackLoop(nlTestSuite *inSuite, void *inContext)
 
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mState.mV == 1);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outputTopic->HasNewValue());
 
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mState.mV == 2);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().size() == 1);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().front().data.mV == 1);
+    NL_TEST_ASSERT(inSuite, outputTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outputTopic->GetNewValue().data.mV == 1);
 
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mState.mV == 3);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().size() == 1);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().front().data.mV == 2);
+    NL_TEST_ASSERT(inSuite, outputTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outputTopic->GetNewValue().data.mV == 2);
 
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mState.mV == 4);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().size() == 1);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().front().data.mV == 3);
+    NL_TEST_ASSERT(inSuite, outputTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outputTopic->GetNewValue().data.mV == 3);
 
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mState.mV == 5);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().size() == 1);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().front().data.mV == 4);
+    NL_TEST_ASSERT(inSuite, outputTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outputTopic->GetNewValue().data.mV == 4);
 
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, detector.mState.mV == 5);
-    NL_TEST_ASSERT(inSuite, outputTopic->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outputTopic->HasNewValue());
 }
 
 static const nlTest sTests[] = {

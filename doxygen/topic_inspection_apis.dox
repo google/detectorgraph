@@ -1,0 +1,44 @@
+/**
+@page topic_inspection_apis New Topic Inspection APIs
+
+As a part of the effort to enable the `DetectorGraph` `Lite` target we created new APIs for inspecting Topics that make it easier to inspect Topics during Testing (e.g. Unit Testing a Detector) and that work both on `Full` & `Lite` targets. These are:
+@code
+bool Topic<T>::HasNewValue() const
+const T& Topic<T>::GetNewValue() const
+@endcode
+
+Before, to verify the contents of a Topic under Test conditions you'd have done something like:
+
+@code
+    DetectorGraph::Topic<Balance>* balanceTopic = graph.ResolveTopic<Balance>();
+    // ...
+    NL_TEST_ASSERT(inSuite, balanceTopic->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, balanceTopic->GetCurrentValues().front().numberOfCoins == 1);
+@endcode
+
+That worked but it wasn't the most readable or easy to remember/type. Now you can simply:
+
+@code
+    DetectorGraph::Topic<Balance>* balanceTopic = graph.ResolveTopic<Balance>();
+    // ...
+    NL_TEST_ASSERT(inSuite, balanceTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, balanceTopic->GetNewValue().numberOfCoins == 1);
+@endcode
+
+In addition, `HasNewValue()` is both a more accurate representation of the test as it's more future proof.
+
+[HasNewValue](@ref DetectorGraph::Topic::HasNewValue): `inline bool HasNewValue() const`
+
+\par
+\parblock
+@copydoc DetectorGraph::Topic::HasNewValue
+\endparblock
+
+[GetNewValue](@ref DetectorGraph::Topic::GetNewValue): `inline const T& GetNewValue() const`
+
+\par
+\parblock
+@copydoc DetectorGraph::Topic::GetNewValue
+\endparblock
+
+*/

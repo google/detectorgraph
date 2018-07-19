@@ -21,9 +21,7 @@
 #include "vertex.hpp"
 #include "topicstate.hpp"
 #include "detector.hpp"
-
-#include <typeinfo>
-#include <iostream>
+#include "dglogging.hpp"
 
 #define SUITE_DECLARATION(name, test_ptr) { #name, test_ptr, setup_##name, teardown_##name }
 
@@ -127,7 +125,7 @@ static void Test_Toposort(nlTestSuite *inSuite, void *inContext)
     NL_TEST_ASSERT(inSuite, r == ErrorType_Success);
 
     int mSortOrder = 0;
-    for (std::list< Vertex* >::const_iterator vIt = graph.GetVertices().begin();
+    for (Graph::VertexPtrContainer::const_iterator vIt = graph.GetVertices().begin();
         vIt != graph.GetVertices().end(); ++vIt)
     {
         (static_cast<TestVertex*>(*vIt))->mSortOrder = mSortOrder++;
@@ -414,7 +412,7 @@ static void Test_BadlyFormedGraph(nlTestSuite *inSuite, void *inContext)
     T1.InsertEdge(&V3);
 
     r = graph.TopoSortGraph();
-    std::cout << "vertices.size after sort " << graph.GetVertices().size() << std::endl;
+    DG_LOG("vertices.size after sort %u\n", graph.GetVertices().size());
     NL_TEST_ASSERT(inSuite, r == ErrorType_BadConfiguration);
 
     graph.AddVertex(&V3);
@@ -546,12 +544,16 @@ static void Test_EvaluateIfHasDataPending(nlTestSuite *inSuite, void *inContext)
     TestDetector detector(&graph);
 
     graph.PushData<PacketTypeA>(PacketTypeA(11));
-    graph.PushData<PacketTypeA>(PacketTypeA(22));
 
     bool evaluated;
 
     evaluated = graph.EvaluateIfHasDataPending();
     NL_TEST_ASSERT(inSuite, evaluated == true);
+
+    // TODO(DGRAPH-4): This test used to push multiple PacketTypeAs and
+    // evaluate them sequentially later.
+
+    graph.PushData<PacketTypeA>(PacketTypeA(22));
 
     evaluated = graph.EvaluateIfHasDataPending();
     NL_TEST_ASSERT(inSuite, evaluated == true);

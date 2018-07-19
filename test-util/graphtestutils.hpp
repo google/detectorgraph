@@ -38,7 +38,9 @@ namespace GraphTestUtils
         aGraph.PushData<TTopic>(aTopicState);
     }
 
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     void PrintOutputs(Graph& aGraph);
+#endif
 
 } // namespace GraphTestUtils
 

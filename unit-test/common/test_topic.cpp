@@ -20,14 +20,11 @@
 #include "vertex.hpp"
 #include "topic.hpp"
 
-#include <typeinfo>
-#include <iostream>
 #include <string.h>
 
 #define SUITE_DECLARATION(name, test_ptr) { #name, test_ptr, setup_##name, teardown_##name }
 
 using namespace DetectorGraph;
-using namespace std;
 
 static int setup_topic(void *inContext)
 {
@@ -46,18 +43,14 @@ namespace
 
 static void Test_Lifetime(nlTestSuite *inSuite, void *inContext)
 {
-    Topic<TopicTypeA>* topic = new Topic<TopicTypeA>();
-    NL_TEST_ASSERT(inSuite, topic->GetCurrentValues().size() == 0);
-    delete topic;
+    Topic<TopicTypeA> topic;
+    NL_TEST_ASSERT(inSuite, topic.GetCurrentValues().size() == 0);
 }
 
 static void Test_VertexType(nlTestSuite *inSuite, void *inContext)
 {
-    Topic<TopicTypeA>* topic = new Topic<TopicTypeA>();
-    Vertex* vtxPtr = static_cast<Vertex*>(topic);
-
-    NL_TEST_ASSERT(inSuite, vtxPtr->GetVertexType() == Vertex::kTopicVertex);
-    delete topic;
+    Topic<TopicTypeA> topic;
+    NL_TEST_ASSERT(inSuite, topic.GetVertexType() == Vertex::kTopicVertex);
 }
 
 namespace {
@@ -73,49 +66,48 @@ namespace {
 
 static void Test_PublishProcessDispatch(nlTestSuite *inSuite, void *inContext)
 {
-    Topic<PacketTypeA>* topic = new Topic<PacketTypeA>();
+    Topic<PacketTypeA> topic;
 
     MockSubscriber subscriber;
 
     // Act: Accumulate one packet
-    topic->SetState(Vertex::kVertexClear);
-    topic->Publish(PacketTypeA(10001));
-    topic->ProcessVertex();
-    topic->DispatchIntoSubscriber(&subscriber);
+    topic.SetState(Vertex::kVertexClear);
+    topic.Publish(PacketTypeA(10001));
+    topic.ProcessVertex();
+    topic.DispatchIntoSubscriber(&subscriber);
 
     // Assert: only one exists and only one was delivered/eval'd
-    NL_TEST_ASSERT(inSuite, topic->GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, topic->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, topic.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, topic.GetCurrentValues().size() == 1);
     NL_TEST_ASSERT(inSuite, subscriber.mEvalCounter == 1);
     NL_TEST_ASSERT(inSuite, subscriber.mLastValue.mV == 10001);
 
     // Act: Accumulate two packets
-    topic->SetState(Vertex::kVertexClear);
-    topic->Publish(PacketTypeA(10002));
-    topic->Publish(PacketTypeA(10003));
-    topic->ProcessVertex();
-    topic->DispatchIntoSubscriber(&subscriber);
+    topic.SetState(Vertex::kVertexClear);
+    topic.Publish(PacketTypeA(10002));
+    topic.Publish(PacketTypeA(10003));
+    topic.ProcessVertex();
+    topic.DispatchIntoSubscriber(&subscriber);
 
     // Assert: two exists and eval was called twice and with values in-order
-    NL_TEST_ASSERT(inSuite, topic->GetState() == Vertex::kVertexDone);
-    NL_TEST_ASSERT(inSuite, topic->GetCurrentValues().size() == 2);
+    NL_TEST_ASSERT(inSuite, topic.GetState() == Vertex::kVertexDone);
+    NL_TEST_ASSERT(inSuite, topic.GetCurrentValues().size() == 2);
     NL_TEST_ASSERT(inSuite, subscriber.mEvalCounter == 3);
     NL_TEST_ASSERT(inSuite, subscriber.mLastValue.mV == 10003);
 
     // Act: Don't accumulate any packets
-    topic->SetState(Vertex::kVertexClear);
-    topic->ProcessVertex();
-    topic->DispatchIntoSubscriber(&subscriber);
+    topic.SetState(Vertex::kVertexClear);
+    topic.ProcessVertex();
+    topic.DispatchIntoSubscriber(&subscriber);
 
     // Assert no current values exist and nothing has changed
-    NL_TEST_ASSERT(inSuite, topic->GetState() == Vertex::kVertexClear);
+    NL_TEST_ASSERT(inSuite, topic.GetState() == Vertex::kVertexClear);
     NL_TEST_ASSERT(inSuite, subscriber.mEvalCounter == 3);
     NL_TEST_ASSERT(inSuite, subscriber.mLastValue.mV == 10003);
-    NL_TEST_ASSERT(inSuite, topic->GetCurrentValues().size() == 0);
-
-    delete topic;
+    NL_TEST_ASSERT(inSuite, topic.GetCurrentValues().size() == 0);
 }
 
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
 static void Test_GetCurrentTopicStates(nlTestSuite *inSuite, void *inContext)
 {
     Topic<PacketTypeA>* topic = new Topic<PacketTypeA>();
@@ -187,13 +179,16 @@ static void Test_GetName(nlTestSuite *inSuite, void *inContext)
     delete ivertexB;
     delete ivertexBv2;
 }
+#endif
 
 static const nlTest sTests[] = {
     NL_TEST_DEF("Test_Lifetime", Test_Lifetime),
     NL_TEST_DEF("Test_VertexType", Test_VertexType),
     NL_TEST_DEF("Test_PublishProcessDispatch", Test_PublishProcessDispatch),
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     NL_TEST_DEF("Test_GetCurrentTopicStates", Test_GetCurrentTopicStates),
     NL_TEST_DEF("Test_GetName", Test_GetName),
+#endif
     NL_TEST_SENTINEL()
 };
 

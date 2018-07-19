@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
-#define DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
+#ifndef DETECTORGRAPH_INCLUDE_DETECTOR_GRAPH_DGSTDINCLUDES_HPP_
+#define DETECTORGRAPH_INCLUDE_DETECTOR_GRAPH_DGSTDINCLUDES_HPP_
 
-#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
-
-#include "topicregistry-lite2.hpp"
-// #include "topicregistry-lite.hpp"
-
-#else
-
-#include "topicregistry-stl.hpp"
-
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_STATIC_ASSERTS)
+#include <type_traits>
 #endif
 
-#endif // DETECTORGRAPH_INCLUDE_TOPICREGISTRY_HPP_
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_PERFECT_FORWARDING)
+#include <utility>
+#endif
+
+#include "dgalternatives.hpp"
+
+#include <new>
+#include <stdint.h>
+#include <cstdlib>
+
+#endif // DETECTORGRAPH_INCLUDE_DETECTOR_GRAPH_DGSTDINCLUDES_HPP_

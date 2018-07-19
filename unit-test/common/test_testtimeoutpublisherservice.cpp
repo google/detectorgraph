@@ -23,9 +23,6 @@
 #include "topicstate.hpp"
 #include "testtimeoutpublisherservice.hpp"
 
-#include <typeinfo>
-#include <iostream>
-
 #define SUITE_DECLARATION(name, test_ptr) { #name, test_ptr, setup_##name, teardown_##name }
 
 using namespace DetectorGraph;
@@ -107,13 +104,14 @@ static void Test_RecurringTimer(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
     TestTimeoutPublisherService timeoutService(graph);
+    graph.ResolveTopic<RecurringTestRequest>();
+    Topic<RecurringTestTimeout>* timeoutTopic = graph.ResolveTopic<RecurringTestTimeout>();
     RecurringTestDetector detector(&graph, &timeoutService);
 
-    Topic<RecurringTestTimeout>* timeoutTopic = graph.ResolveTopic<RecurringTestTimeout>();
     RecurringTestRequest request;
 
     timeoutService.ForwardTimeAndEvaluate(100000, graph);
-    NL_TEST_ASSERT(inSuite, timeoutTopic->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
 
     request.req = RecurringTestRequest::Start;
     graph.PushData<RecurringTestRequest>(request);
@@ -121,8 +119,8 @@ static void Test_RecurringTimer(nlTestSuite *inSuite, void *inContext)
 
     timeoutService.ForwardTimeAndEvaluate(200, graph);
 
-    NL_TEST_ASSERT(inSuite, timeoutTopic->GetCurrentValues().size() == 1);
-    NL_TEST_ASSERT(inSuite, timeoutTopic->GetCurrentValues().front().totalCount == 20);
+    NL_TEST_ASSERT(inSuite, timeoutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, timeoutTopic->GetNewValue().totalCount == 20);
 
     NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 100000+200);
 
@@ -175,26 +173,31 @@ static void Test_ChainedDetectors(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
     TestTimeoutPublisherService timeoutService(graph);
+    graph.ResolveTopic<ChainedTestIn>();
     ChainStartDetector detectorA(&graph, &timeoutService);
+    graph.ResolveTopic<ChainedTestInner>();
     ChainEndDetector detectorB(&graph);
-
     Topic<ChainedTestOut>* outTopic = graph.ResolveTopic<ChainedTestOut>();
 
     timeoutService.ForwardTimeAndEvaluate(100000, graph);
-    NL_TEST_ASSERT(inSuite, outTopic->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outTopic->HasNewValue());
 
     graph.PushData<ChainedTestIn>(ChainedTestIn());
     graph.EvaluateGraph();
 
     timeoutService.ForwardTimeAndEvaluate(200, graph);
 
-    NL_TEST_ASSERT(inSuite, outTopic->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, outTopic->HasNewValue());
     NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 100000+200);
 }
 
 namespace {
-    struct MetaTestTopicState : public TopicState {
-        MetaTestTopicState(uint32_t aa = 0) : a(aa) {}
+    struct MetaTestTopicStateA : public TopicState {
+        MetaTestTopicStateA(uint32_t aa = 0) : a(aa) {}
+        uint32_t a;
+    };
+    struct MetaTestTopicStateB : public TopicState {
+        MetaTestTopicStateB(uint32_t aa = 0) : a(aa) {}
         uint32_t a;
     };
 }
@@ -202,24 +205,25 @@ namespace {
 static void Test_TestTimeoutPublisher(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
-    graph.ResolveTopic<MetaTestTopicState>();
+    Topic<MetaTestTopicStateA>* outTopic = graph.ResolveTopic<MetaTestTopicStateA>();
 
     TestTimeoutPublisherService timeoutService(graph);
     bool somethingExpired;
 
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     TimeoutPublisherHandle tTimerHandleA = timeoutService.GetUniqueTimerHandle();
+    MetaTestTopicStateA dataA(1234);
+    timeoutService.ScheduleTimeout<MetaTestTopicStateA>(dataA, 1000, tTimerHandleA);
+#endif
     TimeoutPublisherHandle tTimerHandleB = timeoutService.GetUniqueTimerHandle();
-
-    MetaTestTopicState dataA(1234);
-    MetaTestTopicState dataB(39393);
-    timeoutService.ScheduleTimeout<MetaTestTopicState>(dataA, 1000, tTimerHandleA);
-    timeoutService.ScheduleTimeout<MetaTestTopicState>(dataB, 100, tTimerHandleB);
+    MetaTestTopicStateA dataB(39393);
+    timeoutService.ScheduleTimeout<MetaTestTopicStateA>(dataB, 100, tTimerHandleB);
 
     graph.EvaluateGraph();
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outTopic->HasNewValue());
 
     somethingExpired = timeoutService.ForwardTimeAndEvaluate(50, graph);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outTopic->HasNewValue());
     NL_TEST_ASSERT(inSuite, somethingExpired == false);
     NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 50);
 
@@ -227,29 +231,34 @@ static void Test_TestTimeoutPublisher(nlTestSuite *inSuite, void *inContext)
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, somethingExpired == true);
     NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 100);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const MetaTestTopicState>(graph.GetOutputList().front()) != NULL);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const MetaTestTopicState>(graph.GetOutputList().front())->a == dataB.a);
+    NL_TEST_ASSERT(inSuite, outTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outTopic->GetNewValue().a == dataB.a);
 
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
     somethingExpired = timeoutService.FireNextTimeout();
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, somethingExpired == true);
     NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 1000);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const MetaTestTopicState>(graph.GetOutputList().front()) != NULL);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const MetaTestTopicState>(graph.GetOutputList().front())->a == dataA.a);
+    NL_TEST_ASSERT(inSuite, outTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outTopic->GetNewValue().a == dataA.a);
+#endif
 
     somethingExpired = timeoutService.FireNextTimeout();
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, somethingExpired == false);
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 100);
+#else
     NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 1000);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+#endif
+    NL_TEST_ASSERT(inSuite, !outTopic->HasNewValue());
 }
 
 static void Test_TestTimeoutPublisher_FwdThrough(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
-    graph.ResolveTopic<MetaTestTopicState>();
+    Topic<MetaTestTopicStateA>* outTopicA = graph.ResolveTopic<MetaTestTopicStateA>();
+    Topic<MetaTestTopicStateB>* outTopicB = graph.ResolveTopic<MetaTestTopicStateB>();
 
     TestTimeoutPublisherService timeoutService(graph);
     bool somethingExpired;
@@ -257,27 +266,29 @@ static void Test_TestTimeoutPublisher_FwdThrough(nlTestSuite *inSuite, void *inC
     TimeoutPublisherHandle tTimerHandleA = timeoutService.GetUniqueTimerHandle();
     TimeoutPublisherHandle tTimerHandleB = timeoutService.GetUniqueTimerHandle();
 
-    MetaTestTopicState dataA(1234);
-    MetaTestTopicState dataB(39393);
-    timeoutService.ScheduleTimeout<MetaTestTopicState>(dataA, 1000, tTimerHandleA);
-    timeoutService.ScheduleTimeout<MetaTestTopicState>(dataB, 2000, tTimerHandleB);
+    MetaTestTopicStateA dataA(1234);
+    MetaTestTopicStateB dataB(39393);
+    timeoutService.ScheduleTimeout<MetaTestTopicStateA>(dataA, 1000, tTimerHandleA);
+    timeoutService.ScheduleTimeout<MetaTestTopicStateB>(dataB, 2000, tTimerHandleB);
 
     graph.EvaluateGraph();
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outTopicA->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !outTopicB->HasNewValue());
 
     somethingExpired = timeoutService.ForwardTimeAndEvaluate(3000, graph);
 
     NL_TEST_ASSERT(inSuite, somethingExpired == true);
     NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 3000);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const MetaTestTopicState>(graph.GetOutputList().front()) != NULL);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const MetaTestTopicState>(graph.GetOutputList().front())->a == dataB.a);
+    NL_TEST_ASSERT(inSuite, !outTopicA->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outTopicB->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outTopicB->GetNewValue().a == dataB.a);
 }
 
 static void Test_TestTimeoutPublisher_Cancel(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
-    graph.ResolveTopic<MetaTestTopicState>();
+    Topic<MetaTestTopicStateA>* outTopicA = graph.ResolveTopic<MetaTestTopicStateA>();
+    Topic<MetaTestTopicStateB>* outTopicB = graph.ResolveTopic<MetaTestTopicStateB>();
 
     TestTimeoutPublisherService timeoutService(graph);
     bool somethingExpired;
@@ -286,33 +297,36 @@ static void Test_TestTimeoutPublisher_Cancel(nlTestSuite *inSuite, void *inConte
     TimeoutPublisherHandle tTimerHandleB = timeoutService.GetUniqueTimerHandle();
 
     // Arrange
-    MetaTestTopicState dataA(1234);
-    MetaTestTopicState dataB(39393);
-    timeoutService.ScheduleTimeout<MetaTestTopicState>(dataA, 2000, tTimerHandleA);
-    timeoutService.ScheduleTimeout<MetaTestTopicState>(dataB, 3000, tTimerHandleB);
+    MetaTestTopicStateA dataA(1234);
+    MetaTestTopicStateB dataB(39393);
+    timeoutService.ScheduleTimeout<MetaTestTopicStateA>(dataA, 2000, tTimerHandleA);
+    timeoutService.ScheduleTimeout<MetaTestTopicStateB>(dataB, 3000, tTimerHandleB);
 
     // Act - Assert
     graph.EvaluateGraph();
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outTopicA->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !outTopicB->HasNewValue());
 
     // Act - Assert
     somethingExpired = timeoutService.ForwardTimeAndEvaluate(1000, graph);
     NL_TEST_ASSERT(inSuite, somethingExpired == false);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outTopicA->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !outTopicB->HasNewValue());
 
     // Act - Assert
     timeoutService.CancelPublishOnTimeout(tTimerHandleA);
     graph.EvaluateGraph();
     NL_TEST_ASSERT(inSuite, somethingExpired == false);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !outTopicA->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !outTopicB->HasNewValue());
 
     // Act - Assert
     somethingExpired = timeoutService.ForwardTimeAndEvaluate(2000, graph);
     NL_TEST_ASSERT(inSuite, somethingExpired == true);
     NL_TEST_ASSERT(inSuite, timeoutService.GetTime() == 3000);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const MetaTestTopicState>(graph.GetOutputList().front()) != NULL);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const MetaTestTopicState>(graph.GetOutputList().front())->a == dataB.a);
+    NL_TEST_ASSERT(inSuite, !outTopicA->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outTopicB->HasNewValue());
+    NL_TEST_ASSERT(inSuite, outTopicB->GetNewValue().a == dataB.a);
 }
 
 namespace {
@@ -357,35 +371,36 @@ static void Test_FwdToFuturePublishDeadline(nlTestSuite *inSuite, void *inContex
 {
     Graph graph;
     TestTimeoutPublisherService timeoutService(graph);
+    graph.ResolveTopic<FwdToFuturePubTestIn>();
+    Topic<FwdToFuturePubTestTimer>* timerTopic = graph.ResolveTopic<FwdToFuturePubTestTimer>();
     FwdToFuturePubTestDetector detectorA(&graph, &timeoutService);
 
     Topic<FwdToFuturePubTestNormalOut>* normalOutTopic = graph.ResolveTopic<FwdToFuturePubTestNormalOut>();
     Topic<FwdToFuturePubTestFutureOut>* futureOutTopic = graph.ResolveTopic<FwdToFuturePubTestFutureOut>();
-    Topic<FwdToFuturePubTestTimer>* timerTopic = graph.ResolveTopic<FwdToFuturePubTestTimer>();
 
     timeoutService.ForwardTimeAndEvaluate(100000, graph);
-    NL_TEST_ASSERT(inSuite, normalOutTopic->GetCurrentValues().size() == 0);
-    NL_TEST_ASSERT(inSuite, futureOutTopic->GetCurrentValues().size() == 0);
-    NL_TEST_ASSERT(inSuite, timerTopic->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, !normalOutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !futureOutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timerTopic->HasNewValue());
 
     graph.PushData<FwdToFuturePubTestIn>(FwdToFuturePubTestIn());
     graph.EvaluateGraph();
 
-    NL_TEST_ASSERT(inSuite, normalOutTopic->GetCurrentValues().size() == 0);
-    NL_TEST_ASSERT(inSuite, futureOutTopic->GetCurrentValues().size() == 0);
-    NL_TEST_ASSERT(inSuite, timerTopic->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, !normalOutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !futureOutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timerTopic->HasNewValue());
 
     timeoutService.ForwardTimeAndEvaluate(200, graph);
 
-    NL_TEST_ASSERT(inSuite, normalOutTopic->GetCurrentValues().size() == 1);
-    NL_TEST_ASSERT(inSuite, futureOutTopic->GetCurrentValues().size() == 0);
-    NL_TEST_ASSERT(inSuite, timerTopic->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, normalOutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !futureOutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, timerTopic->HasNewValue());
 
     graph.EvaluateGraph();
 
-    NL_TEST_ASSERT(inSuite, normalOutTopic->GetCurrentValues().size() == 0);
-    NL_TEST_ASSERT(inSuite, futureOutTopic->GetCurrentValues().size() == 1);
-    NL_TEST_ASSERT(inSuite, timerTopic->GetCurrentValues().size() == 0);
+    NL_TEST_ASSERT(inSuite, !normalOutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, futureOutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timerTopic->HasNewValue());
 }
 
 namespace {
@@ -463,6 +478,9 @@ static void Test_TestPeriodicPublishing(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
     TestTimeoutPublisherService timeoutService(graph);
+    graph.ResolveTopic<ShortPeriodTimeout>();
+    graph.ResolveTopic<MediumPeriodTimeout>();
+    graph.ResolveTopic<LongPeriodTimeout>();
     PeriodicPublishingTestDetector detector(&graph, &timeoutService);
 
     Topic<ShortPeriodTimeout>* shortPeriodTopic = graph.ResolveTopic<ShortPeriodTimeout>();
@@ -472,16 +490,16 @@ static void Test_TestPeriodicPublishing(nlTestSuite *inSuite, void *inContext)
     timeoutService.StartPeriodicPublishing();
 
     timeoutService.ForwardTimeAndEvaluate(90*1000, graph);
-    NL_TEST_ASSERT(inSuite, shortPeriodTopic->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, shortPeriodTopic->HasNewValue());
 
     timeoutService.ForwardTimeAndEvaluate(30*60*1000 - 90*1000, graph);
     graph.EvaluateGraph();
-    NL_TEST_ASSERT(inSuite, mediumPeriodTopic->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, mediumPeriodTopic->HasNewValue());
 
     timeoutService.ForwardTimeAndEvaluate(4*60*60*1000 - 30*60*1000, graph);
     graph.EvaluateGraph();
     graph.EvaluateGraph();
-    NL_TEST_ASSERT(inSuite, longPeriodTopic->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, longPeriodTopic->HasNewValue());
 
     timeoutService.ForwardTimeAndEvaluate(24*60*60*1000 - 4*60*60*1000, graph);
     graph.EvaluateGraph();
@@ -560,18 +578,17 @@ static void Test_TestSamePeriodPublishing(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
     TestTimeoutPublisherService timeoutService(graph);
-    PeriodicTimeoutATestDetector detectorA(&graph, &timeoutService);
-    PeriodicTimeoutBTestDetector detectorB(&graph, &timeoutService);
-
     Topic<PeriodTimeoutA>* periodTopicA = graph.ResolveTopic<PeriodTimeoutA>();
     Topic<PeriodTimeoutB>* periodTopicB = graph.ResolveTopic<PeriodTimeoutB>();
+    PeriodicTimeoutATestDetector detectorA(&graph, &timeoutService);
+    PeriodicTimeoutBTestDetector detectorB(&graph, &timeoutService);
 
     timeoutService.StartPeriodicPublishing();
 
     timeoutService.ForwardTimeAndEvaluate(90*1000, graph);
-    NL_TEST_ASSERT(inSuite, periodTopicA->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, periodTopicA->HasNewValue());
     graph.EvaluateGraph();
-    NL_TEST_ASSERT(inSuite, periodTopicB->GetCurrentValues().size() == 1);
+    NL_TEST_ASSERT(inSuite, periodTopicB->HasNewValue());
 
     timeoutService.ForwardTimeAndEvaluate(24*60*60*1000 - 90*1000, graph);
     graph.EvaluateGraph();

@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <typeinfo>
-#include <iostream>
-
 #include "nltest.h"
 #include "errortype.hpp"
 
@@ -106,7 +103,10 @@ static int teardown_foodetector(void *inContext)
 static void Test_Balance(nlTestSuite *inSuite, void *inContext)
 {
     DetectorGraph::Graph graph;
+    graph.ResolveTopic<CoinInserted>();
+    graph.ResolveTopic<BuyButtonClicked>();
     SaleDetector detector(&graph);
+    graph.ResolveTopic<SaleCompleted>();
     DetectorGraph::Topic<Balance>* balanceTopic = graph.ResolveTopic<Balance>();
 
     graph.PushData(CoinInserted());
@@ -119,8 +119,11 @@ static void Test_Balance(nlTestSuite *inSuite, void *inContext)
 static void Test_SaleCompleted(nlTestSuite *inSuite, void *inContext)
 {
     DetectorGraph::Graph graph;
+    graph.ResolveTopic<CoinInserted>();
+    graph.ResolveTopic<BuyButtonClicked>();
     SaleDetector detector(&graph);
     DetectorGraph::Topic<SaleCompleted>* saleCompletedTopic = graph.ResolveTopic<SaleCompleted>();
+    graph.ResolveTopic<Balance>();
 
     graph.PushData(CoinInserted());
     graph.EvaluateGraph();
@@ -134,8 +137,11 @@ static void Test_SaleCompleted(nlTestSuite *inSuite, void *inContext)
 static void Test_NotEnoughFunds(nlTestSuite *inSuite, void *inContext)
 {
     DetectorGraph::Graph graph;
+    graph.ResolveTopic<CoinInserted>();
+    graph.ResolveTopic<BuyButtonClicked>();
     SaleDetector detector(&graph);
     DetectorGraph::Topic<SaleCompleted>* saleCompletedTopic = graph.ResolveTopic<SaleCompleted>();
+    graph.ResolveTopic<Balance>();
 
     graph.PushData(BuyButtonClicked());
     graph.EvaluateGraph();
@@ -146,7 +152,10 @@ static void Test_NotEnoughFunds(nlTestSuite *inSuite, void *inContext)
 static void Test_SalesDeductedFromBalance(nlTestSuite *inSuite, void *inContext)
 {
     DetectorGraph::Graph graph;
+    graph.ResolveTopic<CoinInserted>();
+    graph.ResolveTopic<BuyButtonClicked>();
     SaleDetector detector(&graph);
+    graph.ResolveTopic<SaleCompleted>();
     DetectorGraph::Topic<Balance>* balanceTopic = graph.ResolveTopic<Balance>();
 
     graph.PushData(CoinInserted());

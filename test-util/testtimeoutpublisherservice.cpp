@@ -17,19 +17,32 @@
 namespace DetectorGraph
 {
 
-TestTimeoutPublisherService::TestTimeoutPublisherService(Graph& arGraph)
-: TimeoutPublisherService(arGraph), mLastHandleId(0), mElapsedTime(0), mWallClockOffset(0), mMetronomeId(0), mMetronomeTimerPeriod(0)
-{
-}
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+const TimeOffset TestTimeoutPublisherService::kInvalidMaxOffset = (TimeOffset)-1;
+const TimeoutPublisherHandle TestTimeoutPublisherService::kMetronomeId = TimeOffsetsContainer::max_size - 1;
+#else
+const TimeOffset TestTimeoutPublisherService::kInvalidMaxOffset = std::numeric_limits<TimeOffset>::max();
+const TimeoutPublisherHandle TestTimeoutPublisherService::kMetronomeId = kInvalidTimeoutPublisherHandle;
+#endif
 
-TimeoutPublisherHandle TestTimeoutPublisherService::GetUniqueTimerHandle()
+TestTimeoutPublisherService::TestTimeoutPublisherService(Graph& arGraph)
+: TimeoutPublisherService(arGraph), mElapsedTime(0), mWallClockOffset(0), mMetronomeTimerPeriod(0)
 {
-    return ++mLastHandleId; // 0 will never be handle ID
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    for (unsigned i = 0; i < TimeOffsetsContainer::max_size; i++)
+    {
+        mTimerDeadlines.push_back(TimeOffsetPairType(i, kInvalidMaxOffset));
+    }
+#endif
 }
 
 void TestTimeoutPublisherService::SetTimeout(const TimeOffset aMillisecondsFromNow, const TimeoutPublisherHandle aTimerId)
 {
-    mTimerMap[aTimerId] = aMillisecondsFromNow + mElapsedTime;
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    mTimerDeadlines[aTimerId] = TimeOffsetPairType(aTimerId, aMillisecondsFromNow + mElapsedTime);
+#else
+    mTimerDeadlines[aTimerId] = aMillisecondsFromNow + mElapsedTime;
+#endif
 }
 
 void TestTimeoutPublisherService::Start(const TimeoutPublisherHandle aTimerId)
@@ -39,24 +52,23 @@ void TestTimeoutPublisherService::Start(const TimeoutPublisherHandle aTimerId)
 
 void TestTimeoutPublisherService::Cancel(const TimeoutPublisherHandle aTimerId)
 {
-    MapIterator it = mTimerMap.find(aTimerId);
-    if (it != mTimerMap.end())
-    {
-        mTimerMap.erase(it);
-    }
+#if defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    mTimerDeadlines[aTimerId] = TimeOffsetPairType(aTimerId, kInvalidMaxOffset);
+#else
+    mTimerDeadlines[aTimerId] = kInvalidMaxOffset;
+#endif
 }
 
 void TestTimeoutPublisherService::StartMetronome(const TimeOffset aPeriodInMilliseconds)
 {
-    mMetronomeId = GetUniqueTimerHandle();
     mMetronomeTimerPeriod = aPeriodInMilliseconds;
-    SetTimeout(mMetronomeTimerPeriod, mMetronomeId);
-    Start(mMetronomeId);
+    SetTimeout(mMetronomeTimerPeriod, kMetronomeId);
+    Start(kMetronomeId);
 }
 
 void TestTimeoutPublisherService::CancelMetronome()
 {
-    Cancel(mMetronomeId);
+    Cancel(kMetronomeId);
 }
 
 void TestTimeoutPublisherService::SetWallClockOffset(int64_t aWallClockOffset)
@@ -66,22 +78,21 @@ void TestTimeoutPublisherService::SetWallClockOffset(int64_t aWallClockOffset)
 
 bool TestTimeoutPublisherService::FireNextTimeout()
 {
-    if (mTimerMap.size() > 0)
+    TimeOffsetsIterator minIt = GetNextTimeout();
+    if (minIt != mTimerDeadlines.end())
     {
-        MapIterator minIt = GetNextTimeout();
-
         mElapsedTime = minIt->second;
 
-        if (minIt->first == mMetronomeId)
+        if (minIt->first == kMetronomeId)
         {
             MetronomeFired();
-            SetTimeout(mMetronomeTimerPeriod, mMetronomeId);
-            Start(mMetronomeId);
+            SetTimeout(mMetronomeTimerPeriod, kMetronomeId);
+            Start(kMetronomeId);
         }
         else
         {
             TimeoutExpired(minIt->first);
-            mTimerMap.erase(minIt);
+            minIt->second = kInvalidMaxOffset;
         }
 
         return true;
@@ -105,9 +116,9 @@ bool TestTimeoutPublisherService::ForwardTimeAndEvaluate(TimeOffset aFwdTime, Gr
         }
     }
 
-    MapIterator minIt = GetNextTimeout();
+    TimeOffsetsIterator minIt = GetNextTimeout();
 
-    while (minIt != mTimerMap.end())
+    while (minIt != mTimerDeadlines.end())
     {
         TimeOffset nextDeadline = minIt->second;
         if (nextDeadline > finalDeadline)
@@ -117,16 +128,16 @@ bool TestTimeoutPublisherService::ForwardTimeAndEvaluate(TimeOffset aFwdTime, Gr
 
         mElapsedTime = nextDeadline;
 
-        if (minIt->first == mMetronomeId)
+        if (minIt->first == kMetronomeId)
         {
             MetronomeFired();
-            SetTimeout(mMetronomeTimerPeriod, mMetronomeId);
-            Start(mMetronomeId);
+            SetTimeout(mMetronomeTimerPeriod, kMetronomeId);
+            Start(kMetronomeId);
         }
         else
         {
             TimeoutExpired(minIt->first);
-            mTimerMap.erase(minIt);
+            minIt->second = kInvalidMaxOffset;
         }
 
         firedAtLeastOne = true;
@@ -163,12 +174,12 @@ TimeOffset TestTimeoutPublisherService::GetMonotonicTime() const
     return mElapsedTime;
 }
 
-TestTimeoutPublisherService::MapIterator TestTimeoutPublisherService::GetNextTimeout()
+TestTimeoutPublisherService::TimeOffsetsIterator TestTimeoutPublisherService::GetNextTimeout()
 {
-    TimeOffset nextDeadline = std::numeric_limits<TimeOffset>::max();
-    MapIterator minIt = mTimerMap.end();
-    MapIterator it = mTimerMap.begin();
-    while (it != mTimerMap.end())
+    TimeOffset nextDeadline = kInvalidMaxOffset;
+    TimeOffsetsIterator minIt = mTimerDeadlines.end();
+    TimeOffsetsIterator it = mTimerDeadlines.begin();
+    while (it != mTimerDeadlines.end())
     {
         if (it->second < nextDeadline)
         {

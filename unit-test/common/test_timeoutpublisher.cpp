@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <typeinfo>
-#include <iostream>
+#include <map>
 
 #include "nltest.h"
 #include "errortype.hpp"
@@ -23,7 +22,6 @@
 #include "timeoutpublisherservice.hpp"
 #include "timeoutpublisher.hpp"
 #include "topicstate.hpp"
-#include "testtimeoutpublisherservice.hpp"
 
 #include "test_timeoutpublisher.h"
 
@@ -44,12 +42,8 @@ static int teardown_timeoutpublisher(void *inContext)
 namespace {
     struct MockTimeoutPublisherService : public TimeoutPublisherService
     {
-        MockTimeoutPublisherService(Graph& arGraph) : TimeoutPublisherService(arGraph), mLastHandleId(0) {}
+        MockTimeoutPublisherService(Graph& arGraph) : TimeoutPublisherService(arGraph) {}
 
-        virtual TimeoutPublisherHandle GetUniqueTimerHandle()
-        {
-            return ++mLastHandleId;
-        }
         virtual void SetTimeout(const uint64_t aMillisecondsFromNow, const TimeoutPublisherHandle aTimerId) { mTimerMap[aTimerId] = false; /* running = true */ }
         virtual void Start(const TimeoutPublisherHandle aTimerId) { mTimerMap[aTimerId] = true; /* running = true */ }
         virtual void Cancel(const TimeoutPublisherHandle aTimerId) { mTimerMap[aTimerId] = false; /* running = false */ }
@@ -66,7 +60,6 @@ namespace {
         }
 
         std::map<TimeoutPublisherHandle, bool> mTimerMap;
-        TimeoutPublisherHandle mLastHandleId;
     };
 
     struct TriggerTopicState : public TopicState { TriggerTopicState(int aV = 0) : mV(aV) {}; int mV; };
@@ -90,6 +83,11 @@ namespace {
             mEvalCount++;
         }
 
+        TimeoutPublisherHandle GetDefaultTimeoutPublisherHandle()
+        {
+            return TimeoutPublisher<TimeoutTopicState>::mDefaultHandle;
+        }
+
         int mEvalCount;
     };
 }
@@ -98,15 +96,18 @@ static void Test_Lifecycle(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
     MockTimeoutPublisherService timeoutPublisherService(graph);
+    graph.ResolveTopic<TriggerTopicState>();
+    graph.ResolveTopic<TimeoutTopicState>();
     SampleTimeoutDetector detector(&graph, &timeoutPublisherService);
     NL_TEST_ASSERT(inSuite, graph.GetVertices().size() == 3);
-    NL_TEST_ASSERT(inSuite, graph.ResolveTopic<TriggerTopicState>() != NULL);
-    NL_TEST_ASSERT(inSuite, graph.ResolveTopic<TimeoutTopicState>() != NULL);
 
-    NL_TEST_ASSERT(inSuite, graph.ResolveTopic<TriggerTopicState>()->GetOutEdges().front() == &detector);
-    NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetInEdges().front() == graph.ResolveTopic<TriggerTopicState>());
-    NL_TEST_ASSERT(inSuite, static_cast<Vertex*>(&detector)->GetFutureOutEdges().front() == graph.ResolveTopic<TimeoutTopicState>());
+    NL_TEST_ASSERT(inSuite, *(graph.ResolveTopic<TriggerTopicState>()->GetOutEdges().begin()) == &detector);
+
+#if !defined(BUILD_FEATURE_DETECTORGRAPH_CONFIG_LITE)
+    NL_TEST_ASSERT(inSuite, detector.GetInEdges().front() == graph.ResolveTopic<TriggerTopicState>());
+    NL_TEST_ASSERT(inSuite, detector.GetFutureOutEdges().front() == graph.ResolveTopic<TimeoutTopicState>());
     NL_TEST_ASSERT(inSuite, graph.ResolveTopic<TimeoutTopicState>()->GetFutureInEdges().front() == &detector);
+#endif
 }
 
 static void Test_PublishOnTimeoutEvaluation(nlTestSuite *inSuite, void *inContext)
@@ -114,6 +115,8 @@ static void Test_PublishOnTimeoutEvaluation(nlTestSuite *inSuite, void *inContex
     // Arrange - graph with detector
     Graph graph;
     MockTimeoutPublisherService timeoutPublisherService(graph);
+    graph.ResolveTopic<TriggerTopicState>();
+    Topic<TimeoutTopicState>* timeoutTopic = graph.ResolveTopic<TimeoutTopicState>();
     SampleTimeoutDetector detector(&graph, &timeoutPublisherService);
 
 
@@ -123,40 +126,39 @@ static void Test_PublishOnTimeoutEvaluation(nlTestSuite *inSuite, void *inContex
 
     // Assert - detector is evaluted once and doesnt emit any further outputs
     NL_TEST_ASSERT(inSuite, detector.mEvalCount == 1);
-    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[timeoutPublisherService.mLastHandleId] == true);
+    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.GetDefaultTimeoutPublisherHandle()] == true);
     NL_TEST_ASSERT(inSuite, detector.HasTimeoutExpired() == false);
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
 
     // Act - re-evaluate graph
     graph.EvaluateGraph();
 
     // Assert - nothing changes
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
     NL_TEST_ASSERT(inSuite, detector.HasTimeoutExpired() == false);
-    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[timeoutPublisherService.mLastHandleId] == true);
+    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.GetDefaultTimeoutPublisherHandle()] == true);
 
     // Act - fire timeout
-    timeoutPublisherService.FireMockTimeout(timeoutPublisherService.mLastHandleId);
+    timeoutPublisherService.FireMockTimeout(detector.GetDefaultTimeoutPublisherHandle());
 
     // Assert - no TimeoutData emitted until evaluation (but timer stops)
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
     NL_TEST_ASSERT(inSuite, detector.HasTimeoutExpired() == true);
-    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[timeoutPublisherService.mLastHandleId] == false);
+    NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.GetDefaultTimeoutPublisherHandle()] == false);
 
     // Act - evaluate graph
     graph.EvaluateGraph();
 
     // Assert - TimeoutData emitted and conforming with mock
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
+    NL_TEST_ASSERT(inSuite, timeoutTopic->HasNewValue());
     NL_TEST_ASSERT(inSuite, detector.HasTimeoutExpired() == true);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimeoutTopicState>(graph.GetOutputList().front()) != NULL);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimeoutTopicState>(graph.GetOutputList().front())->mV == 9999);
+    NL_TEST_ASSERT(inSuite, timeoutTopic->GetNewValue().mV == 9999);
 
     // Act - evaluate graph
     graph.EvaluateGraph();
 
     // Nothing changes further down
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
 
     // Act - trigger timer start again
     graph.PushData<TriggerTopicState>(TriggerTopicState(55));
@@ -207,6 +209,8 @@ static void Test_MultipleTimerPublishOnTimeoutEvaluation(nlTestSuite *inSuite, v
 {
     Graph graph;
     MockTimeoutPublisherService timeoutPublisherService(graph);
+    graph.ResolveTopic<MockButtonUpdate>();
+    Topic<ButtonStuckEvent>* buttonStuckTopic = graph.ResolveTopic<ButtonStuckEvent>();
     MockButtonStuckDetector detector(&graph, &timeoutPublisherService);
 
     MockButtonUpdate aDown('a', true);
@@ -236,14 +240,14 @@ static void Test_MultipleTimerPublishOnTimeoutEvaluation(nlTestSuite *inSuite, v
     graph.EvaluateGraph();
 
     // Assert
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1); // just MockButtonUpdate
+    NL_TEST_ASSERT(inSuite, !buttonStuckTopic->HasNewValue()); // just MockButtonUpdate
     NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.mKeyToTimerMap['a']] == true); // Running
 
     // Act
     graph.EvaluateGraph();
 
     // Assert
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !buttonStuckTopic->HasNewValue());
     NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.mKeyToTimerMap['a']] == true); // Running
 
 
@@ -252,7 +256,7 @@ static void Test_MultipleTimerPublishOnTimeoutEvaluation(nlTestSuite *inSuite, v
     graph.EvaluateGraph();
 
     // Assert
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1); // just MockButtonUpdate
+    NL_TEST_ASSERT(inSuite, !buttonStuckTopic->HasNewValue()); // just MockButtonUpdate
     NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.mKeyToTimerMap['a']] == false); // Running
 
 
@@ -261,7 +265,7 @@ static void Test_MultipleTimerPublishOnTimeoutEvaluation(nlTestSuite *inSuite, v
     graph.EvaluateGraph();
 
     // Assert Nothing changes.
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0); // nothing. Timer was cancelled
+    NL_TEST_ASSERT(inSuite, !buttonStuckTopic->HasNewValue()); // nothing. Timer was cancelled
     NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.mKeyToTimerMap['a']] == false); // Running
 
 
@@ -272,7 +276,7 @@ static void Test_MultipleTimerPublishOnTimeoutEvaluation(nlTestSuite *inSuite, v
     graph.EvaluateGraph();
 
     // Assert
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1); // just MockButtonUpdate
+    NL_TEST_ASSERT(inSuite, !buttonStuckTopic->HasNewValue()); // just MockButtonUpdate
     NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.mKeyToTimerMap['a']] == false); // Running
     NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.mKeyToTimerMap['b']] == true); // Running
 
@@ -281,14 +285,13 @@ static void Test_MultipleTimerPublishOnTimeoutEvaluation(nlTestSuite *inSuite, v
     graph.EvaluateGraph();
 
     // Assert
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
+    NL_TEST_ASSERT(inSuite, buttonStuckTopic->HasNewValue());
     NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.mKeyToTimerMap['a']] == false); // Running
     NL_TEST_ASSERT(inSuite, timeoutPublisherService.mTimerMap[detector.mKeyToTimerMap['b']] == false); // Running
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const ButtonStuckEvent>(graph.GetOutputList().front()) != NULL);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const ButtonStuckEvent>(graph.GetOutputList().front())->mKey == 'b');
+    NL_TEST_ASSERT(inSuite, buttonStuckTopic->GetNewValue().mKey == 'b');
 
     graph.EvaluateGraph();
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !buttonStuckTopic->HasNewValue());
 }
 
 namespace {
@@ -357,6 +360,9 @@ static void Test_MultipleTimeoutTypes(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
     MockTimeoutPublisherService timeoutPublisherService(graph);
+    Topic<TimerRequest>* timerRequestTopic = graph.ResolveTopic<TimerRequest>();
+    Topic<TimeoutTopicState>* timeoutTopic = graph.ResolveTopic<TimeoutTopicState>();
+    Topic<TimeoutTopicStateB>* timeoutTopicB = graph.ResolveTopic<TimeoutTopicStateB>();
     MultipleTimeoutTypesDetector detector(&graph, &timeoutPublisherService);
 
     // Assert 4 vertices: Topic<TimerRequest>, Detector, Topic<TimeoutPacket>, Topic<TimeoutPacketB>
@@ -367,22 +373,27 @@ static void Test_MultipleTimeoutTypes(nlTestSuite *inSuite, void *inContext)
     graph.EvaluateGraph();
 
     // Assert - only the request
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
+    NL_TEST_ASSERT(inSuite, timerRequestTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopicB->HasNewValue());
 
     // Act
     graph.EvaluateGraph();
 
     // Assert - nothing
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 0);
+    NL_TEST_ASSERT(inSuite, !timerRequestTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopicB->HasNewValue());
 
     // Act
     timeoutPublisherService.FireMockTimeout(detector.mPacketAId);
     graph.EvaluateGraph();
 
     // Assert - timeout A, with normal value
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimeoutTopicState>(graph.GetOutputList().front()) != NULL);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimeoutTopicState>(graph.GetOutputList().front())->mV == 11111);
+    NL_TEST_ASSERT(inSuite, !timerRequestTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, timeoutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, timeoutTopic->GetNewValue().mV == 11111);
+    NL_TEST_ASSERT(inSuite, !timeoutTopicB->HasNewValue());
 
     // Act
     graph.PushData<TimerRequest>(TimerRequest(TimerRequest::kRestartATimer));
@@ -391,9 +402,10 @@ static void Test_MultipleTimeoutTypes(nlTestSuite *inSuite, void *inContext)
     graph.EvaluateGraph();
 
     // Assert - timeout A, with reset
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimeoutTopicState>(graph.GetOutputList().front()) != NULL);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimeoutTopicState>(graph.GetOutputList().front())->mV == 11112);
+    NL_TEST_ASSERT(inSuite, !timerRequestTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, timeoutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, timeoutTopic->GetNewValue().mV == 11112);
+    NL_TEST_ASSERT(inSuite, !timeoutTopicB->HasNewValue());
 
     // Act Start and Cancel Timer B
     graph.PushData<TimerRequest>(TimerRequest(TimerRequest::kStartBTimer));
@@ -402,8 +414,9 @@ static void Test_MultipleTimeoutTypes(nlTestSuite *inSuite, void *inContext)
     graph.EvaluateGraph();
 
     // Assert Output is only the cancellation request:
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimerRequest>(graph.GetOutputList().front()) != NULL);
+    NL_TEST_ASSERT(inSuite, timerRequestTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopicB->HasNewValue());
 
     // Act
     graph.PushData<TimerRequest>(TimerRequest(TimerRequest::kRestartATimer));
@@ -412,8 +425,9 @@ static void Test_MultipleTimeoutTypes(nlTestSuite *inSuite, void *inContext)
     graph.EvaluateGraph();
 
     // Assert Output is only the cancellation request:
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimerRequest>(graph.GetOutputList().front()) != NULL);
+    NL_TEST_ASSERT(inSuite, timerRequestTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopicB->HasNewValue());
 
     // Act
     graph.PushData<TimerRequest>(TimerRequest(TimerRequest::kRestartBTimer));
@@ -422,8 +436,9 @@ static void Test_MultipleTimeoutTypes(nlTestSuite *inSuite, void *inContext)
     graph.EvaluateGraph();
 
     // Assert Output is only the cancellation request:
-    NL_TEST_ASSERT(inSuite, graph.GetOutputList().size() == 1);
-    NL_TEST_ASSERT(inSuite, ptr::dynamic_pointer_cast<const TimerRequest>(graph.GetOutputList().front()) != NULL);
+    NL_TEST_ASSERT(inSuite, timerRequestTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopic->HasNewValue());
+    NL_TEST_ASSERT(inSuite, !timeoutTopicB->HasNewValue());
 
 }
 
