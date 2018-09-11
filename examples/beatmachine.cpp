@@ -291,36 +291,37 @@ struct RhytmBeats : public DetectorGraph::TopicState
     static const TimeOffset kPeriod = 60000 / 75; // 75 bpm
 };
 
+//! [TopicStates Inheritance Example]
 struct SongLine
 {
     std::string line;
     SongLine() : line() {}
-    SongLine(std::string aLine) : line(aLine) {}
+    SongLine(const std::string& aLine) : line(aLine) {}
     friend std::ostream& operator<<(std::ostream& os, SongLine s) { return os << s.line; }
 };
 
 struct SongThemeState : public DetectorGraph::TopicState, public SongLine
 {
     SongThemeState() {}
-    SongThemeState(std::string aLine) : SongLine(aLine) {}
+    SongThemeState(const std::string& aLine) : SongLine(aLine) {}
 };
 
 struct DontThemeState : public DetectorGraph::TopicState, public SongLine
 {
     DontThemeState() {}
-    DontThemeState(std::string aLine) : SongLine(aLine) {}
+    DontThemeState(const std::string& aLine) : SongLine(aLine) {}
 };
 
 struct RememberState : public DetectorGraph::TopicState, public SongLine
 {
     RememberState() {}
-    RememberState(std::string aLine) : SongLine(aLine) {}
+    RememberState(const std::string& aLine) : SongLine(aLine) {}
 };
 
 struct ThenYouState : public DetectorGraph::TopicState, public SongLine
 {
     ThenYouState() {}
-    ThenYouState(std::string aLine) : SongLine(aLine) {}
+    ThenYouState(const std::string& aLine) : SongLine(aLine) {}
 };
 
 struct PlaybackState : public DetectorGraph::TopicState
@@ -328,6 +329,7 @@ struct PlaybackState : public DetectorGraph::TopicState
     bool autoplay;
     PlaybackState(bool aAutoplay = false) : autoplay(aAutoplay) {}
 };
+//! [TopicStates Inheritance Example]
 
 class ThemeDetector : public DetectorGraph::Detector
 , public DetectorGraph::SubscriberInterface<RhytmBeats>

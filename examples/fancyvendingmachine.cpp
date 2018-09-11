@@ -248,12 +248,14 @@ struct RefillProduct : public DetectorGraph::TopicState
     RefillProduct(ProductIdType aProduct = kProductIdTypeNone, int aQuantity = 0) : productId(aProduct), quantity(aQuantity) {}
 };
 
+//! [Mutually Atomic Variables]
 struct PriceUpdate : public DetectorGraph::TopicState
 {
     ProductIdType productId;
     int priceCents;
     PriceUpdate(ProductIdType aProduct = kProductIdTypeNone, int aPrice = 0) : productId(aProduct), priceCents(aPrice) {}
 };
+//! [Mutually Atomic Variables]
 
 struct StockState : public DetectorGraph::TopicState
 {
@@ -272,9 +274,11 @@ struct UserBalance : public DetectorGraph::TopicState
     int totalCents;
 };
 
+//![Trivial TopicState]
 struct MoneyBackButton : public DetectorGraph::TopicState
 {
 };
+//![Trivial TopicState]
 
 struct ReturnChange : public DetectorGraph::TopicState
 {
@@ -456,6 +460,7 @@ namespace ChangeAlgo
     };
 }
 
+//! [TopicStates Inheritance Example]
 struct RefillChange : public DetectorGraph::TopicState, public ChangeAlgo::CoinStock
 {
     RefillChange() {}
@@ -467,6 +472,7 @@ struct ReleaseCoins : public DetectorGraph::TopicState, public ChangeAlgo::Draw
     ReleaseCoins() {}
     ReleaseCoins(const ChangeAlgo::Draw& draw) : ChangeAlgo::Draw(draw) {}
 };
+//! [TopicStates Inheritance Example]
 
 //! [Immutable Shared Memory TopicState]
 struct ChangeAvailable : public DetectorGraph::TopicState
