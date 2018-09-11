@@ -172,6 +172,7 @@ struct WheelSpeeds : public TopicState
     Vector2d phi;
 };
 
+//! [TopicStates Composition Example]
 struct KalmanState
 {
     KalmanState() : pose(Vector3d::Zero()), error(Matrix3d::Zero()) {}
@@ -180,6 +181,7 @@ struct KalmanState
     Matrix3d error;
 };
 
+//! [Mutually Atomic Variables]
 struct LocalizationBelief : public TopicState
 {
     LocalizationBelief() : timestampMs(), state() {}
@@ -188,6 +190,7 @@ struct LocalizationBelief : public TopicState
     uint64_t timestampMs;
     KalmanState state;
 };
+//! [Mutually Atomic Variables]
 
 struct GPSPosition : public TopicState
 {
@@ -196,6 +199,7 @@ struct GPSPosition : public TopicState
     uint64_t timestampMs;
     KalmanState state;
 };
+//! [TopicStates Composition Example]
 
 double WrapAngle(double th)
 {
