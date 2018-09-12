@@ -24,9 +24,14 @@
 #include <topicstate.hpp>
 #include "statesnapshot.hpp"
 
+namespace DetectorGraph
+{
+
 struct ResumeFromSnapshotTopicState : public DetectorGraph::TopicState
 {
     DetectorGraph::StateSnapshot snapshot;
 };
+
+}
 
 #endif // RESUMEFROMSNAPSHOTTOPICSTATE_H
