@@ -61,6 +61,7 @@ PLATFORM_SRCS=$(PLATFORM)/dglogging.cpp
 UTIL=./util
 UTIL_SRCS=$(UTIL)/graphanalyzer.cpp \
           $(UTIL)/nodenameutils.cpp \
+          $(UTIL)/processorcontainergenerator.cpp \
           $(NULL)
 
 # Test Utilities
