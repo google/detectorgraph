@@ -85,6 +85,14 @@ This also includes Topics used to drive (or driven by) a finite state machine.
 
 Another rule of thumb is to think of Topics as APIs themselves; they should be as general as possible. More general TopicStates tend to better isolate concerns and be more reusable in the future. In general, when creating a topic don't name it with respect to what it'll be used; instead try to name it according to what information it carries.
 
+\section dependencies Detectors and Topics Dependencies
+
+One of the main advantages of using DetectorGraph is a very clear isolation of dependencies & concerns. To maintain those advantages DetectorGraph code should comply with the following rules:
+- Detectors should not have any dependencies on any other Detectors: no data-structure dependencies nor runtime/callgraph dependencies.
+- Detectors can depend on any number of Topics; ideally only the Topics it Subscribes or Publishes.
+- Topics can depend on other Topics for data-structures but should never inherit from other Topics.
+- Detectors should do no I/O nor should they talk to other dynamic software modules; debug/text logging is probably the one notable exception. It's totally fine to use a math library or an algorithm-specific library but it's not OK to communicate across threads accessing a singleton outside the DetectorGraph.
+
 \section caching-topicstate Caching/Saving TopicStates is the right solution!
 
 Sometimes detectors only need a the information in `TopicStateA` when evaluating `TopicStateB`. It may seem like Subscribing to `TopicStateA` is overkill - but it's not. Remember that `Evaluate(TopicStateA)`s is only called when `TopicStateA` changes and thus there's no runtime penalty on having multiple `Evaluate()`s that are called rarely.

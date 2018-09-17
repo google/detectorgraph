@@ -216,10 +216,10 @@ public:
 //![main]
 int main()
 {
-    CounterWithResetGraph thermostat;
+    CounterWithResetGraph counterGraph;
     for (int i = 0; i < 7; ++i)
     {
-        thermostat.ProcessData(EventHappened());
+        counterGraph.ProcessData(EventHappened());
     }
 }
 //![main]
