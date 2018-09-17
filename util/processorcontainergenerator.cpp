@@ -80,12 +80,10 @@ void ProcessorContainerGenerator::GenerateClass(const std::string& aOutFilePath)
 
         cppHeaderFile << "#include \"graph.hpp\"" << endl;
         cppHeaderFile << "#include \"detector.hpp\"" << endl;
-        cppHeaderFile << "#include \"sharedptr.hpp\"" << endl;
         cppHeaderFile << "#include \"processorcontainer.hpp\"" << endl;
 
         cppHeaderFile << endl;
 
-        // TODO(cscotti): take in name of class
         cppHeaderFile << "class " << mProcessorContainerName << " : public DetectorGraph::ProcessorContainer" << endl;
         cppHeaderFile << "{" << endl;
         cppHeaderFile << "public:" << endl;

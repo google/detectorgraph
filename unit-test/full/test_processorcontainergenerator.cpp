@@ -79,7 +79,7 @@ public:
     }
 };
 
-// TODO(DGRAPH-3): do actual stuff here.
+// TODO(DGRAPH-3): TEST actual stuff here.
 static void Test_GetVertexMeta(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
@@ -97,7 +97,7 @@ static void Test_GetVertexMeta(nlTestSuite *inSuite, void *inContext)
     }
 }
 
-// TODO(DGRAPH-3): do actual stuff here.
+// TODO(DGRAPH-3): TEST actual stuff here.
 static void Test_SingleDetector(nlTestSuite *inSuite, void *inContext)
 {
     Graph graph;
@@ -105,6 +105,7 @@ static void Test_SingleDetector(nlTestSuite *inSuite, void *inContext)
 
     ProcessorContainerGenerator processorContainerGenerator(graph);
     processorContainerGenerator.SetStringFilter(&NodeNameUtils::GetDemangledName);
+    processorcontainergenerator.SetOutputClassName("TestAGraph");
     processorContainerGenerator.GenerateClass(HPP_DIR "singledetector.hpp");
 }
 
