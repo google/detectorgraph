@@ -75,7 +75,7 @@ digraph GraphAnalyzer {
  * `Reset` TopicState should be evaluated in the next Evaluation pass and not
  * in the current one. In such cases it is reasonable to put the responsibility
  * for closing the loop on the writer of `ResetDetector`:
- * @snippet counterwithreset.cpp Reset Detector
+ * @snippetlineno counterwithreset.cpp Reset Detector
  *
  * In cases where downstream parts of the graph also subscribe to the
  * TopicState used in the feedback loop, DetectorGraph::Lag should be used
@@ -84,9 +84,9 @@ digraph GraphAnalyzer {
  *
  * @section Graph
  * The graph instantiated and evaluation code is unaffected. Both
- @snippet counterwithreset.cpp CounterWithResetGraph
+ @snippetlineno counterwithreset.cpp CounterWithResetGraph
  * and
- @snippet counterwithreset.cpp main
+ @snippetlineno counterwithreset.cpp main
  * work in the same way as with simple graphs.
  *
  * Running the program produces:

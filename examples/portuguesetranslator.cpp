@@ -52,11 +52,11 @@ using std::endl;
  *
  * In this example, the `TranslationDictionary` TopicState carries a large,
  * immutable object and does so using a shared_ptr<const T>:
- @snippet portuguesetranslator.cpp Immutable Shared Memory TopicState
+ @snippetlineno portuguesetranslator.cpp Immutable Shared Memory TopicState
  *
  * A different example that also uses this pattern is
  * [Fancy Vending Machine](@ref fancyvendingmachine.cpp):
- @snippet fancyvendingmachine.cpp Immutable Shared Memory TopicState
+ @snippetlineno fancyvendingmachine.cpp Immutable Shared Memory TopicState
  *
  * @section Architecture
  * This sample implements the following graph:

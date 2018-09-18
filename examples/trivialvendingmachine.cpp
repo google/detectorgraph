@@ -37,7 +37,7 @@ using std::endl;
  *
  * @section tts Trivial TopicStates
  * A _Trivial TopicState_ has no data fields:
- @snippet trivialvendingmachine.cpp Trivial TopicState
+ @snippetlineno trivialvendingmachine.cpp Trivial TopicState
  * These are sometimes useful to represent parameter-less signals, timeouts etc.
  *
  * @section nts Named TopicStates
@@ -58,20 +58,20 @@ using std::endl;
  * [TopicStateIdType](@ref DetectorGraph::TopicStateIdType) and be different than
  * [TopicState::kAnonymousTopicState](@ref DetectorGraph::TopicState::kAnonymousTopicState)
  * (-1). An example would be:
- @snippet trivialvendingmachine.cpp Application-Specific Enum for Named TopicStates
+ @snippetlineno trivialvendingmachine.cpp Application-Specific Enum for Named TopicStates
  (`C++03` enums are fine too)
  *
  * Which then can be used in the overriding of TopicState::GetId for the desired
  * named TopicState:
- @snippet trivialvendingmachine.cpp Named TopicState
+ @snippetlineno trivialvendingmachine.cpp Named TopicState
  *
  * That then enables things like:
- @snippet trivialvendingmachine.cpp Inspecting Graph Output with Named TopicStates
+ @snippetlineno trivialvendingmachine.cpp Inspecting Graph Output with Named TopicStates
  *
  * @section dga GraphAnalyzer
  * Finally, this example also shows how to use DetectorGraph::GraphAnalyzer to
  * generate a GraphViz-compatible `.dot` representation of the graph:
- @snippet trivialvendingmachine.cpp Using GraphAnalyzer to Create dot file
+ @snippetlineno trivialvendingmachine.cpp Using GraphAnalyzer to Create dot file
  *
  * That .dot file when rendered generates the following graph:
  @dot "Trivial Vending Machine"

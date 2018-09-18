@@ -45,26 +45,26 @@ using std::endl;
  * DetectorGraph::TopicState.
  *
  * For the 'input' to our system we'll declare a `TemperatureSample` TopicState:
- @snippet helloworld.cpp Input Topic
+ @snippetlineno helloworld.cpp Input Topic
  * The important here is that this `struct` inherits TopicState and that it has
  * data field(s).
  *
  * Next we define the 'output'; another struct that also inherits
  * DetectorGraph::TopicState and has data fields:
- @snippet helloworld.cpp Output Topic
+ @snippetlineno helloworld.cpp Output Topic
  *
  * @section Detector
  * Now we just need to fill in the gap; the Detector that creates
  * `OverheatingState` from `TemperatureSample`:
  * two.
- @snippet helloworld.cpp Detector
+ @snippetlineno helloworld.cpp Detector
  *
  * @section Graph
  * The final plumbing is to add our newly created Detector to a
  * DetectorGraph::Graph.
  * Depending on the situation this can be done in different ways but here's the
  * simplest:
- @snippet helloworld.cpp Adding to a Graph
+ @snippetlineno helloworld.cpp Adding to a Graph
  *
  * With that the Graph instance will internally create the following graph:
  *
@@ -90,7 +90,7 @@ digraph GraphAnalyzer {
  * @section Usage
  * Finally, using the graph is done by Pushing data in, evaluating the graph
  * and checking outputs:
- @snippet helloworld.cpp Basic Graph Usage
+ @snippetlineno helloworld.cpp Basic Graph Usage
  *
  * Running the program then gives:
  \verbatim
@@ -104,10 +104,10 @@ IsOverheating = true
  * subsequent inspection steps.
  * For the example above, the DetectorGraph::ProcessorContainer implementation
  * would be:
- @snippet helloworld.cpp ProcessorContainer
+ @snippetlineno helloworld.cpp ProcessorContainer
  *
  * And then usage would be like:
- @snippet helloworld.cpp Using ProcessorContainer
+ @snippetlineno helloworld.cpp Using ProcessorContainer
  *
  *
  \verbatim
