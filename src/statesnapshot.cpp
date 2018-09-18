@@ -21,8 +21,16 @@ namespace DetectorGraph
 {
 
 StateSnapshot::StateSnapshot()
+: mStateStore()
+, mStateVersion(0)
 {
-    mStateVersion = 0;
+}
+
+StateSnapshot::StateSnapshot(const std::list< ptr::shared_ptr<const TopicState> >& arTopicStates)
+: mStateStore()
+, mStateVersion(0)
+{
+    UpdateValues(arTopicStates);
 }
 
 StateSnapshot::StateSnapshot(const StateSnapshot& arPreviousState, const std::list< ptr::shared_ptr<const TopicState> >& arTopicStates)

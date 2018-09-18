@@ -18,6 +18,9 @@ Below are a number of examples showcasing different aspects & usage patterns of 
 \section large-topicstates Dealing with Large TopicStates
     - [Portuguese Translator](@ref portuguesetranslator.cpp): @copybrief portuguesetranslator.cpp
 
+\section state-persistence Initial State & State Persistence
+    - [Resuming Counter](@ref resuminggraph.cpp): @copybrief resuminggraph.cpp
+
 */
 
 // The list of pages below is used to help the search utility finding appropriate content.

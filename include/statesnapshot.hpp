@@ -42,6 +42,13 @@ public:
     StateSnapshot();
 
     /**
+     * @brief T=0 Priming Constructor
+     *
+     * Builds a prime StateSnapshot from a TopicState list.
+     */
+    StateSnapshot(const std::list< ptr::shared_ptr<const TopicState> >& arTopicStates);
+
+    /**
      * @brief T>0 Constructor
      *
      * Builds a StateSnapshot from a previous StateSnapshot and an output list.

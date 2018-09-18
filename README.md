@@ -73,6 +73,9 @@ Below are a number of examples showcasing different aspects & usage patterns of 
  - Dealing with Large TopicStates
     - [Portuguese Translator](@ref portuguesetranslator.cpp)
 
+ - Initial State & State Persistence
+    - [Resuming Counter](@ref resuminggraph.cpp)
+
 ## Porting
 
 The library has no dependencies beyond C++ & STL (min C++0x) and was designed to be fully portable to any environment supporting those dependencies.
