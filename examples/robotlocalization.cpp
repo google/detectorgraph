@@ -45,7 +45,7 @@ using namespace Eigen;
  * This localization algorithm depends on a feedback-loop in that the output of
  * one graph evaluation (i.e. `LocalizationBelief`) is used as an input for the
  * next one (i.e. `Lagged<LocalizationBelief>`):
- @snippet robotlocalization.cpp KalmanPoseCorrector Feedback Loop
+ @snippetlineno robotlocalization.cpp KalmanPoseCorrector Feedback Loop
  * Note that in this graph the TopicState where the feedback loop closes is a
  * legitimate output in itself and it's very likely that new Detectors in the
  * graph would subscribe to it. In cases like this the use of
