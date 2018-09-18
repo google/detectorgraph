@@ -146,7 +146,6 @@ $ cat resumingGraphSnapshot.txt
 1014
  \endverbatim
  *
- * One important thing to note is
  *
  * @cond DO_NOT_DOCUMENT
  */
