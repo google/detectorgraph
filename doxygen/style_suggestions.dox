@@ -245,7 +245,7 @@ Initially it was thought that state resuming could be done simply be re-publishi
 
 Instead we opted of giving detectors this _know-all_ single chance to restore their state & re-publish any resumed state `TopicStates` as necessary.
 
-TODO(cscotti): Example. A resuming version of @ref counterwithreset.cpp seems appropriate.
+For a full example see [Resuming Counter](@ref resuminggraph.cpp) (@copybrief resuminggraph.cpp)
 
 \section explicit-calls-to-evaluate Explicit calls to Evaluate()?
 
@@ -267,7 +267,7 @@ Instead the suggested pattern going forward is to always rely on `ResumeFromSnap
 
 In the past we have used a specific `TopicState` (say `DetectorGraphInitialized`) that detectors can subscribe to to be notified when the system boots and publish any new state they may need to. That solution is redundant and not as canonical as the solution described above so it's not recommended anymore.
 
-TODO(cscotti): Example. A resuming version of @ref counterwithreset.cpp seems appropriate.
+For a full example see [Resuming Counter](@ref resuminggraph.cpp) (@copybrief resuminggraph.cpp)
 
 \section namespaces Usage of Namespaces
 
