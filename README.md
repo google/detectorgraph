@@ -10,7 +10,10 @@ It forces an intuitive (albeit unusual) programming paradigm that results in hig
 
 This is not an officially supported Google product.
 
+[Full online documentation](https://google.github.io/detectorgraph/).
+
 Note that the cross-reference links in this page are only rendered in the Doxygen version of the documentation (see [Building](#building)).
+You can also navigate the web version of the documentation hosted at https://google.github.io/detectorgraph/.
 
 ## Getting Started
 
@@ -72,6 +75,9 @@ Below are a number of examples showcasing different aspects & usage patterns of 
  - Dealing with Large TopicStates
     - [Portuguese Translator](@ref portuguesetranslator.cpp)
 
+ - Initial State & State Persistence
+    - [Resuming Counter](@ref resuminggraph.cpp)
+
 ## Porting
 
 The library has no dependencies beyond C++ & STL (min C++0x) and was designed to be fully portable to any environment supporting those dependencies.
@@ -100,20 +106,22 @@ A more powerful & flexible option is to implement your own container to hold the
 ### Tests, Docs and Examples
 
 The library is shipped with a bare-bones makefile that can be used to build & run all of the examples, unit tests, documentation and coverage report.
+ - Dependencies:
+    - Gcc and/or clang with c++11
+    - gcov & lcov (optional - for building test_coverage)
+    - doxygen (optional - for building docs)
+    - Eigen3 (optional - for building examples/robotlocalization)
 
-    * Dependencies:
+ - Building:
 
-        * Gcc and/or clang with c++11
-        * gcov & lcov (optional)
-        * doxygen (optional)
-        * c++filt (optional)
-
-    * Building
-
-        ```
-        # At the root directory
+        # Hello World
+        ~/detectorgraph$ make examples/helloworld
 
         # Build/Run unit tests
+        ~/detectorgraph$ make unit-test/test_lite
+        ~/detectorgraph$ make unit-test/test_full
+
+        # Or simply:
         ~/detectorgraph$ make unit-test/test_all
 
         # Build Docs. Results in /docs
@@ -121,7 +129,6 @@ The library is shipped with a bare-bones makefile that can be used to build & ru
 
         # Build/Run Coverage test. Results in /coverage
         ~/detectorgraph$ make unit-test/test_coverage
-        ```
 
 ### For your project
 
@@ -139,10 +146,15 @@ Some of its most unique features are:
 - Flat design - the graph has only two types of constructs; Topics and Detectors.
 - Small & Simple - it doesn't do anything else.
 
+## Style & Tips
+
+For an article containing a set of guidelines & rules of thumb that we accumulated after 3+ years of using DetectorGraph visit [Style Tips - Patterns, Anti-Patterns & Suggestions](@ref ssg-style_suggestions).
+These are aimed at keeping software design constrained in a way that best takes advantage of the DetectorGraph framework, its expressibility and modeling power.
+
 ## Naming
 
 The DetectorGraph library had a little naming problem growing up. From birth it came to replace nlDetectorGraph and so it pretended to be called that way. As an adolescent it decided it wanted to be called MarkII.. but no one cared - for years now the world continues to call it simply DetectorGraph. Now as it approaches adulthood it has finally accepted its popular name: DetectorGraph.
 
 ## In-depth Docs & API Reference
 
-For in depth documentation of the library, [start here](@ref core_introduction) - these are provided by the [auto-generated docs](#building).
+For in depth documentation of the library, [start here](@ref core_introduction).

@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
   </td>
  </tr>
@@ -112,7 +112,7 @@ class DetectorGraph::FuturePublisher&lt; T &gt;</h3>
 <p>A class <code>FooDetector</code> acquires the "FuturePublisher of BarTopicState" behavior by inheriting <code><a class="el" href="classDetectorGraph_1_1FuturePublisher.html" title="Publish data to the graph for future evaluation. ">FuturePublisher</a></code> templated to <code>BarTopicState</code>.</p>
 <p>This is a template class and so it must be kept minimal to prevent code bloat. This class serves a tiny purpose:</p><ul>
 <li>Document in a clear way the "FuturePublishing" behavior of an inheriting <a class="el" href="classDetectorGraph_1_1Detector.html" title="A unit of logic in a DetectorGraph. ">Detector</a>.</li>
-<li>Caches a pointer to the <a class="el" href="helloworld_8cpp.html#Graph">Graph</a></li>
+<li>Caches a pointer to the <a class="el" href="classDetectorGraph_1_1Graph.html">Graph</a></li>
 <li>Abstracts the act of Publishing to the <a class="el" href="classDetectorGraph_1_1Graph.html" title="Implements a graph of Topics &amp; Detectors with Input/Output APIs. ">Graph</a> into a type-safe method.</li>
 </ul>
 <p>The only requirement to use the <a class="el" href="classDetectorGraph_1_1FuturePublisher.html">FuturePublisher</a> functionality is to call <a class="el" href="classDetectorGraph_1_1Detector.html#af0e41ff6c1a8202a2a737fd42b8ed551" title="Setup an future advertisement on a specific topic. ">Detector::SetupFuturePublishing</a> from the inheriting <a class="el" href="classDetectorGraph_1_1Detector.html" title="A unit of logic in a DetectorGraph. ">Detector</a>'s constructor:</p>

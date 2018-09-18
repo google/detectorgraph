@@ -8,8 +8,8 @@
  viewBox="0.00 0.00 489.84 361.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 357)">
 <title>Graphical Class Hierarchy</title>
-<!-- Node33 -->
-<g id="node1" class="node"><title>Node33</title>
+<!-- Node34 -->
+<g id="node1" class="node"><title>Node34</title>
 <g id="a_node1"><a xlink:href="classDetectorGraph_1_1FuturePublisher.html" target="_top" xlink:title="DetectorGraph::FuturePublisher\l\&lt; Lagged\&lt; T \&gt; \&gt;">
 <polygon fill="none" stroke="black" points="151.497,-324.5 151.497,-352.5 309.23,-352.5 309.23,-324.5 151.497,-324.5"/>
 <text text-anchor="start" x="159.497" y="-340.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::FuturePublisher</text>
@@ -25,13 +25,13 @@
 </a>
 </g>
 </g>
-<!-- Node33&#45;&gt;Node6 -->
-<g id="edge1" class="edge"><title>Node33&#45;&gt;Node6</title>
+<!-- Node34&#45;&gt;Node6 -->
+<g id="edge1" class="edge"><title>Node34&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M295.705,-321.808C323.301,-314.649 354.454,-306.567 377.645,-300.551"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="294.521,-318.499 285.721,-324.398 296.279,-325.275 294.521,-318.499"/>
 </g>
-<!-- Node24 -->
-<g id="node3" class="node"><title>Node24</title>
+<!-- Node25 -->
+<g id="node3" class="node"><title>Node25</title>
 <g id="a_node3"><a xlink:href="classDetectorGraph_1_1Publisher.html" target="_top" xlink:title="DetectorGraph::Publisher\l\&lt; OutA \&gt;">
 <polygon fill="none" stroke="black" points="165.948,-193.5 165.948,-221.5 294.78,-221.5 294.78,-193.5 165.948,-193.5"/>
 <text text-anchor="start" x="173.948" y="-209.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Publisher</text>
@@ -48,13 +48,13 @@
 </a>
 </g>
 </g>
-<!-- Node24&#45;&gt;Node7 -->
-<g id="edge2" class="edge"><title>Node24&#45;&gt;Node7</title>
+<!-- Node25&#45;&gt;Node7 -->
+<g id="edge2" class="edge"><title>Node25&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M304.999,-198.152C318.25,-196.47 332.003,-194.724 345.069,-193.065"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="304.462,-194.692 294.983,-199.423 305.344,-201.636 304.462,-194.692"/>
 </g>
-<!-- Node23 -->
-<g id="node5" class="node"><title>Node23</title>
+<!-- Node24 -->
+<g id="node5" class="node"><title>Node24</title>
 <g id="a_node5"><a xlink:href="classDetectorGraph_1_1Publisher.html" target="_top" xlink:title="DetectorGraph::Publisher\l\&lt; OutB \&gt;">
 <polygon fill="none" stroke="black" points="165.948,-146.5 165.948,-174.5 294.78,-174.5 294.78,-146.5 165.948,-146.5"/>
 <text text-anchor="start" x="173.948" y="-162.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Publisher</text>
@@ -62,13 +62,13 @@
 </a>
 </g>
 </g>
-<!-- Node23&#45;&gt;Node7 -->
-<g id="edge3" class="edge"><title>Node23&#45;&gt;Node7</title>
+<!-- Node24&#45;&gt;Node7 -->
+<g id="edge3" class="edge"><title>Node24&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M304.999,-170.255C318.25,-172.01 332.003,-173.832 345.069,-175.563"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="305.356,-166.771 294.983,-168.928 304.436,-173.711 305.356,-166.771"/>
 </g>
-<!-- Node19 -->
-<g id="node6" class="node"><title>Node19</title>
+<!-- Node20 -->
+<g id="node6" class="node"><title>Node20</title>
 <g id="a_node6"><a xlink:href="classDetectorGraph_1_1SubscriberInterface.html" target="_top" xlink:title="A Pure interface that declares the Subscriber behavior. ">
 <polygon fill="none" stroke="black" points="162.894,-277.5 162.894,-305.5 297.834,-305.5 297.834,-277.5 162.894,-277.5"/>
 <text text-anchor="start" x="170.894" y="-293.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Subscriber</text>
@@ -76,13 +76,13 @@
 </a>
 </g>
 </g>
-<!-- Node19&#45;&gt;Node6 -->
-<g id="edge4" class="edge"><title>Node19&#45;&gt;Node6</title>
+<!-- Node20&#45;&gt;Node6 -->
+<g id="edge4" class="edge"><title>Node20&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M308.103,-291.5C322.04,-291.5 336.425,-291.5 349.896,-291.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="308.053,-288 298.053,-291.5 308.053,-295 308.053,-288"/>
 </g>
-<!-- Node18 -->
-<g id="node7" class="node"><title>Node18</title>
+<!-- Node19 -->
+<g id="node7" class="node"><title>Node19</title>
 <g id="a_node7"><a xlink:href="classDetectorGraph_1_1SubscriberInterface.html" target="_top" xlink:title="DetectorGraph::Subscriber\lInterface\&lt; TestSplitterTrigger\l\&lt; OutA, OutB \&gt; \&gt;">
 <polygon fill="none" stroke="black" points="158.301,-89.5 158.301,-127.5 302.426,-127.5 302.426,-89.5 158.301,-89.5"/>
 <text text-anchor="start" x="166.301" y="-115.5" font-family="Helvetica,sans-Serif" font-size="10.00">DetectorGraph::Subscriber</text>
@@ -91,8 +91,8 @@
 </a>
 </g>
 </g>
-<!-- Node18&#45;&gt;Node7 -->
-<g id="edge5" class="edge"><title>Node18&#45;&gt;Node7</title>
+<!-- Node19&#45;&gt;Node7 -->
+<g id="edge5" class="edge"><title>Node19&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M293.781,-131.302C299.025,-133.352 304.231,-135.435 309.23,-137.5 334.361,-147.882 362.417,-160.728 382.941,-170.365"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="294.925,-127.992 284.336,-127.656 292.405,-134.522 294.925,-127.992"/>
 </g>

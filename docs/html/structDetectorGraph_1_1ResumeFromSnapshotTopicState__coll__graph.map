@@ -1,0 +1,4 @@
+<map id="DetectorGraph::ResumeFromSnapshotTopicState" name="DetectorGraph::ResumeFromSnapshotTopicState">
+<area shape="rect" id="node2" href="$structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. " alt="" coords="5,32,184,159"/>
+<area shape="rect" id="node3" href="$classDetectorGraph_1_1StateSnapshot.html" title="The collection of TopicStates that represents the graph state so far. " alt="" coords="207,5,411,185"/>
+</map>

@@ -1,5 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$structDetectorGraph_1_1TestSplitterTrigger.html" title="DetectorGraph::TestSplitter\lTrigger\&lt; OutA, OutB \&gt;" alt="" coords="236,5,419,44"/>
-<area shape="rect" id="node3" href="$structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. " alt="" coords="5,64,184,89"/>
-<area shape="rect" id="node4" href="$structDetectorGraph_1_1Lagged.html" title="A templated TopicState used as the output of Lag. " alt="" coords="232,68,423,93"/>
+<area shape="rect" id="node2" href="$structDetectorGraph_1_1TestSplitterTrigger.html" title="DetectorGraph::TestSplitter\lTrigger\&lt; OutA, OutB \&gt;" alt="" coords="239,5,421,44"/>
+<area shape="rect" id="node3" href="$structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. " alt="" coords="5,68,184,93"/>
+<area shape="rect" id="node4" href="$structDetectorGraph_1_1Lagged.html" title="A templated TopicState used as the output of Lag. " alt="" coords="235,68,426,93"/>
+<area shape="rect" id="node5" href="$structDetectorGraph_1_1ResumeFromSnapshotTopicState.html" title="DetectorGraph::ResumeFrom\lSnapshotTopicState" alt="" coords="232,117,429,156"/>
 </map>

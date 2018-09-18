@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
   </td>
  </tr>
@@ -72,6 +72,7 @@ $(function() {
 <div class="textblock"><p><a href="https://travis-ci.org/google/detectorgraph"></a></p>
 <p><a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a> is a framework for writing programs in a formal graph topology. This can be used to write applications with multiple interdependent algorithms, applications' data models, general business logic or all of that combined. The framework uses a formal distinction between data (Topics) and transformations/logic (Detectors). It natively provides dependency injection, strict type-safety and provides loose coupling between Detectors by formalizing the touch points as Topics. It forces an intuitive (albeit unusual) programming paradigm that results in highly readable, maintainable &amp; testable code.</p>
 <p>This is not an officially supported Google product.</p>
+<p><a href="https://google.github.io/detectorgraph/">Full online documentation</a>.</p>
 <p>Note that the cross-reference links in this page are only rendered in the Doxygen version of the documentation (see <a href="#building">Building</a>). You can also navigate the web version of the documentation hosted at <a href="https://google.github.io/detectorgraph/">https://google.github.io/detectorgraph/</a>.</p>
 <h2>Getting Started</h2>
 <h2>Usage</h2>
@@ -120,6 +121,10 @@ ThresholdDetector detector(&amp;graph);
 </li>
 <li>Dealing with Large TopicStates<ul>
 <li><a class="el" href="portuguesetranslator_8cpp.html">Portuguese Translator</a></li>
+</ul>
+</li>
+<li>Initial State &amp; State Persistence<ul>
+<li><a class="el" href="resuminggraph_8cpp.html">Resuming Counter</a></li>
 </ul>
 </li>
 </ul>
@@ -175,10 +180,12 @@ ThresholdDetector detector(&amp;graph);
 <li>Flat design - the graph has only two types of constructs; Topics and Detectors.</li>
 <li>Small &amp; Simple - it doesn't do anything else.</li>
 </ul>
+<h2>Style &amp; Tips</h2>
+<p>For an article containing a set of guidelines &amp; rules of thumb that we accumulated after 3+ years of using <a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a> visit <a class="el" href="ssg-style_suggestions.html">Style Tips - Patterns, Anti-Patterns &amp; Suggestions</a>. These are aimed at keeping software design constrained in a way that best takes advantage of the <a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a> framework, its expressibility and modeling power.</p>
 <h2>Naming</h2>
 <p>The <a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a> library had a little naming problem growing up. From birth it came to replace nlDetectorGraph and so it pretended to be called that way. As an adolescent it decided it wanted to be called MarkII.. but no one cared - for years now the world continues to call it simply <a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a>. Now as it approaches adulthood it has finally accepted its popular name: <a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a>.</p>
 <h2>In-depth Docs &amp; API Reference</h2>
-<p>For in depth documentation of the library, <a class="el" href="core_introduction.html">start here</a> - these are provided by the <a href="https://google.github.io/detectorgraph/">auto-generated docs</a>. </p>
+<p>For in depth documentation of the library, <a class="el" href="core_introduction.html">start here</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

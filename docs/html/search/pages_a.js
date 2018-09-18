@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['templates',['Templates',['../template_bloat.html',1,'']]]
+  ['resume_20state',['Resume State',['../seo-resume-state.html',1,'']]]
 ];

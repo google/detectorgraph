@@ -5,6 +5,7 @@ var searchData=
   ['statesnapshot_2ecpp',['statesnapshot.cpp',['../statesnapshot_8cpp.html',1,'']]],
   ['statesnapshot_2ehpp',['statesnapshot.hpp',['../statesnapshot_8hpp.html',1,'']]],
   ['statictypedallocator_2dlite_2ehpp',['statictypedallocator-lite.hpp',['../statictypedallocator-lite_8hpp.html',1,'']]],
+  ['style_5fsuggestions_2edox',['style_suggestions.dox',['../style__suggestions_8dox.html',1,'']]],
   ['subscriberinterface_2ehpp',['subscriberinterface.hpp',['../subscriberinterface_8hpp.html',1,'']]],
   ['subscriptiondispatcher_2ehpp',['subscriptiondispatcher.hpp',['../subscriptiondispatcher_8hpp.html',1,'']]],
   ['subscriptiondispatcherscontainer_2dlite_2ehpp',['subscriptiondispatcherscontainer-lite.hpp',['../subscriptiondispatcherscontainer-lite_8hpp.html',1,'']]],

@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
   </td>
  </tr>
@@ -69,12 +69,13 @@ $(function() {
 <div class="title">New Topic Inspection APIs </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Returns true if the new Data is available.</p>
-<p>As a part of the effort to enable the <code><a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a></code> <code>Lite</code> target we created new APIs for inspecting Topics that make it easier to inspect Topics during Testing (e.g. Unit Testing a Detector) and that work both on <code>Full</code> &amp; <code>Lite</code> targets. These are: </p><div class="fragment"><div class="line"><span class="keywordtype">bool</span> Topic&lt;T&gt;::HasNewValue() const</div><div class="line">const T&amp; Topic&lt;T&gt;::GetNewValue() const</div></div><!-- fragment --><p>Before, to verify the contents of a Topic under Test conditions you'd have done something like:</p>
+<div class="textblock"><p>Two new APIs useful within Unit Tests</p>
+<dl class="section user"><dt></dt><dd>As a part of the effort to enable the <code><a class="el" href="namespaceDetectorGraph.html">DetectorGraph</a></code> <code>Lite</code> target we created new APIs for inspecting Topics that make it easier to inspect Topics during Testing (e.g. Unit Testing a Detector) and that work both on <code>Full</code> &amp; <code>Lite</code> targets. These are: <div class="fragment"><div class="line"><span class="keywordtype">bool</span> Topic&lt;T&gt;::HasNewValue() const</div><div class="line">const T&amp; Topic&lt;T&gt;::GetNewValue() const</div></div><!-- fragment --></dd></dl>
+<p>Before, to verify the contents of a Topic under Test conditions you'd have done something like:</p>
 <div class="fragment"><div class="line"><a class="code" href="classDetectorGraph_1_1Topic.html">DetectorGraph::Topic&lt;Balance&gt;</a>* balanceTopic = graph.<a class="code" href="classDetectorGraph_1_1Graph.html#ac5b90d3ec0b57ff6c04a5cac1d8c687c">ResolveTopic</a>&lt;Balance&gt;();</div><div class="line"><span class="comment">// ...</span></div><div class="line">NL_TEST_ASSERT(inSuite, balanceTopic-&gt;<a class="code" href="classDetectorGraph_1_1Topic.html#a5e374757ac126ddcc4ff99c719a43d9d">GetCurrentValues</a>().size() == 1);</div><div class="line">NL_TEST_ASSERT(inSuite, balanceTopic-&gt;<a class="code" href="classDetectorGraph_1_1Topic.html#a5e374757ac126ddcc4ff99c719a43d9d">GetCurrentValues</a>().front().numberOfCoins == 1);</div></div><!-- fragment --><p>That worked but it wasn't the most readable or easy to remember/type. Now you can simply:</p>
 <div class="fragment"><div class="line"><a class="code" href="classDetectorGraph_1_1Topic.html">DetectorGraph::Topic&lt;Balance&gt;</a>* balanceTopic = graph.<a class="code" href="classDetectorGraph_1_1Graph.html#ac5b90d3ec0b57ff6c04a5cac1d8c687c">ResolveTopic</a>&lt;Balance&gt;();</div><div class="line"><span class="comment">// ...</span></div><div class="line">NL_TEST_ASSERT(inSuite, balanceTopic-&gt;<a class="code" href="classDetectorGraph_1_1Topic.html#a6074b31ae076b626be2c04f819a6f41f">HasNewValue</a>());</div><div class="line">NL_TEST_ASSERT(inSuite, balanceTopic-&gt;<a class="code" href="classDetectorGraph_1_1Topic.html#a3acc3d38431047d1ca7e09f37c84a7b6">GetNewValue</a>().numberOfCoins == 1);</div></div><!-- fragment --><p>In addition, <code>HasNewValue()</code> is both a more accurate representation of the test as it's more future proof.</p>
 <p><a class="el" href="classDetectorGraph_1_1Topic.html#a6074b31ae076b626be2c04f819a6f41f">HasNewValue</a>: <code>inline bool HasNewValue() const</code></p>
-<dl class="section user"><dt></dt><dd>New data is signaled by the Topic having been Processed and containing in storage. </dd></dl>
+<dl class="section user"><dt></dt><dd>Returns true if the new Data is available. New data is signaled by the Topic having been Processed and containing in storage. </dd></dl>
 <p><a class="el" href="classDetectorGraph_1_1Topic.html#a3acc3d38431047d1ca7e09f37c84a7b6">GetNewValue</a>: <code>inline const T&amp; GetNewValue() const</code></p>
 <dl class="section user"><dt></dt><dd><p class="startdd">Returns reference to the new/latest value in the topic. This method is a direct forwarding of the internal STL container and as such, calling GetNewValue on an empty Topic is undefined.</p>
 <p class="enddd">On debug builds, a DG_ASSERT will check that the Topic contains a value. </p>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['loops',['Loops',['../loops.html',1,'']]]
+  ['initial_20states',['Initial States',['../seo-initial-state.html',1,'']]]
 ];

@@ -1,13 +1,11 @@
 var searchData=
 [
-  ['testsplitterdetector',['TestSplitterDetector',['../classDetectorGraph_1_1TestSplitterDetector.html',1,'DetectorGraph']]],
-  ['testsplittertrigger',['TestSplitterTrigger',['../structDetectorGraph_1_1TestSplitterTrigger.html',1,'DetectorGraph']]],
-  ['testtimeoutpublisherservice',['TestTimeoutPublisherService',['../classDetectorGraph_1_1TestTimeoutPublisherService.html',1,'DetectorGraph']]],
-  ['timeoutpublisher',['TimeoutPublisher',['../classDetectorGraph_1_1TimeoutPublisher.html',1,'DetectorGraph']]],
-  ['timeoutpublisherservice',['TimeoutPublisherService',['../classDetectorGraph_1_1TimeoutPublisherService.html',1,'DetectorGraph']]],
-  ['topic',['Topic',['../classDetectorGraph_1_1Topic.html',1,'DetectorGraph']]],
-  ['topic_3c_20outa_20_3e',['Topic&lt; OutA &gt;',['../classDetectorGraph_1_1Topic.html',1,'DetectorGraph']]],
-  ['topic_3c_20outb_20_3e',['Topic&lt; OutB &gt;',['../classDetectorGraph_1_1Topic.html',1,'DetectorGraph']]],
-  ['topicregistry',['TopicRegistry',['../classDetectorGraph_1_1TopicRegistry.html',1,'DetectorGraph']]],
-  ['topicstate',['TopicState',['../structDetectorGraph_1_1TopicState.html',1,'DetectorGraph']]]
+  ['sequencecontainer',['SequenceContainer',['../classDetectorGraph_1_1SequenceContainer.html',1,'DetectorGraph']]],
+  ['statesnapshot',['StateSnapshot',['../classDetectorGraph_1_1StateSnapshot.html',1,'DetectorGraph']]],
+  ['statictypedallocator',['StaticTypedAllocator',['../classDetectorGraph_1_1StaticTypedAllocator.html',1,'DetectorGraph']]],
+  ['subscriberinterface',['SubscriberInterface',['../classDetectorGraph_1_1SubscriberInterface.html',1,'DetectorGraph']]],
+  ['subscriberinterface_3c_20testsplittertrigger_3c_20outa_2c_20outb_20_3e_20_3e',['SubscriberInterface&lt; TestSplitterTrigger&lt; OutA, OutB &gt; &gt;',['../classDetectorGraph_1_1SubscriberInterface.html',1,'DetectorGraph']]],
+  ['subscriptiondispatcher',['SubscriptionDispatcher',['../classDetectorGraph_1_1SubscriptionDispatcher.html',1,'DetectorGraph']]],
+  ['subscriptiondispatcherinterface',['SubscriptionDispatcherInterface',['../classDetectorGraph_1_1SubscriptionDispatcherInterface.html',1,'DetectorGraph']]],
+  ['subscriptiondispatcherscontainer',['SubscriptionDispatchersContainer',['../classDetectorGraph_1_1SubscriptionDispatchersContainer.html',1,'DetectorGraph']]]
 ];

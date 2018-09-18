@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">DetectorGraph
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">2.0</span>
    </div>
   </td>
  </tr>
@@ -82,7 +82,7 @@ $(function() {
 <div class="dynheader">
 Collaboration diagram for DetectorGraph::StateSnapshot:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classDetectorGraph_1_1StateSnapshot__coll__graph.svg" width="215" height="178"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classDetectorGraph_1_1StateSnapshot__coll__graph.svg" width="215" height="191"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="memberdecls">
@@ -91,6 +91,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3777d46f6b4fb0f25e37e5c4579c78c1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1StateSnapshot.html#a3777d46f6b4fb0f25e37e5c4579c78c1">StateSnapshot</a> ()</td></tr>
 <tr class="memdesc:a3777d46f6b4fb0f25e37e5c4579c78c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">T=0 Constructor.  <a href="#a3777d46f6b4fb0f25e37e5c4579c78c1">More...</a><br /></td></tr>
 <tr class="separator:a3777d46f6b4fb0f25e37e5c4579c78c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d4f0b3d4c59614f157428a833aaddb6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1StateSnapshot.html#a4d4f0b3d4c59614f157428a833aaddb6">StateSnapshot</a> (const std::list&lt; ptr::shared_ptr&lt; const <a class="el" href="structDetectorGraph_1_1TopicState.html">TopicState</a> &gt; &gt; &amp;arTopicStates)</td></tr>
+<tr class="memdesc:a4d4f0b3d4c59614f157428a833aaddb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">T=0 Priming Constructor.  <a href="#a4d4f0b3d4c59614f157428a833aaddb6">More...</a><br /></td></tr>
+<tr class="separator:a4d4f0b3d4c59614f157428a833aaddb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54252de8bbdff3ea97ba520f49c150de"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDetectorGraph_1_1StateSnapshot.html#a54252de8bbdff3ea97ba520f49c150de">StateSnapshot</a> (const <a class="el" href="classDetectorGraph_1_1StateSnapshot.html">StateSnapshot</a> &amp;arPreviousState, const std::list&lt; ptr::shared_ptr&lt; const <a class="el" href="structDetectorGraph_1_1TopicState.html">TopicState</a> &gt; &gt; &amp;arTopicStates)</td></tr>
 <tr class="memdesc:a54252de8bbdff3ea97ba520f49c150de"><td class="mdescLeft">&#160;</td><td class="mdescRight">T&gt;0 Constructor.  <a href="#a54252de8bbdff3ea97ba520f49c150de">More...</a><br /></td></tr>
 <tr class="separator:a54252de8bbdff3ea97ba520f49c150de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,7 +124,7 @@ Public Member Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="statesnapshot_8hpp_source.html#l00034">34</a> of file <a class="el" href="statesnapshot_8hpp_source.html">statesnapshot.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3777d46f6b4fb0f25e37e5c4579c78c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3777d46f6b4fb0f25e37e5c4579c78c1">&#9670;&nbsp;</a></span>StateSnapshot() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3777d46f6b4fb0f25e37e5c4579c78c1">&#9670;&nbsp;</a></span>StateSnapshot() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -142,8 +145,31 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a4d4f0b3d4c59614f157428a833aaddb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d4f0b3d4c59614f157428a833aaddb6">&#9670;&nbsp;</a></span>StateSnapshot() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DetectorGraph::StateSnapshot::StateSnapshot </td>
+          <td>(</td>
+          <td class="paramtype">const std::list&lt; ptr::shared_ptr&lt; const <a class="el" href="structDetectorGraph_1_1TopicState.html">TopicState</a> &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>arTopicStates</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>T=0 Priming Constructor. </p>
+<p>Builds a prime <a class="el" href="classDetectorGraph_1_1StateSnapshot.html" title="The collection of TopicStates that represents the graph state so far. ">StateSnapshot</a> from a <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a> list. </p>
+
+<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00029">29</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a54252de8bbdff3ea97ba520f49c150de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54252de8bbdff3ea97ba520f49c150de">&#9670;&nbsp;</a></span>StateSnapshot() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a54252de8bbdff3ea97ba520f49c150de">&#9670;&nbsp;</a></span>StateSnapshot() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +197,7 @@ Public Member Functions</h2></td></tr>
 <p>T&gt;0 Constructor. </p>
 <p>Builds a <a class="el" href="classDetectorGraph_1_1StateSnapshot.html" title="The collection of TopicStates that represents the graph state so far. ">StateSnapshot</a> from a previous <a class="el" href="classDetectorGraph_1_1StateSnapshot.html" title="The collection of TopicStates that represents the graph state so far. ">StateSnapshot</a> and an output list. </p>
 
-<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00028">28</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00036">36</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
 
 </div>
 </div>
@@ -193,7 +219,7 @@ Public Member Functions</h2></td></tr>
 <p>Destructor. </p>
 <p>Note that the shared ptrs held by a snapshot are implicitly released by normal shared_ptr destructors. </p>
 
-<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00078">78</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00086">86</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
 
 </div>
 </div>
@@ -215,7 +241,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Returns the number of TopicStates in the Snapshot. </p>
 
-<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00103">103</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00111">111</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
 
 </div>
 </div>
@@ -238,7 +264,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns a <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a> for a given Id. </p>
 <p>Or an empty shared_ptr in case no state with that Id exists. </p>
 
-<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00082">82</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00090">90</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
 
 </div>
 </div>
@@ -270,7 +296,7 @@ template&lt;class T &gt; </div>
 <p>Returns the specific <a class="el" href="structDetectorGraph_1_1TopicState.html" title="Base struct for topic data types. ">TopicState</a> for a given its type. </p>
 <p>Or an empty shared_ptr in case no state with that Id exists. </p>
 
-<p class="definition">Definition at line <a class="el" href="statesnapshot_8hpp_source.html#l00072">72</a> of file <a class="el" href="statesnapshot_8hpp_source.html">statesnapshot.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="statesnapshot_8hpp_source.html#l00079">79</a> of file <a class="el" href="statesnapshot_8hpp_source.html">statesnapshot.hpp</a>.</p>
 
 </div>
 </div>
@@ -292,7 +318,7 @@ template&lt;class T &gt; </div>
 <p>Returns the version of this snapshot. </p>
 <p>A Snapshot version is a unique positive integer that is incremented at every new Snapshot creation. </p>
 
-<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00108">108</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00116">116</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
 
 </div>
 </div>
@@ -315,7 +341,7 @@ template&lt;class T &gt; </div>
 <p>Gets TopicStates stored in this snapshot. </p>
 <p>Fills aOutTopicStateList with all public TopicStates stored in this Snapshot. This can be useful for merging the contents of this snapshot into another. </p>
 
-<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00092">92</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="statesnapshot_8cpp_source.html#l00100">100</a> of file <a class="el" href="statesnapshot_8cpp_source.html">statesnapshot.cpp</a>.</p>
 
 </div>
 </div>

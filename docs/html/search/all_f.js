@@ -6,5 +6,9 @@ var searchData=
   ['removevertex',['RemoveVertex',['../classDetectorGraph_1_1Graph.html#ae930f211208f09bf39cb687a10bdce7c',1,'DetectorGraph::Graph']]],
   ['resolve',['Resolve',['../classDetectorGraph_1_1TopicRegistry.html#a4d7e8894208840d3a1c54cc53b8c70a3',1,'DetectorGraph::TopicRegistry::Resolve()'],['../classDetectorGraph_1_1TopicRegistry.html#a4d7e8894208840d3a1c54cc53b8c70a3',1,'DetectorGraph::TopicRegistry::Resolve()'],['../classDetectorGraph_1_1TopicRegistry.html#a4d7e8894208840d3a1c54cc53b8c70a3',1,'DetectorGraph::TopicRegistry::Resolve()']]],
   ['resolvetopic',['ResolveTopic',['../classDetectorGraph_1_1Graph.html#ac5b90d3ec0b57ff6c04a5cac1d8c687c',1,'DetectorGraph::Graph']]],
-  ['robotlocalization_2ecpp',['robotlocalization.cpp',['../robotlocalization_8cpp.html',1,'']]]
+  ['resumefromsnapshottopicstate',['ResumeFromSnapshotTopicState',['../structDetectorGraph_1_1ResumeFromSnapshotTopicState.html',1,'DetectorGraph::ResumeFromSnapshotTopicState'],['../structDetectorGraph_1_1ResumeFromSnapshotTopicState.html#a52c31b1ed7c1312b4b024da9823bf036',1,'DetectorGraph::ResumeFromSnapshotTopicState::ResumeFromSnapshotTopicState()'],['../structDetectorGraph_1_1ResumeFromSnapshotTopicState.html#a009bb9338381ab6186f33982bf326b58',1,'DetectorGraph::ResumeFromSnapshotTopicState::ResumeFromSnapshotTopicState(const DetectorGraph::StateSnapshot &amp;aSnapshot)']]],
+  ['resumefromsnapshottopicstate_2ehpp',['resumefromsnapshottopicstate.hpp',['../resumefromsnapshottopicstate_8hpp.html',1,'']]],
+  ['resuminggraph_2ecpp',['resuminggraph.cpp',['../resuminggraph_8cpp.html',1,'']]],
+  ['robotlocalization_2ecpp',['robotlocalization.cpp',['../robotlocalization_8cpp.html',1,'']]],
+  ['resume_20state',['Resume State',['../seo-resume-state.html',1,'']]]
 ];
