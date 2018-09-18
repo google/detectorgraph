@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef RESUMEFROMSNAPSHOTTOPICSTATE_H
-#define RESUMEFROMSNAPSHOTTOPICSTATE_H
+#ifndef DETECTORGRAPH_INCLUDE_RESUMEFROMSNAPSHOTTOPICSTATE_HPP
+#define DETECTORGRAPH_INCLUDE_RESUMEFROMSNAPSHOTTOPICSTATE_HPP
 
 #include <topicstate.hpp>
 #include "statesnapshot.hpp"
@@ -30,8 +30,14 @@ namespace DetectorGraph
 struct ResumeFromSnapshotTopicState : public DetectorGraph::TopicState
 {
     DetectorGraph::StateSnapshot snapshot;
+
+    ResumeFromSnapshotTopicState() : snapshot() {}
+    ResumeFromSnapshotTopicState(const DetectorGraph::StateSnapshot& aSnapshot)
+    : snapshot(aSnapshot)
+    {
+    }
 };
 
 }
 
-#endif // RESUMEFROMSNAPSHOTTOPICSTATE_H
+#endif // DETECTORGRAPH_INCLUDE_RESUMEFROMSNAPSHOTTOPICSTATE_HPP
