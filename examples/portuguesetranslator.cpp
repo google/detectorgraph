@@ -30,11 +30,11 @@ using std::endl;
  * @file portuguesetranslator.cpp
  * @brief A dictionary-based translator that uses shared memory in TopicStates.
  *
- * @section Introduction
+ * @section ex-pt-intro Introduction
  * This examples implements a very basic translator based only on word
  * replacements.
  *
- * @section sharing-mem Using Shared Memory in TopicStates
+ * @section ex-pt-sharing-mem Using Shared Memory in TopicStates
  * DetectorGraph uses C++ copies to propagate information across Topics &
  * Detectors. This is fine & desirable for small amounts of data but can become
  * prohibitive for large objects.
@@ -58,7 +58,7 @@ using std::endl;
  * [Fancy Vending Machine](@ref fancyvendingmachine.cpp):
  @snippetlineno fancyvendingmachine.cpp Immutable Shared Memory TopicState
  *
- * @section Architecture
+ * @section ex-pt-arch Architecture
  * This sample implements the following graph:
  *
  *  @dot "TextTranslatorGraph"

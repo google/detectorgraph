@@ -8,6 +8,9 @@ namespace DetectorGraph
 
 \section template-intro Introduction
 
+\warning This document is pretty out of date and is likely deprecated in some
+ways.
+
 The framework relies extensibly on the use of _C++ Templates_ and that raises
 the concern that it might result in
 [Code Bloat](https://en.wikipedia.org/wiki/Code_bloat). _C++ Templates_ result
@@ -159,7 +162,7 @@ The below internal classes could potentially be non-template classes:
 - [GraphInputDispatcher<T>](@ref GraphInputDispatcher)
 
 Without changing any public API's. One way to achieve that could be to use
-`::bind` to link it to the desired `PushData<T>` or `SubscriberInterface<T>::Evaluate`.
+`\:\:bind` to link it to the desired `PushData<T>` or `SubscriberInterface<T>\:\:Evaluate`.
 
 \section finally Conclusion
 

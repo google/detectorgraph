@@ -10,6 +10,8 @@ It forces an intuitive (albeit unusual) programming paradigm that results in hig
 
 This is not an officially supported Google product.
 
+[Full online documentation](https://google.github.io/detectorgraph/).
+
 Note that the cross-reference links in this page are only rendered in the Doxygen version of the documentation (see [Building](#building)).
 You can also navigate the web version of the documentation hosted at https://google.github.io/detectorgraph/.
 
@@ -144,10 +146,15 @@ Some of its most unique features are:
 - Flat design - the graph has only two types of constructs; Topics and Detectors.
 - Small & Simple - it doesn't do anything else.
 
+## Style & Tips
+
+For an article containing a set of guidelines & rules of thumb that we accumulated after 3+ years of using DetectorGraph visit [Style Tips - Patterns, Anti-Patterns & Suggestions](@ref ssg-style_suggestions).
+These are aimed at keeping software design constrained in a way that best takes advantage of the DetectorGraph framework, its expressibility and modeling power.
+
 ## Naming
 
 The DetectorGraph library had a little naming problem growing up. From birth it came to replace nlDetectorGraph and so it pretended to be called that way. As an adolescent it decided it wanted to be called MarkII.. but no one cared - for years now the world continues to call it simply DetectorGraph. Now as it approaches adulthood it has finally accepted its popular name: DetectorGraph.
 
 ## In-depth Docs & API Reference
 
-For in depth documentation of the library, [start here](@ref core_introduction) - these are provided by the [auto-generated docs](https://google.github.io/detectorgraph/).
+For in depth documentation of the library, [start here](@ref core_introduction).

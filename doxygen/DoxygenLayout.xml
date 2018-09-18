@@ -4,12 +4,14 @@
   <navindex>
     <tab type="mainpage" visible="yes" title=""/>
     <tab type="user" url="core_introduction.html" title="Source Code Introduction"/>
-    <tab type="pages" visible="yes" title="" intro=""/>
+    <tab type="pages" visible="yes" title="Discussion Topics" intro=""/>
+    <!--
     <tab type="modules" visible="yes" title="" intro=""/>
     <tab type="namespaces" visible="no" title="">
       <tab type="namespacelist" visible="no" title="" intro=""/>
       <tab type="namespacemembers" visible="no" title="" intro=""/>
     </tab>
+     -->
     <tab type="classes" visible="yes" title="">
       <tab type="classlist" visible="yes" title="" intro=""/>
       <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/> 

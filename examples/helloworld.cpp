@@ -26,7 +26,7 @@ using std::endl;
  * @file helloworld.cpp
  * @brief The basics - A trivial Graph with a single Detector.
  *
- * @section Introduction
+ * @section ex-hw-intro Introduction
  * This examples cover the basics of using the DetectorGraph framework - a "Hello
  * World" of sorts.
  * For the purposes of this example imagine a temperature sensor that produces
@@ -39,7 +39,7 @@ using std::endl;
  *  - What's our output data? _The output Topic_
  *  - How do we get from one to the other? _The Detector what will do the job_
  *
- * @section Topics
+ * @section ex-hw-topics Topics
  * Topics are defined by the DetectorGraph::TopicState type they carry. A
  * TopicState is any C++ struct/class that inherits from
  * DetectorGraph::TopicState.
@@ -53,13 +53,13 @@ using std::endl;
  * DetectorGraph::TopicState and has data fields:
  @snippetlineno helloworld.cpp Output Topic
  *
- * @section Detector
+ * @section ex-hw-detector Detector
  * Now we just need to fill in the gap; the Detector that creates
  * `OverheatingState` from `TemperatureSample`:
  * two.
  @snippetlineno helloworld.cpp Detector
  *
- * @section Graph
+ * @section ex-hw-graphGraph
  * The final plumbing is to add our newly created Detector to a
  * DetectorGraph::Graph.
  * Depending on the situation this can be done in different ways but here's the
@@ -87,7 +87,7 @@ digraph GraphAnalyzer {
  * in the Topological sort of the graph. Output topics are painted Lime Green
  * and input ones Light Blue.
  *
- * @section Usage
+ * @section ex-hw-usage Usage
  * Finally, using the graph is done by Pushing data in, evaluating the graph
  * and checking outputs:
  @snippetlineno helloworld.cpp Basic Graph Usage

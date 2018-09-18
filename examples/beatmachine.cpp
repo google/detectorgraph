@@ -35,7 +35,7 @@ using std::endl;
  * @file beatmachine.cpp
  * @brief A Rube Goldbergesque contraption that uses TimeoutPublisherService APIs
  *
- * @section Introduction
+ * @section ex-bm-intro Introduction
  * Writing examples is hard - you have to be creative and stuff. So naturally
  * stuff went wild. This one is inspired by the Na Automata [1] and the Hey
  * Jude Flowchart [2].
@@ -50,14 +50,14 @@ using std::endl;
  * four 'line-singing' detectors must act in synchrony to achieve the desired
  * output.
  *
- * @section tps Implementing TimeoutPublisherService
+ * @section ex-bm-tps Implementing TimeoutPublisherService
  * When porting the DetectorGraph library to your environment you'll need to
  * provide a concrete subclass of DetectorGraph::TimeoutPublisherService
  * similar to DetectorGraph::SleepBasedTimeoutPublisherService in this example.
  * Note that features and accuracy were sacrificed in order to keep
  * DetectorGraph::SleepBasedTimeoutPublisherService as simple as possible.
  *
- * @section utps Using the Timer APIs
+ * @section ex-bm-utps Using the Timer APIs
  * The first example of using the Time APIs is on `ThemeDetector` where it sets
  * up a 75 BPM _Periodic Timer_ that publishes `RhytmBeats` every 0.8s and
  * subscribes to it:
@@ -116,7 +116,7 @@ class DontDetector : public DetectorGraph::Detector
  * @endcode
  *
  *
- * @section Architecture
+ * @section ex-bm-arch Architecture
  * Below is the graph representation for this example.
  * @dot "BeatMachine"
 digraph GraphAnalyzer {
@@ -154,7 +154,7 @@ digraph GraphAnalyzer {
 }
  * @enddot
  *
- * @section on Other Notes
+ * @section ex-bm-other-notes Other Notes
  * Note that this example in contained in a single file for the sake
  * of unity as an example. In real-world scenarios the suggested pattern is to
  * split the code into:
@@ -189,7 +189,7 @@ digraph GraphAnalyzer {
                 PlaybackState.hpp
 @endverbatim
  *
- * @section References
+ * @section ex-bm-refs References
  *  - [1] Na Automata - https://xkcd.com/851/
  *  - [2] Hey Jude Flowchart - http://loveallthis.tumblr.com/post/166124704
  *
