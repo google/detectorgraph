@@ -1,14 +1,14 @@
 /**
-@page style_suggestions Style, Patterns, Anti-Patterns & Suggestions
+@page ssg-style_suggestions Style Tips - Patterns, Anti-Patterns & Suggestions
 
 \tableofcontents
 
-\section style-intro Introduction
+\section ssg-style-intro Introduction
 
-This page contains a set of guidelines & rules of thumb that we accumulated after 2+ years of using DetectorGraph.
+This page contains a set of guidelines & rules of thumb that we accumulated after 3+ years of using DetectorGraph.
 These are aimed at keeping software design constrained in a way that best takes advantage of the DetectorGraph framework, its expressibility and modeling power.
 
-\section naming-topicstates Naming TopicStates
+\section ssg-naming-topicstates Naming TopicStates
 
 Topics carry `TopicStates`. `TopicStates` can express states, events/transitions, operations/requests & responses.
 Examples are:
@@ -16,14 +16,14 @@ Examples are:
 - `BarSample` when Bar is a sensor.
 - `FooBarState`, produced by a `FooBarDetector`. Note that `FooBarDetectorState` is not encouraged as it ties the producer with it's product - but it can be ok in some very specific cases.
 - `SomethingRequest` & `SomethingResponse` when implementing a RPC Request/Response pattern.
-- `FooBarSettings` for settings that determine how `FooBarDetector` (and by extension `FooBarState`) behave. See also [Settings](@ref settings-topicstate).
+- `FooBarSettings` for settings that determine how `FooBarDetector` (and by extension `FooBarState`) behave. See also [Settings](@ref ssg-settings-topicstate).
 
-\section too-big-too-small-tss Too Big & Too Small TopicStates
+\section ssg-too-big-too-small-tss Too Big vs. Too Small TopicStates
 
 Hypothetically, the entirety of a system's state could be contained on a single TopicState that is Subscribed to & published to by every detector. Conversely, one could split every individual bit (pardon the pun) of data into separate TopicStates and have detectors only subscribe to the bits necessary to form the data it depends on.
 Both are clearly poor separations-of-concern choices and are clear misuses of the DetectorGraph framework - obviously the sweet spot lies in between, but where? Below are a set of guidelines for partitioning Topics:
 
-\subsection type-is-data Type is data
+\subsection ssg-type-is-data Type is data
 
 \par "A rose by any other name would smell as sweet" — Juliet
 
@@ -46,7 +46,7 @@ From [Beat Machine](@ref beatmachine.cpp):
 
 Inheritance can save you some typing and be OK when literally all you're changing is the type 'name' and when you know the data structure will never change and when the 'is a' relationship holds strongly. Inheritance is the lazy approach but that you'll likely have to ditch (at great expense possibly) at some point in the future.
 
-\subsection empty-topics Trivial/Empty Topics are sometimes fine.
+\subsection ssg-empty-topics Trivial/Empty Topics are sometimes fine.
 
 Sometimes all a topic needs to express is the fact that _it updated_, that it _happened_ or any other purely unary signals:
 
@@ -55,7 +55,7 @@ From [Trivial Vending Machine](@ref trivialvendingmachine.cpp):
 From [Fancy Vending Machine](@ref fancyvendingmachine.cpp):
 @snippet fancyvendingmachine.cpp Trivial TopicState
 
-\subsection atomic-change Variables/bits/data that change together atomically belong together.
+\subsection ssg-atomic-change Variables/bits/data that change together atomically belong together.
 
 Examples:
 
@@ -65,7 +65,7 @@ A product and its new price:
 A robot's pose and a timestamp:
 @snippet robotlocalization.cpp Mutually Atomic Variables
 
-\subsection mutually-exclusive Mutually exclusive states also belong together.
+\subsection ssg-mutually-exclusive Mutually exclusive states also belong together.
 
 @code
 struct DoorState : public TopicState
@@ -81,11 +81,11 @@ struct DoorState : public TopicState
 
 This also includes Topics used to drive (or driven by) a finite state machine.
 
-\subsection everything-is-a-service Topics are APIs
+\subsection ssg-everything-is-a-service Topics are APIs
 
 Another rule of thumb is to think of Topics as APIs themselves; they should be as general as possible. More general TopicStates tend to better isolate concerns and be more reusable in the future. In general, when creating a topic don't name it with respect to what it'll be used; instead try to name it according to what information it carries.
 
-\section dependencies Detectors and Topics Dependencies
+\section ssg-dependencies Detectors and Topics Dependencies
 
 One of the main advantages of using DetectorGraph is a very clear isolation of dependencies & concerns. To maintain those advantages DetectorGraph code should comply with the following rules:
 - Detectors should not have any dependencies on any other Detectors: no data-structure dependencies nor runtime/callgraph dependencies.
@@ -93,7 +93,7 @@ One of the main advantages of using DetectorGraph is a very clear isolation of d
 - Topics can depend on other Topics for data-structures but should never inherit from other Topics.
 - Detectors should do no I/O nor should they talk to other dynamic software modules; debug/text logging is probably the one notable exception. It's totally fine to use a math library or an algorithm-specific library but it's not OK to communicate across threads accessing a singleton outside the DetectorGraph.
 
-\section caching-topicstate Caching/Saving TopicStates is the right solution!
+\section ssg-caching-topicstate Caching/Saving TopicStates is the right solution!
 
 Sometimes detectors only need a the information in `TopicStateA` when evaluating `TopicStateB`. It may seem like Subscribing to `TopicStateA` is overkill - but it's not. Remember that `Evaluate(TopicStateA)`s is only called when `TopicStateA` changes and thus there's no runtime penalty on having multiple `Evaluate()`s that are called rarely.
 
@@ -118,11 +118,11 @@ private:
 };
 @endcode
 
-Note that most `TopicStates` are small bits of data and thus copying by value should always be efficient. In cases where a `TopicState` contains a lot of data, such that copy-by-value would be a problem, it is the responsibility of that `TopicState`s implementation to implement an appropriate shallow copies scheme. For an example of that see [Sharing Memory across TopicStates](@ref sharing-mem).
+Note that most `TopicStates` are small bits of data and thus copying by value should always be efficient. In cases where a `TopicState` contains a lot of data, such that copy-by-value would be a problem, it is the responsibility of that `TopicState`s implementation to implement an appropriate shallow copies scheme. For an example of that see [Sharing Memory across TopicStates](@ref ex-pt-sharing-mem).
 
-\section settings-topicstate Settings are also Topics
+\section ssg-settings-topicstate Settings are also Topics
 
-Topics should be used to convey settings as well, and caching them is the way to go (see @ref caching-topicstate)
+Topics should be used to convey settings as well, and caching them is the way to go (see @ref ssg-caching-topicstate)
 @code
 class TooHotDetector : public SubscriberInterface<TooHotThreshold>, public SubscriberInterface<Temperature>, public Publisher<TooHot>
 {
@@ -144,7 +144,7 @@ private:
 };
 @endcode
 
-\section flat-evaluates Flat Evaluates vs. Indirect and/or nested member methods
+\section ssg-flat-evaluates Flat Evaluates vs. Indirect and/or nested member methods
 
 \par "Flat is better than nested" — Zen of Python
 
@@ -196,7 +196,7 @@ class TooHotDetector : public SubscriberInterface<Temperature>, public Publisher
 
 In the first example a reader must follow & comprehend what PublishTooHotIfTooHot does before they can conclude that `TooHotDetector` will always publish 1 (and only one) `TooHot` state per input sample. In the second example that relationship is trivial. The intent is to have direct paths from an `Evaluate()` (or `BeginEvaluation()`, `CompleteEvaluation()`) to `Publish` (or `FuturePublish()`, `PublishOnTimeout()`).
 
-\section concentrators-aggregations Concentrators & Aggregations
+\section ssg-concentrators-aggregations Concentrators & Aggregations
 
 In many cases detectors provide an accumulated/aggregated view of a set of TopicStates. The simplest & more readable way we found to do this was based on variations of the pattern below:
 
@@ -237,7 +237,7 @@ In many cases detectors provide an accumulated/aggregated view of a set of Topic
 
 Note the use of CompleteEvaluation to make the general conditional check regardless what inputs have changed.
 
-\section resuming-state Resuming State
+\section ssg-resuming-state Resuming State
 
 The best way we found to resume graph states is to use a specific `TopicState` (`ResumeFromSnapshotTopicState`) that contains a de-serialized version of the latest preserved StateSnapshot. Each detector that needs to resume its state then has a chance of inspecting the entire snapshot to reconstruct its state.
 
@@ -245,9 +245,9 @@ Initially it was thought that state resuming could be done simply be re-publishi
 
 Instead we opted of giving detectors this _know-all_ single chance to restore their state & re-publish any resumed state `TopicStates` as necessary.
 
-For a full example see [Resuming Counter](@ref resuminggraph.cpp) (@copybrief resuminggraph.cpp)
+For a full example see [Resuming Counter](@ref resuminggraph.cpp) ( @copybrief resuminggraph.cpp )
 
-\section explicit-calls-to-evaluate Explicit calls to Evaluate()?
+\section ssg-explicit-calls-to-evaluate Explicit calls to Evaluate()?
 
 Detector's `Evaluate()` method calls are central to DetectorGraph applications. They are called by the framework in a very specific and coordinated manner (`BeginEvaluation()->n*Evaluate()->CompleteEvaluation()`).
 
@@ -255,7 +255,7 @@ In some situations it may seem appropriate to explicitly/manually call `Evaluate
 
 More than once this had led debugging along a completely wrong path and makes `Detector`s program flow less flat and more convoluted. If a single set of operations is necessary for multiple different inputs it is better to implement that as a separate function and have that called from both `Evaluate()`s.
 
-\section initial-states Publishing Initial States
+\section ssg-initial-states Publishing Initial States
 
 Detectors do not have a specific mechanism for publishing their initial states/prime outputs.
 
@@ -267,11 +267,11 @@ Instead the suggested pattern going forward is to always rely on `ResumeFromSnap
 
 In the past we have used a specific `TopicState` (say `DetectorGraphInitialized`) that detectors can subscribe to to be notified when the system boots and publish any new state they may need to. That solution is redundant and not as canonical as the solution described above so it's not recommended anymore.
 
-For a full example see [Resuming Counter](@ref resuminggraph.cpp) (@copybrief resuminggraph.cpp)
+For a full example see [Resuming Counter](@ref resuminggraph.cpp) ( @copybrief resuminggraph.cpp )
 
-\section namespaces Usage of Namespaces
+\section ssg-namespaces Usage of Namespaces
 
-All DetectorGraph names should be inside the `DetectorGraph` namespace. Within an application it is suggested to have a single namespace reserved for all your Detectors & TopicStates; that allows you to use short names & appropriate names for those without risk of collision. We have also used separate namespaces for TopicsStates & Detectors but that didn't yield much readability or expressibility. Things to keep in mind when making your decision:
+All DetectorGraph names are inside the `DetectorGraph` namespace. Within an application it is suggested to have a single namespace reserved for all your Detectors & TopicStates; that allows you to use short names & appropriate names for those without risk of collision. We have also used separate namespaces for TopicsStates & Detectors but that didn't yield much readability or expressibility. Things to keep in mind when making your decision:
 
 - Detectors' names are used not used often in code.
 - Detectors have a dependency on Topics.

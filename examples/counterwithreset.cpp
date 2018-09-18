@@ -27,7 +27,7 @@ using std::endl;
  * @file counterwithreset.cpp
  * @brief Basic Counter with a FuturePublisher-based loop.
  *
- * @section Introduction
+ * @section ex-cwr-introduction Introduction
  * This examples cover the most basic way to close a loop in a graph - using a
  * DetectorGraph::FuturePublisher. Unmarked loops are forbidden by the Framework
  * as a Topographical sort is only possible in Directed Acyclic Graphs.
@@ -41,7 +41,7 @@ using std::endl;
  * cycle/loop, which dependency (i.e. Topic) the above restriction will
  * be waived.
  *
- * @section te Architecture
+ * @section ex-cwr-arch Architecture
  *
  * The example is composed of two Detectors. The first counts `EventHappened`
  * and the second detects the condition at which the counter should be reset.
@@ -64,7 +64,7 @@ digraph GraphAnalyzer {
 }
  *  @enddot
  *
- * @section fpvslag FuturePublisher vs. Lag\<T\>
+ * @section ex-cwr-fpvslag FuturePublisher vs. Lag\<T\>
  * The framework offers two ways of closing loops in a graph,
  * DetectorGraph::FuturePublisher and DetectorGraph::Lag - this example
  * employs the former.
@@ -82,7 +82,7 @@ digraph GraphAnalyzer {
  * instead. For more info on that see other [Feedback Loop examples](
  * @ref feedback-loops) (e.g. [Robot Localization](@ref robotlocalization.cpp))
  *
- * @section Graph
+ * @section ex-cwr-graph Graph
  * The graph instantiated and evaluation code is unaffected. Both
  @snippetlineno counterwithreset.cpp CounterWithResetGraph
  * and

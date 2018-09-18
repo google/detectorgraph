@@ -3,8 +3,9 @@ namespace DetectorGraph
 
 /**
 @page core_introduction Source Code Introduction
+@brief A general walk-through the classes that make up the framework.
 
-\b DetectorGraph: Formal C++ applications with logic/data separation, automatic dependency injection and data passing.
+\par "Formal C++ applications with logic/data separation, automatic dependency injection and data passing" — DetectorGraph
 
 The Framework's main parts are:
 

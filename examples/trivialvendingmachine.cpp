@@ -28,19 +28,19 @@ using std::endl;
  * @file trivialvendingmachine.cpp
  * @brief Vending Machine with Named TopicStates and GraphAnalyzer
  *
- * @section Introduction
+ * @section ex-tvm-intro Introduction
  * This example gives a single-detector solution for a hypothetical one-item,
  * one-coin vending machine. It shows how a single detector can be used to
  * synchronize combine signals - coins being inserted and the "Buy" button being
  * clicked - to produce a third - SaleCompleted. It also introduces the concepts
  * of _Trivial TopicStates_,  _Named TopicStates_ and using GraphAnalyzer.
  *
- * @section tts Trivial TopicStates
+ * @section ex-tvm-tts Trivial TopicStates
  * A _Trivial TopicState_ has no data fields:
  @snippetlineno trivialvendingmachine.cpp Trivial TopicState
  * These are sometimes useful to represent parameter-less signals, timeouts etc.
  *
- * @section nts Named TopicStates
+ * @section ex-tvm-nts Named TopicStates
  * _Named TopicStates_, as opposed to Anonymous ones, are TopicStates that
  * override the [TopicState::GetId](@ref DetectorGraph::TopicState::GetId)
  * method. This allows for code that deals with sequences of different
@@ -68,7 +68,7 @@ using std::endl;
  * That then enables things like:
  @snippetlineno trivialvendingmachine.cpp Inspecting Graph Output with Named TopicStates
  *
- * @section dga GraphAnalyzer
+ * @section ex-tvm-dga GraphAnalyzer
  * Finally, this example also shows how to use DetectorGraph::GraphAnalyzer to
  * generate a GraphViz-compatible `.dot` representation of the graph:
  @snippetlineno trivialvendingmachine.cpp Using GraphAnalyzer to Create dot file

@@ -33,7 +33,7 @@ using namespace Eigen;
  * @file robotlocalization.cpp
  * @brief A localization system for a mobile robot with Lag-based feedback loop.
  *
- * @section Introduction
+ * @section ex-rl-intro Introduction
  * Back in the 2000s all [_citation needed_] robots were _differential wheeled
  * robots_ [1] and localization with sensor fusion was a popular problem.
  * This example shows a simple solution to that problem using DetectorGraph.
@@ -41,7 +41,7 @@ using namespace Eigen;
  * the robot's Pose (and associated uncertainty) from two information sources:
  * the input to the wheels and a GPS-like system.
  *
- * @section fpvslag FuturePublisher vs. Lag\<T\>
+ * @section ex-rl-fpvslag FuturePublisher vs. Lag\<T\>
  * This localization algorithm depends on a feedback-loop in that the output of
  * one graph evaluation (i.e. `LocalizationBelief`) is used as an input for the
  * next one (i.e. `Lagged<LocalizationBelief>`):
@@ -56,17 +56,17 @@ using namespace Eigen;
  * and the Lagged version of a TopicState - this could be useful for things like
  * differentiation etc.
  *
- * @section ssc Configuration TopicStates
+ * @section ex-rl-conf-topicstates Configuration TopicStates
  * It also shows how TopicStates can be used for static/configuration data
  * (e.g. `RobotConfig`). This allows for easy dependency tracking, visualization
  * and testing at pretty much no runtime cost.
  *
- * @section la Localization Algorithm
+ * @section ex-rl-localization Localization Algorithm
  * Regarding the Localization algorithm itself, it's mostly taken from [3]
  * except for the correction model where this example uses a different input
  * (i.e. `GPSPosition`) with much simpler transfer function to the Pose vector.
  *
- * @section Architecture
+ * @section ex-rl-arch Architecture
  * The graph below shows the relationships between the topics (rectangles) and
  * detectors (ellipses). Note that this graph can be automatically generated
  * for any instance of DetectorGraph::Graph using DetectorGraph::GraphAnalyzer.
@@ -99,7 +99,7 @@ digraph GraphAnalyzer {
  *  @enddot
  *
  *
- * @section on Other Notes
+ * @section ex-rl-other-notes Other Notes
  * This example also uses the Eigen library [4] for matrix/vector arithmetic
  * and linear-algebraic operations.
  *
@@ -129,7 +129,7 @@ digraph GraphAnalyzer {
                 GPSPosition.hpp
 @endverbatim
  *
- * @section References
+ * @section ex-rl-refs References
  *  - [1] Differential Wheeled Robots - https://en.wikipedia.org/wiki/Differential_wheeled_robot
  *  - [2] Extended Kalman Filter - https://en.wikipedia.org/wiki/Extended_Kalman_filter
  *  - [3] EKF applied to Mobile Robot’s Localization (Section 2.4.4, page 17) - http://cpscotti.com/pdf/pfc_scotti.pdf

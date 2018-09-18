@@ -26,28 +26,50 @@ Below are a number of examples showcasing different aspects & usage patterns of 
 // The list of pages below is used to help the search utility finding appropriate content.
 
 /**
-@page loops Loops
+@page seo-loops Loops
   Loops are implemented using either DetectorGraph::Lag or DetectorGraph::FuturePublisher
   For examples, see @ref feedback-loops
 */
 
 /**
-@page fb-loops Feedback Loops
-@copydoc loops
+@page seo-fb-loops Feedback Loops
+@copydoc seo-loops
 */
 
 /**
-@page cycles Cycles
-@copydoc loops
+@page seo-cycles Cycles
+@copydoc seo-loops
 */
 
 /**
-@page named-topicstates Named TopicStates
+@page seo-named-topicstates Named TopicStates
 Named TopicStates are TopicStates that override DetectorGraph::TopicState::GetId.
 For an examples, see [this example](@ref trivialvendingmachine.cpp)
 */
 
 /**
-@page public-topicstates Public TopicStates
-@copydoc named-topicstates
+@page seo-public-topicstates Public TopicStates
+@copydoc seo-named-topicstates
+*/
+
+/**
+@page seo-initial-state Initial States
+A discussion about Initial States is available on @ref ssg-initial-states .
+And an example is provided in @ref ex-rg-state-persistence
+*/
+
+/**
+@page seo-public-initial-state Public Initial States
+@copydoc seo-initial-state
+*/
+
+/**
+@page seo-resume-state Resume State
+A discussion about resuming state is available on @ref ssg-resuming-state .
+Full Example: @ref ex-rg-state-persistence
+*/
+
+/**
+@page seo-state-persistence State Persistence
+@copydoc seo-resume-state
 */

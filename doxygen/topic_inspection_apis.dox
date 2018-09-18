@@ -1,6 +1,7 @@
 /**
 @page topic_inspection_apis New Topic Inspection APIs
-
+@brief Two new APIs useful within Unit Tests
+@par
 As a part of the effort to enable the `DetectorGraph` `Lite` target we created new APIs for inspecting Topics that make it easier to inspect Topics during Testing (e.g. Unit Testing a Detector) and that work both on `Full` & `Lite` targets. These are:
 @code
 bool Topic<T>::HasNewValue() const
