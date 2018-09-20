@@ -4,13 +4,13 @@ sudo: false
 matrix:
   include:
     # Default Trust/GCC
-    - name: Stable Ubuntu gcc
+    - name: Tests (Stable Ubuntu gcc)
       os: linux
       env:
         - MATRIX_EVAL="CC=gcc && CXX=g++"
         - CXXFLAGS=""  # -Werror=strict-aliasing and other GCC bugs
     # Latest gcc
-    - name: Latest gcc7
+    - name: Tests, Examples & Docs (Latest gcc7)
       os: linux
       addons:
         apt:
@@ -18,10 +18,17 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
+            - libeigen3-dev  # used by examples/robotlocalization
+            - graphviz  # used by docs
+            - doxygen  # used by docs
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      script:
+        - make unit-test/test_all
+        - CXXFLAGS="" CONFIG="-I/usr/include/eigen3" make examples/all
+        - make docs
     # Latest clang
-    - name: Latest clang5
+    - name: Tests (Latest clang5)
       os: linux
       addons:
         apt:
@@ -35,16 +42,11 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
   - sudo apt-get -qq update
-  - sudo apt-get install -y graphviz doxygen libeigen3-dev
+  - sudo apt-get install -y graphviz doxygen
   - $CXX --version
 
 script:
   - make unit-test/test_all
+  - make unit-test/test_all
   - make examples/helloworld
   - make examples/counterwithreset
-  - make examples/trivialvendingmachine
-  - make examples/fancyvendingmachine
-  - make examples/beatmachine
-  - make examples/resuminggraph
-  - make docs
-
