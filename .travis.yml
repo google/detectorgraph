@@ -9,9 +9,6 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc && CXX=g++"
         - CXXFLAGS=""  # -Werror=strict-aliasing and other GCC bugs
-      script:
-        - make unit-test/test_all
-        - make examples/all
     # Latest gcc
     - name: Latest gcc7
       os: linux
