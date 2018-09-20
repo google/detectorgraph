@@ -107,6 +107,11 @@ examples/robotlocalization:
 	# file.
 	$(CXX) $(CPPSTD) $(CXXFLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) examples/robotlocalization.cpp -o robotlocalization.out && ./robotlocalization.out
 
+examples/beatmachine:
+	# Keeping a separate rule for this example so that we don't run it as it
+	# takes way too long to run it (2mins!)
+	$(CXX) $(CPPSTD) $(CXXFLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) examples/beatmachine.cpp -o beatmachine.out
+
 examples/%:
 	# General Purpose Example building rule.
 	$(CXX) $(CPPSTD) $(CXXFLAGS) $(CONFIG) -g -I$(CORE_INCLUDE) -I$(PLATFORM) -I$(UTIL) $(FULL_SRCS) $(PLATFORM_SRCS) $(UTIL_SRCS) $@.cpp -o $(@:examples/%=%.out) && ./$(@:examples/%=%.out)

@@ -45,5 +45,6 @@ script:
   - make examples/trivialvendingmachine
   - make examples/fancyvendingmachine
   - make examples/beatmachine
+  - make examples/resuminggraph
   - make docs
 
