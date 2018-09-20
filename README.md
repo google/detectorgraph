@@ -23,27 +23,27 @@ Applications are written as a combination of *Detectors* and *Topics*.
 
 *Topics* carry a particular signal/data-type:
 
-    struct SensorData : public DetectorGraph::TopicState
+    struct FooSensorData : public DetectorGraph::TopicState
     {
         int x;
     }
 
 *Detectors* encode a logical unit that describes the transformation from any number of *Topics* to any number of other *Topics*:
 
-    class ThresholdDetector : public DetectorGraph::Detector,
-        public DetectorGraph::SubscriberInterface<SensorData>,
-        public DetectorGraph::Publisher<ThresholdCrossing>
+    class BarThresholdDetector : public DetectorGraph::Detector,
+        public DetectorGraph::SubscriberInterface<FooSensorData>,
+        public DetectorGraph::Publisher<BazThresholdCrossing>
     {
-        ThresholdDetector(DetectorGraph::Graph* graph) : DetectorGraph::Detector(graph)
+        BarThresholdDetector(DetectorGraph::Graph* graph) : DetectorGraph::Detector(graph)
         {
-            Subscribe<SensorData>(this);
-            SetupPublishing<ThresholdCrossing>(this);
+            Subscribe<FooSensorData>(this);
+            SetupPublishing<BazThresholdCrossing>(this);
         }
-        virtual void Evaluate(const SensorData& data)
+        virtual void Evaluate(const FooSensorData& data)
         {
             if (data.x > 100)
             {
-                Publish(ThresholdCrossing(data.x));
+                Publish(BazThresholdCrossing(data.x));
             }
         }
     }
@@ -51,11 +51,14 @@ Applications are written as a combination of *Detectors* and *Topics*.
 *DetectorGraphs* are created by adding any number of *Detectors* to a *Graph*. All necessary *Topics* are created on demand and supplied via Dependency Injection.
 
     DetectorGraph::Graph graph;
-    ThresholdDetector detector(&graph);
+    BarThresholdDetector detector(&graph);
 
 *Detectors* and *Topics* are kept sorted in topological order.
 
 Graph *Evaluations* start after data is posted to a *Topic*. This causes all Detector's [`Evaluate()`](@ref DetectorGraph::SubscriberInterface::Evaluate) methods for that *Topic* to be called with the new piece of data which in turn may result in new data being posted to subsequent *Topics*. That may then trigger the `Evaluate()` of other *Detectors*. This process continues following the topological order until the end of the *Graph* is reached or until no more *Topics* with subscribers have new data.
+
+![digraph { FooSensorData -> ThresholdDetector -> ThresholdCrossing }](https://google.github.io/detectorgraph/readme_graph.png)
+*Graphs can be visualized with Graphviz*
 
 ## User Guide
 

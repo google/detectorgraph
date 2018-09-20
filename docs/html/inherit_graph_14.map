@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classDetectorGraph_1_1TopicRegistry.html" title="Internal &#45; A limited&#45;size Container for Topic&lt;T&gt;s " alt="" coords="5,5,202,31"/>
+<area shape="rect" id="node1" href="$classDetectorGraph_1_1TimeoutPublisherService.html" title="A service that provides Timer function to DetectorGraph Detectors. " alt="" coords="5,5,225,44"/>
+<area shape="rect" id="node2" href="$classDetectorGraph_1_1TestTimeoutPublisherService.html" title="Push data to a topic when timer expires. " alt="" coords="273,5,461,44"/>
 </map>

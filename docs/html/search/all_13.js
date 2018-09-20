@@ -1,20 +1,5 @@
 var searchData=
 [
-  ['_7edetector',['~Detector',['../classDetectorGraph_1_1Detector.html#a0a982cd195733e9512f1335138687808',1,'DetectorGraph::Detector']]],
-  ['_7egraph',['~Graph',['../classDetectorGraph_1_1Graph.html#ac0e7036523ac4da72e75b348838e1e25',1,'DetectorGraph::Graph']]],
-  ['_7egraphinputdispatcherinterface',['~GraphInputDispatcherInterface',['../classDetectorGraph_1_1GraphInputDispatcherInterface.html#abe6c5da5b190574d922f1325e8178d94',1,'DetectorGraph::GraphInputDispatcherInterface']]],
-  ['_7egraphinputqueue',['~GraphInputQueue',['../classDetectorGraph_1_1GraphInputQueue.html#aeaa65e2c1418528a223ff6bc06495391',1,'DetectorGraph::GraphInputQueue::~GraphInputQueue()'],['../classDetectorGraph_1_1GraphInputQueue.html#aeaa65e2c1418528a223ff6bc06495391',1,'DetectorGraph::GraphInputQueue::~GraphInputQueue()']]],
-  ['_7egraphstatestore',['~GraphStateStore',['../classDetectorGraph_1_1GraphStateStore.html#a0f0acd81e52752b523f3786e0bdc0c43',1,'DetectorGraph::GraphStateStore']]],
-  ['_7eprocessorcontainer',['~ProcessorContainer',['../classDetectorGraph_1_1ProcessorContainer.html#ad5a9a034d4ce870c22e3f294766490de',1,'DetectorGraph::ProcessorContainer']]],
-  ['_7esequencecontainer',['~SequenceContainer',['../classDetectorGraph_1_1SequenceContainer.html#a9864bae46133a4e847ab114beae5ec16',1,'DetectorGraph::SequenceContainer']]],
-  ['_7estatesnapshot',['~StateSnapshot',['../classDetectorGraph_1_1StateSnapshot.html#a62b91bcfb765d7c5027e6c0b52fa39b8',1,'DetectorGraph::StateSnapshot']]],
-  ['_7estatictypedallocator',['~StaticTypedAllocator',['../classDetectorGraph_1_1StaticTypedAllocator.html#a11d899bb1a0944aaaac0111fb716fa96',1,'DetectorGraph::StaticTypedAllocator']]],
-  ['_7esubscriptiondispatcherinterface',['~SubscriptionDispatcherInterface',['../classDetectorGraph_1_1SubscriptionDispatcherInterface.html#ab5382fa0d54d7e085a3f125e4f086425',1,'DetectorGraph::SubscriptionDispatcherInterface']]],
-  ['_7esubscriptiondispatcherscontainer',['~SubscriptionDispatchersContainer',['../classDetectorGraph_1_1SubscriptionDispatchersContainer.html#a29b865b2902edfabe1a963b150583bf6',1,'DetectorGraph::SubscriptionDispatchersContainer::~SubscriptionDispatchersContainer()'],['../classDetectorGraph_1_1SubscriptionDispatchersContainer.html#a29b865b2902edfabe1a963b150583bf6',1,'DetectorGraph::SubscriptionDispatchersContainer::~SubscriptionDispatchersContainer()']]],
-  ['_7etimeoutpublisher',['~TimeoutPublisher',['../classDetectorGraph_1_1TimeoutPublisher.html#a02eef9bbd76caecf910bc15992724419',1,'DetectorGraph::TimeoutPublisher']]],
-  ['_7etimeoutpublisherservice',['~TimeoutPublisherService',['../classDetectorGraph_1_1TimeoutPublisherService.html#a5865dd661e385f012edce399569310f6',1,'DetectorGraph::TimeoutPublisherService']]],
-  ['_7etopic',['~Topic',['../classDetectorGraph_1_1Topic.html#ab5fa5d0d9d6a9084d3ee0cc26f242857',1,'DetectorGraph::Topic']]],
-  ['_7etopicregistry',['~TopicRegistry',['../classDetectorGraph_1_1TopicRegistry.html#adcdadfe8416ad57435724268d37700db',1,'DetectorGraph::TopicRegistry']]],
-  ['_7etopicstate',['~TopicState',['../structDetectorGraph_1_1TopicState.html#a945062a6bb975908343ee49a85ecc2d3',1,'DetectorGraph::TopicState']]],
-  ['_7evertex',['~Vertex',['../classDetectorGraph_1_1Vertex.html#a89b2ac11b75adb81244509c357b895b2',1,'DetectorGraph::Vertex']]]
+  ['wraponcommonendings',['WrapOnCommonEndings',['../namespaceDetectorGraph_1_1NodeNameUtils.html#abb024395f561c7d9b00b09c325dbf512',1,'DetectorGraph::NodeNameUtils']]],
+  ['wraponsubstrings',['WrapOnSubStrings',['../namespaceDetectorGraph_1_1NodeNameUtils.html#aae5ec1e844d4bec8fa24d76d9ec32506',1,'DetectorGraph::NodeNameUtils']]]
 ];
