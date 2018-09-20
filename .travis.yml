@@ -8,7 +8,7 @@ matrix:
       os: linux
       env:
         - MATRIX_EVAL="CC=gcc && CXX=g++"
-        - CXXFLAGS=""
+        - CXXFLAGS=""  # -Werror=strict-aliasing and other GCC bugs
     # Latest gcc
     - name: Latest gcc7
       os: linux
@@ -35,7 +35,7 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
   - sudo apt-get -qq update
-  - sudo apt-get install -y graphviz doxygen
+  - sudo apt-get install -y graphviz doxygen libeigen3-dev
   - $CXX --version
 
 script:
@@ -45,5 +45,6 @@ script:
   - make examples/trivialvendingmachine
   - make examples/fancyvendingmachine
   - make examples/beatmachine
+  - make examples/resuminggraph
   - make docs
 

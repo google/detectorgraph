@@ -307,7 +307,7 @@ DetectorGraph::StateSnapshot ReadSnapshot(const DetectorGraph::StateSnapshot& pr
 //![main]
 int main()
 {
-    DetectorGraph::StateSnapshot primeSnapshot = GetPrimeSnapshot()
+    DetectorGraph::StateSnapshot primeSnapshot = GetPrimeSnapshot();
     DetectorGraph::StateSnapshot resumeSnapshot = ReadSnapshot(primeSnapshot);
 
     ResumingGraph resumingGraph = ResumingGraph(resumeSnapshot);
