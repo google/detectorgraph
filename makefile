@@ -131,6 +131,7 @@ unit-test/test_coverage: cleancoverage
          --extract coverage/coverage.info "*/unit-test/*" \
          --extract coverage/coverage.info "*/test-util/*" \
          -q --output-file coverage/coverage.info
+	lcov -l coverage/coverage.info > coverage/coverage.txt
 	genhtml coverage/coverage.info --output-directory coverage/.
 
 code_size_benchmark/%:
