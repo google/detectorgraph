@@ -1,0 +1,10 @@
+digraph GraphAnalyzer {
+    rankdir = "LR";
+    node[fontname=Helvetica];
+    size="12,5";
+    "SensorData" [label="0:SensorData",style=filled, shape=box, color=lightblue];
+        "SensorData" -> "ThresholdDetector";
+        "ThresholdDetector" -> "ThresholdCrossing";
+    "ThresholdCrossing" [label="2:ThresholdCrossing",style=filled, shape=box, color=limegreen];
+    "ThresholdDetector" [label="1:ThresholdDetector", color=blue];
+}
