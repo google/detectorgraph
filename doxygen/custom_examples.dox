@@ -73,3 +73,14 @@ Full Example: @ref ex-rg-state-persistence
 @page seo-state-persistence State Persistence
 @copydoc seo-resume-state
 */
+
+/**
+@page seo-graphviz Graphviz Visualization
+Any DetectorGraph graphs can be visualized using Graphviz. For more see
+DetectorGraph::GraphAnalyzer and see this [visualization example](@ref ex-tvm-dga) .
+*/
+
+/**
+@page seo-visualization Visualization
+@copydoc seo-graphviz
+*/

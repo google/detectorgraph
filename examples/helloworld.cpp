@@ -59,7 +59,7 @@ using std::endl;
  * two.
  @snippetlineno helloworld.cpp Detector
  *
- * @section ex-hw-graphGraph
+ * @section ex-hw-graph Graph
  * The final plumbing is to add our newly created Detector to a
  * DetectorGraph::Graph.
  * Depending on the situation this can be done in different ways but here's the
