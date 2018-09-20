@@ -46,6 +46,26 @@ matrix:
         # eigen3 throws warnings.
         - CXXFLAGS="" CONFIG="-I/usr/include/eigen3" make examples/all
         - make docs
+    # Build Job
+    - name: Tests Coverage (Latest gcc7)
+      os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - lcov
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      script:
+        - make unit-test/test_coverage
+      after_success:
+        - if [ "${TRAVIS_PULL_REQUEST}" != "false" ] ; then \
+            curl -H "Authorization: token ${COVERAGE_POSTER_API_TOKEN}" \
+            -X POST -d "{\"body\": \"\`\`\`\n$(cat coverage/coverage.txt | awk -v ORS='\\n' '1')\`\`\`\"}" \
+            "https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments";
+          fi
 
 before_install:
   - eval "${MATRIX_EVAL}"
