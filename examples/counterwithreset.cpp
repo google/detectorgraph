@@ -163,6 +163,49 @@ private:
 };
 //![EventCountDetector]
 
+//![UnitTest-Count-1]
+void Test_Count()
+{
+    DetectorGraph::Graph graph;
+    EventCountDetector detector(&graph);
+    auto outTopic = graph.ResolveTopic<EventCount>();
+
+    graph.PushData(EventHappened());
+    graph.EvaluateGraph();
+
+    DG_ASSERT(outTopic->HasNewValue());
+    DG_ASSERT(outTopic->GetNewValue().count == 1);
+
+    //![UnitTest-Count-1]
+    //![UnitTest-Count-2]
+    graph.PushData(EventHappened());
+    graph.EvaluateGraph();
+
+    DG_ASSERT(outTopic->HasNewValue());
+    DG_ASSERT(outTopic->GetNewValue().count == 2);
+}
+//![UnitTest-Count-2]
+
+//![UnitTest-ResetCount-1]
+void Test_ResetCount()
+{
+    // Arrange
+    DetectorGraph::Graph graph;
+    EventCountDetector detector(&graph);
+    auto outTopic = graph.ResolveTopic<EventCount>();
+    graph.PushData(EventHappened());
+    graph.EvaluateGraph();
+
+    //![UnitTest-ResetCount-1]
+    //![UnitTest-ResetCount-2]
+    graph.PushData(Reset());
+    graph.EvaluateGraph();
+
+    DG_ASSERT(outTopic->HasNewValue());
+    DG_ASSERT(outTopic->GetNewValue().count == 0);
+}
+//![UnitTest-ResetCount-2]
+
 //![Reset Detector]
 class ResetDetector : public DetectorGraph::Detector
 , public DetectorGraph::SubscriberInterface<EventCount>
@@ -186,6 +229,43 @@ public:
     static const int kMaxCount = 5;
 };
 //![Reset Detector]
+
+//![UnitTest-ResetDetected-1]
+void Test_ResetDetected()
+{
+    // Arrange
+    DetectorGraph::Graph graph;
+    ResetDetector detector(&graph);
+    auto outTopic = graph.ResolveTopic<Reset>();
+    graph.PushData(EventCount(ResetDetector::kMaxCount));
+    graph.EvaluateGraph();
+
+    //![UnitTest-ResetDetected-1]
+    //![UnitTest-ResetDetected-2]
+    DG_ASSERT(!outTopic->HasNewValue());
+
+    graph.EvaluateGraph();
+
+    DG_ASSERT(outTopic->HasNewValue());
+}
+//![UnitTest-ResetDetected-2]
+
+//![UnitTest-NoResetDetected-1]
+void Test_NoResetDetected()
+{
+    // Arrange
+    DetectorGraph::Graph graph;
+    ResetDetector detector(&graph);
+    auto outTopic = graph.ResolveTopic<Reset>();
+    graph.PushData(EventCount(ResetDetector::kMaxCount-1));
+    graph.EvaluateGraph();
+
+    DG_ASSERT(!outTopic->HasNewValue());
+
+    graph.EvaluateGraph();
+    DG_ASSERT(!outTopic->HasNewValue());
+}
+//![UnitTest-NoResetDetected-1]
 
 //![CounterWithResetGraph]
 class CounterWithResetGraph : public DetectorGraph::ProcessorContainer
@@ -213,6 +293,31 @@ public:
 };
 //![CounterWithResetGraph]
 
+//![UnitTest-CounterResetIntegration]
+void Test_CounterResetIntegration()
+{
+    DetectorGraph::Graph graph;
+    EventCountDetector counterDetector(&graph);
+    ResetDetector resetDetector(&graph);
+    auto outTopic = graph.ResolveTopic<EventCount>();
+
+    for (int i = 1; i <= ResetDetector::kMaxCount; i++)
+    {
+        graph.PushData(EventHappened());
+        graph.EvaluateGraph();
+        DG_ASSERT(outTopic->HasNewValue());
+        DG_ASSERT(outTopic->GetNewValue().count == i);
+
+        while(graph.EvaluateIfHasDataPending()) {} // See also GraphTestUtils::Flush()
+    }
+
+    graph.PushData(EventHappened());
+    graph.EvaluateGraph();
+    DG_ASSERT(outTopic->HasNewValue());
+    DG_ASSERT(outTopic->GetNewValue().count == 1);
+}
+//![UnitTest-CounterResetIntegration]
+
 //![main]
 int main()
 {
@@ -221,6 +326,12 @@ int main()
     {
         counterGraph.ProcessData(EventHappened());
     }
+
+    Test_Count();
+    Test_ResetCount();
+    Test_ResetDetected();
+    Test_NoResetDetected();
+    Test_CounterResetIntegration();
 }
 //![main]
 

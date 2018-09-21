@@ -194,6 +194,44 @@ public:
 };
 //![ProcessorContainer]
 
+//![UnitTest-Above-1]
+void Test_AboveThreshold()  // Adapt to your Unit Test Framework
+{
+    // Arrange
+    DetectorGraph::Graph graph;
+    OverheatingDetector detector(&graph);
+    auto outTopic = graph.ResolveTopic<OverheatingState>();
+    //![UnitTest-Above-1]
+    //![UnitTest-Above-2]
+
+    // Act
+    graph.PushData(TemperatureSample(OverheatingDetector::kThreshold+1));
+    graph.EvaluateGraph();
+
+    //![UnitTest-Above-2]
+    //![UnitTest-Above-3]
+    // Assert
+    DG_ASSERT(outTopic->HasNewValue()); // Adapt to your Unit Test Framework
+    DG_ASSERT(outTopic->GetNewValue().isOverheating == true); // Adapt to your Unit Test Framework
+}
+//![UnitTest-Above-3]
+
+void Test_BelowThreshold()
+{
+    // Arrange
+    DetectorGraph::Graph graph;
+    OverheatingDetector detector(&graph);
+    auto outTopic = graph.ResolveTopic<OverheatingState>();
+
+    // Act
+    graph.PushData(TemperatureSample(OverheatingDetector::kThreshold-1));
+    graph.EvaluateGraph();
+
+    // Assert
+    DG_ASSERT(outTopic->HasNewValue());
+    DG_ASSERT(outTopic->GetNewValue().isOverheating == false);
+}
+
 //![main]
 int main()
 {
@@ -222,6 +260,11 @@ int main()
     thermostat.ProcessData(TemperatureSample(110));
     thermostat.ProcessData(TemperatureSample(120));
     //![Using ProcessorContainer]
+
+    // Normally your Unit test framework of choice would call this
+    // automatically. We do explicitly for demonstration purposes.
+    Test_AboveThreshold();
+    Test_BelowThreshold();
 }
 //![main]
 

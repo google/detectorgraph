@@ -1,0 +1,101 @@
+/**
+@page testing-style Testing - Unit & Integration Tests
+
+\tableofcontents
+
+\section ts-unit Unit Tests
+
+One of the design goals of the Framework was to facilitate full testing coverage of any detectors. DetectorGraph is designed so that each Detector is tested as a Unit - by passing specific input `TopicStates` and comparing output `TopicStates` with expected values.
+@warning Before continuing it may be good to familiarize yourself with the first few [examples](@ref custom_examples) as this document builds on top of those examples.
+
+\subsection ts-unit-siso Basics
+
+The most basic case is for a SISO Detector like the one in the [HelloWorld Example](@ref helloworld.cpp). Detector unit tests should be written following the Arrange-Act-Assert (AAA) unit testing pattern.
+
+_Arrange_ for the test consists of a graph instance with only the detector under test in it. In addition to that it's also cursory to grab a pointer `outTopic` to the output Topics we will check in the Assert section of the test. This help setting expectations for the reader and cleans up the later sections of the test.
+@snippetlineno helloworld.cpp UnitTest-Above-1
+Note that different Unit Testing frameworks will use different function signatures for tests so adapt it as necessary.
+
+_Act_ consists in _Pushing_ the input data topic into the input queue and _Evaluating_ the graph.
+@snippetlineno helloworld.cpp UnitTest-Above-2
+
+_Assert_ consists in [inspecting](@ref topic_inspection_apis) the output topic(s):
+@snippetlineno helloworld.cpp UnitTest-Above-3
+Different Unit Testing frameworks will use different & more expressive assert methods but the idea is the same.
+
+\subsection ts-unit-siso-aaa-aa Act-Assert sequences
+
+In some cases it's nice to submit a detector to a small sequence of Act/Asserts. Care should be taken to maintain the test focused on a single behavior and not let it balloon out of proportion (testing more than one single behavior) - so this only applies when the behavior being tested is sequential in nature.
+
+One such case is to test the counting behavior of the [CounterWithReset Example](@ref counterwithreset.cpp).
+The test starts as before:
+@snippetlineno counterwithreset.cpp UnitTest-Count-1
+
+And follows with an extra _Act_ and _Assert_ pair:
+@snippetlineno counterwithreset.cpp UnitTest-Count-2
+Note that the middle _Assert_ is not necessary per se - it is helpful when it gives the reader confidence that _things are going as expected_ but they will be *very* unhelpful if they distract the reader from what's coming next; one or a couple of assert lines are fine, 10 are not. Use your best judgment here.
+
+\subsection ts-unit-miso Multiple Input Single Output
+
+Most times when testing a detector with multiple inputs and multiple outputs each input has to be _Pushed_ and _Evaluated_ on its own.
+Again, for the [CounterWithReset Example](@ref counterwithreset.cpp):
+@snippetlineno counterwithreset.cpp UnitTest-ResetCount-1
+Here the _Arrange_ step includes pushing some data and evaluating the graph.
+
+_Act_ and _Assert_ are then done just as before:
+@snippetlineno counterwithreset.cpp UnitTest-ResetCount-2
+
+\subsection ts-unit-futpub Future Publishes
+
+In order for detectors to close feedback loops/cycles in the graph they must be [FuturePublisher](@ref DetectorGraph::FuturePublisher)s.
+The simplest example of this is shown in the `ResetDetector` within the [CounterWithReset Example](@ref counterwithreset.cpp).
+The interesting detail here is that Topics published with [PublishOnFutureEvaluation](@ref DetectorGraph::FuturePublisher::PublishOnFutureEvaluation) are, as the name suggests, published only in the next evaluation and that needs to be taken into account in the unit test.
+
+@warning See the section below for a note on [Lag](@ref DetectorGraph::Lag) for reasons why that's preferred than what's shown here.
+
+Initial _Arrange_ and _Act_ are as normal:
+@snippetlineno counterwithreset.cpp UnitTest-ResetDetected-1
+
+But the test must check:
+ - that the output is not immediately published
+ - that the intended `TopicState` is published on the next evaluation.
+
+And that can be done with:
+@snippetlineno counterwithreset.cpp UnitTest-ResetDetected-2
+
+The same idea applies when testing the negative complementary of such behaviors:
+@snippetlineno counterwithreset.cpp UnitTest-NoResetDetected-1
+
+\subsection ts-unit-lag Lag
+
+[Lags](@ref DetectorGraph::Lag) are the more general, preferred & readable way to close loops in a graph - and one place they shine the shiniest is in unit tests; since Lags are Detectors themselves and the lagged Topic is just another Topic. That means unit tests do not need to keep track of future publishes as that's all handled outside that one detector. Unit tests then are trivial with respect to the loop:
+
+@snippetlineno fancyvendingmachine.cpp UnitTest-LowerUserBalanceOnSale
+
+@note There are two reasons why Lags didn't simply replace `FuturePublish`; legacy code uses FuturePublish extensively and Lags may a bit wasteful in deeply embedded (limited code space) targets.
+
+
+\section ts-system Integration Tests
+
+In order to test the integration between detectors one can instantiate a subset of detectors (up to the entire set) of an application and test it in the same way as unit tests - all you have to do is think of the whole thing as one single big detector. This test should then be stable regardless of how many detectors compose the solution in between the inputs and outputs.
+
+In integration tests it's important to _flush_ the graph input queue continuously when appropriate for the reasons described in @ref ts-unit-futpub . This can be seen in the example for [CounterWithReset](@ref counterwithreset.cpp) below on line 311:
+
+@snippetlineno counterwithreset.cpp UnitTest-CounterResetIntegration
+
+*/
+
+/**
+@page seo-testing Testing
+See [Testing Style](@ref testing-style).
+*/
+
+/**
+@page seo-unit-testing Unit Testing
+@copydoc seo-testing
+*/
+
+/**
+@page seo-integ-testing Integration Testing
+@copydoc seo-testing
+*/
