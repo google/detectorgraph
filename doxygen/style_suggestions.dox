@@ -36,13 +36,13 @@ There are two ways of accomplishing this; composition or inheritance.
 Composition is often preferable over inheritance as it gives more flexibility but both should be considered and are possible.
 
 Composition example (from [Robot Localization](@ref robotlocalization.cpp)):
-@snippet robotlocalization.cpp TopicStates Composition Example
+@snippetlineno robotlocalization.cpp TopicStates Composition Example
 
 Inheritance examples
 From [Fancy Vending Machine](@ref fancyvendingmachine.cpp):
-@snippet fancyvendingmachine.cpp TopicStates Inheritance Example
+@snippetlineno fancyvendingmachine.cpp TopicStates Inheritance Example
 From [Beat Machine](@ref beatmachine.cpp):
-@snippet beatmachine.cpp TopicStates Inheritance Example
+@snippetlineno beatmachine.cpp TopicStates Inheritance Example
 
 Inheritance can save you some typing and be OK when literally all you're changing is the type 'name' and when you know the data structure will never change and when the 'is a' relationship holds strongly. Inheritance is the lazy approach but that you'll likely have to ditch (at great expense possibly) at some point in the future.
 
@@ -51,19 +51,19 @@ Inheritance can save you some typing and be OK when literally all you're changin
 Sometimes all a topic needs to express is the fact that _it updated_, that it _happened_ or any other purely unary signals:
 
 From [Trivial Vending Machine](@ref trivialvendingmachine.cpp):
-@snippet trivialvendingmachine.cpp Trivial TopicState
+@snippetlineno trivialvendingmachine.cpp Trivial TopicState
 From [Fancy Vending Machine](@ref fancyvendingmachine.cpp):
-@snippet fancyvendingmachine.cpp Trivial TopicState
+@snippetlineno fancyvendingmachine.cpp Trivial TopicState
 
 \subsection ssg-atomic-change Variables/bits/data that change together atomically belong together.
 
 Examples:
 
 A product and its new price:
-@snippet fancyvendingmachine.cpp Mutually Atomic Variables
+@snippetlineno fancyvendingmachine.cpp Mutually Atomic Variables
 
 A robot's pose and a timestamp:
-@snippet robotlocalization.cpp Mutually Atomic Variables
+@snippetlineno robotlocalization.cpp Mutually Atomic Variables
 
 \subsection ssg-mutually-exclusive Mutually exclusive states also belong together.
 

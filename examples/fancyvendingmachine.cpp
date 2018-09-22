@@ -540,6 +540,25 @@ private:
 
 };
 
+//![UnitTest-LowerUserBalanceOnSale]
+void Test_LowerUserBalanceOnSale()
+{
+    DetectorGraph::Graph graph;
+    UserBalanceDetector detector(&graph);
+    auto outTopic = graph.ResolveTopic<UserBalance>();
+    graph.PushData(CoinInserted(kCoinType1d));
+    graph.EvaluateGraph();
+    DG_ASSERT(outTopic->HasNewValue());
+    DG_ASSERT(outTopic->GetNewValue().totalCents == 100);
+
+    graph.PushData(Lagged<SaleProcessed>(SaleProcessed(kProductIdTypeNone, 75)));
+    graph.EvaluateGraph();
+
+    DG_ASSERT(outTopic->HasNewValue());
+    DG_ASSERT(outTopic->GetNewValue().totalCents == 25);
+}
+//![UnitTest-LowerUserBalanceOnSale]
+
 class SaleProcessor : public DetectorGraph::Detector
 , public DetectorGraph::SubscriberInterface<UserBalance>
 , public DetectorGraph::SubscriberInterface<SelectedProduct>
@@ -854,6 +873,8 @@ int main()
 
     GraphAnalyzer analyzer(fancyVendingMachine.mGraph);
     analyzer.GenerateDotFile("fancy_vending_machine.dot");
+
+    Test_LowerUserBalanceOnSale();
 }
 
 /// @endcond DO_NOT_DOCUMENT
